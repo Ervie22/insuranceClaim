@@ -3,6 +3,6 @@
 @section('content')
 
 <div class="container-fluid">
-    Dashboard
+    Interface Setup
 </div>
 @endsection

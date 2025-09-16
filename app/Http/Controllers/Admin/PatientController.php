@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 
-class DashboardController extends Controller
+class PatientController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -37,6 +37,6 @@ class DashboardController extends Controller
 
         // dd($recentFiles);
         $allUsers = User::where('active', '=', '1')->get();
-        return view('admin.dashboard', compact('allUsers', 'user', 'userName'));
+        return view('admin.patients.patients', compact('allUsers', 'user', 'userName'));
     }
 }

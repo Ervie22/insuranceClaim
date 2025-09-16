@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 
-class DashboardController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -26,17 +26,24 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function capitationPayments()
     {
-        $uid = Auth::user()->id;
-        $user = User::where('id', $uid)->first();
-        $fname = $user['first_name'];
-        $lname = isset($user['first_name']) ? $user['first_name'] : '';
-        $userName = $fname . ' ' . $lname;
-        $month = date('m');
 
-        // dd($recentFiles);
-        $allUsers = User::where('active', '=', '1')->get();
-        return view('admin.dashboard', compact('allUsers', 'user', 'userName'));
+        return view('admin.payments.capitation-payments');
+    }
+    public function insurancePayouts()
+    {
+
+        return view('admin.payments.insurance-payouts');
+    }
+    public function patientPayments()
+    {
+
+        return view('admin.payments.patient-payments');
+    }
+    public function providerWriteoffs()
+    {
+
+        return view('admin.payments.provider-writeoffs');
     }
 }

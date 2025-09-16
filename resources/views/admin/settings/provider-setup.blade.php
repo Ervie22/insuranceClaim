@@ -3,6 +3,6 @@
 @section('content')
 
 <div class="container-fluid">
-    Dashboard
+    Provider Setup
 </div>
 @endsection

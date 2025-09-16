@@ -3,17 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\SystemController;
-use App\Http\Controllers\Admin\FileManagementController;
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
-use App\Http\Controllers\User\FileController;
-use App\Http\Controllers\User\CreditController;
-use App\Http\Controllers\User\AccountController;
+use App\Http\Controllers\Admin\ClaimController;
+use App\Http\Controllers\Admin\PatientController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\LayerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
@@ -61,49 +59,39 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/remove-user', [UserController::class, 'removeUser'])->name('remove-user');
     Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('reset-password');
     Route::get('/get-update-user', [UserController::class, 'getUpdateUser'])->name('update.user-get');
-    Route::get('/admin-file-management', [FileManagementController::class, 'fileManagement'])->name('admin.file-management');
-    Route::get('/admin-system-management', [SystemController::class, 'systemManagement'])->name('admin.system-management');
     Route::post('/update-enable', [UserController::class, 'updateEnable']);
+    Route::get('/patients', [PatientController::class, 'index'])->name('patients.list');
+    Route::get('/claims', [ClaimController::class, 'index'])->name('claims.list');
+
+    Route::get('/capitation-payments', [PaymentController::class, 'capitationPayments'])->name('payments.capitation-payments');
+    Route::get('/insurance-payouts', [PaymentController::class, 'insurancePayouts'])->name('payments.insurance-payouts');
+    Route::get('/patient-payments', [PaymentController::class, 'patientPayments'])->name('payments.patient-payments');
+    Route::get('/provider-writeoffs', [PaymentController::class, 'providerWriteoffs'])->name('payments.provider-writeoffs');
+
+    Route::get('/aging-reports', [ReportController::class, 'agingReports'])->name('report.aging-reports');
+    Route::get('/billing-reports', [ReportController::class, 'billingReports'])->name('report.billing-reports');
+    Route::get('/claim-reports', [ReportController::class, 'claimReports'])->name('report.claim-reports');
+    Route::get('/collection-reports', [ReportController::class, 'collectionReports'])->name('report.collection-reports');
+    Route::get('/inventory-reports', [ReportController::class, 'inventoryReports'])->name('report.inventory-reports');
+    Route::get('/management-reports', [ReportController::class, 'managementReports'])->name('report.management-reports');
+    Route::get('/patient-reports', [ReportController::class, 'patientReports'])->name('report.patient-reports');
+    Route::get('/payer-reports', [ReportController::class, 'payerReports'])->name('report.payer-reports');
+    Route::get('/payments-reports', [ReportController::class, 'paymentsReports'])->name('report.payments-reports');
+    Route::get('/timely-reports', [ReportController::class, 'timelyReports'])->name('report.timely-reports');
+
+    Route::get('/dxicd-setup', [SettingsController::class, 'dxicdSetup'])->name('settings.dxicd-setup');
+    Route::get('/interface-setup', [SettingsController::class, 'interfaceSetup'])->name('settings.interface-setup');
+    Route::get('/payer-setup', [SettingsController::class, 'payerSetup'])->name('settings.payer-setup');
+    Route::get('/practice-setup', [SettingsController::class, 'practiceSetup'])->name('settings.practice-setup');
+    Route::get('/print-setup', [SettingsController::class, 'printSetup'])->name('settings.print-setup');
+    Route::get('/provider-setup', [SettingsController::class, 'providerSetup'])->name('settings.provider-setup');
+    Route::get('/statement-setup', [SettingsController::class, 'statementSetup'])->name('settings.statement-setup');
+    Route::get('/user-setup', [SettingsController::class, 'userSetup'])->name('settings.user-setup');
+    Route::get('/administration', [SettingsController::class, 'administration'])->name('settings.administration');
+    Route::get('/practice-references', [SettingsController::class, 'practiceReferences'])->name('settings.practice-references');
+
 
     // User routes
-    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-    Route::get('/settings', [CreditController::class, 'addCredit'])->name('user.add-credit');
-    Route::post('/update-credit', [CreditController::class, 'updateCredit'])->name('user.update-credit');
-    Route::post('/update-email', [CreditController::class, 'updateEmail'])->name('user.update-email');
-    Route::get('/user-account', [AccountController::class, 'myAccount'])->name('user.account');
-    Route::get('/view', [FileController::class, 'viewHistory'])->name('user.view-history');
-    Route::get('/upload-folder', [FileController::class, 'uploadFiles'])->name('user.upload-files');
-    Route::get('/user-view-results', [FileController::class, 'viewResults'])->name('user.view-results');
-    Route::get('/user-view-slide/{file_id}', [FileController::class, 'viewSlide'])->name('user.view-slide');
-    Route::post('/file-upload', [FileController::class, 'upload'])->name('file.upload');
-    Route::post('/chunk-upload', [FileController::class, 'chunkUpload'])->name('chunk.upload');
-    Route::post('/prepare-upload-folder', [FileController::class, 'prepareUploadFolder'])->name('prepare.folder');
-    Route::get('/view/jobs/{study_id}/{tab_id}', [FileController::class, 'viewFile'])->name('file.view-file');
-    Route::post('/update-job-status', [FileController::class, 'updateJobStatus'])->name('update-job-status');
-    Route::get('/file-status/{studyId}', [FileController::class, 'getFileStatus'])->name('get-file-status');
-    Route::get('/create-tiles', [FileController::class, 'createTiles'])->name('create-tiles');
-    Route::get('/parse-report', [FileController::class, 'parseReport'])->name('parse-report');
-    Route::post('/find-tumor', [FileController::class, 'findTumor'])->name('find-tumor');
-    Route::post('/re-analyze', [FileController::class, 'reAnalyze'])->name('re-analyze');
-    // Map routes
-    Route::get('/map', [LayerController::class, 'index'])->name('map.view');
-    Route::post('/save-layer', [LayerController::class, 'store'])->name('map.store');
-    Route::get('/load-layers', [LayerController::class, 'load'])->name('map.load');
-
-    // Tile proxy (optional to protect with auth)
-    Route::match(['get', 'head'], '/tile-proxy/{z}/{x}/{y}', function ($z, $x, $y) {
-        $baseUrl = session('tile_base_url');
-        if (!$baseUrl) abort(404, 'Tile base URL not found in session.');
-        $tileUrl = "{$baseUrl}/{$z}/{$x}/{$y}.png";
-        try {
-            $image = @file_get_contents($tileUrl);
-            if ($image === false) abort(404);
-            return response($image)->header('Content-Type', 'image/png');
-        } catch (\Exception $e) {
-            abort(404);
-        }
-    });
-
     // Optional: test route
     Route::get('/test-brevo', [RegisterController::class, 'sendBrevoTestEmail']);
 });
