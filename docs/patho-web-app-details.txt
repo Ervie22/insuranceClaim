@@ -1,0 +1,109 @@
+Patho webapp
+
+User will upload pathology slides. The system will analyze the slides and give a visual representation of the slides on a viewer. User can download the images
+
+
+#1. User will access the system from a web URL. There would be the typical Login, Forgot Password, Signup pages. The logo along with a brief description of the company and services would be provided on the login page
+
+The authentication mechanism would be Firebase - and user can login using Google or Apple as well or can register using their email and password.
+
+First pass: Let us implement simple email password registration using the DB - then we will later change this to Firebase Auth
+
+
+#2. The Home Screen will have a Welcome User. The header will have the greeting and the link to the Profile screen and Logout links. The footer will have the Copyright message and any other links we may provide later. There will be a disclaimer text in the footer mentioning that this application is not a replacement for medical advise and always the user is reminded to consult a registered medical proffessional. Will provide the medical advise message - would be 2 to 3 lines long
+
+The left navigation pane would have Links to View History - My Account and Add credits 
+
+The following are the widgets on the Home screen
+
+The main action that the user will perform from the Home screen is to  upload files for processing. We need to have a prominent button saying "Upload file(s) to analyse"
+
+	Horizontal Row 1
+
+	- A small count show total number of files uploaded
+	- A count showing files completed processing
+	- A count showing files in queue (this will mostly be zero)
+
+	Horizontal Row 2
+
+	The main widget in the home screen would be the "Recent upload" showing a table format of the last 4 to 5 uploaded files. A "Show All Uploads" link should take 	the user to the "View History" page
+
+	The table here will show the name of the study (folder) or a single file (if single file was uploaded) - date uploaded - the processing status ( Queued / 	Processing/ Completed ) and the "View" link will get enabled only if the processing is completed.
+
+
+#3. View History: Tabular format - showing list of all files that have been uploaded, the date of upload, status (pending / inprocess or completed) - with a Search and sorting options. User should be able to view the files from the link in the table column
+
+
+#4. Add Credits: User will be able to view existing credits, and add more credits. This will go to a workflow - and the status will be pending. A payment link to be generated and sent via email to the user. Once the payment is approved, the status will be updated to the amount that was bought.
+	
+	First pass - Just send the email with a dummy payment link - and and admin user will update the credits on the backend. 
+
+#5. My Account: Here user can update their First name and last name, Address for communication or Reset the password. User an upload profile picture.|
+	
+There is a special link to "Delete my account" - We will warn the user that this will delete all the user files and prevent the user from logging into the 	system again. If user proceeds with confirmation - we will make this user inactive and mark all user files for deletion (soft delete) and physical delete of 	all the user files in the file systems and in S3
+	
+	
+#6. Upload files:
+
+User can upload a single file or a folder. We need to do some validation before accepting the file to be uploaded to our servers.
+	
+If user is  uploading a single file - then they have to choose the filetype from a dropdown. The supported file types are [H&E, HER2, Ki-67, ER, PGR]. If only one file is uploaded then there need to be a compulsory H&E filetype - otherwise do not allow the user to proceed with the upload.
+		
+If the user is uploading a folder, containing multiple files, then the assumption is that all the files in this folder belong to the same study - and the filetype for each file is different.
+	
+We will have to ask the user to confirm the filetype for each of the files in the uploaded folder. And the supported file types are [H&E, HER2, Ki-67, ER, PGR]
+	
+At least on H&E image filetype should be chosen by the user - otherwise do not allow the user to upload the folder.
+	
+
+#7. View Results
+
+	
+The Viewer for a folder (or a file) will have multiple tabs. For example, if there was a folder upload and there were 4 filetypes chosen, remember H&E is mandatory  if a single file or a folder upload.
+	
+	
+We will build the viewer separately using ThreeJS or Angular - but this will be needed to be included in the web application. For know - please think of the View results as an integration that needs to be handled on the webpage.
+	
+	
+Just explaining what the Viewer will do for the same of completeness - This will be built by a separate team then integrated into the webapp
+	
+++++++++++++++++++++++++++++++++
+
+If a folder has 3 filetypes uploaded - there will be 3 tabs in the View Results screen - and 3 images will be shown on each of the tab
+	
+	
+On the H&E image, can the user have two different modes - A view mode and an edit mode. All other slides, it should be only a view mode. The view mode would support pan and zoom and tiling.
+	
+	
+On the H&E image, user can edit the slide, using the drawer tool and the eraser tool, specify a region for analysis by drawing using the hand or mouse, which will follow the user finger or mouse drawing movement with a translucent color and then fill the area once the user has completed the drawing [either when the loop is closed, or when the user has stopped moving their hand for quite some time - say after 10 seconds to indicate that the user intention of having completed marking the region] - Only after the selection has been made, will the "Start Analysis" button be available for the user to select and take action.
+	
+	
+Once the user has selected the region, and started the analysis, and once analysis completes, all the other slides will have the respective text boxes overlayed [also user dismissible] on the image which will show the analysis results for each of the respective slide types
+	 
+This region selected by the user needs to be saved - so that if the user closes the application and then login again, and navigates to this file and views the H&E image, the selected region [Region of Interest] should be displayed, which the user had originally selected using the "hand or mouse" drawing
+	
+User can pan and zoom the H&E image - all other tabs should also get to the same zoom level as viewed in the other tabs. For example, user can view the HER2, Ki-67, ER, PGR slides and pan and zoom on that tab. The magnification factor and the current area under view in the active tab, must be replicated on all the other tabs for this slide. User must be able to toggle between the tabs and the experience should be seamless.
+
+	
+Another option available to the user is to use the Tumor Detector button on the H&E image. Continuous using of this button, will have a reduced scale factor, starting from the full image, and going down by a specialized factor for each iteration, until the user is able to identify an area of concern. Once identified, user can now mark the region using the drawing tools and "Start Analysis" - Find tumour function and region identification would work together to assist the user to find areas of concern.
+
+	
+There will be only one region available in the H&E image. Every time the user views the H&E image, user will be able to unselect (delete) the region and try a new one. But we would support only one active region at a time We need to support multiple ROI in the same H&E image
+	
+We will indeed need to support multiple discrete contours in the region mask, except in the case of mouse use, where at least initially we should keep it simple and only allow a single rectangle.  The programming just applies the binary mask with all contours to the image in a single step.  At present we are working at the image level, so multiple contours do not complicate operation
+	
+++++++++++++++++++++++++++++++++
+
+
+#8. Manage users - Admin page: Accessible only via a special login - Admin can search users, reset passwords, activate or inactivate users, update the credits or even delete the user.
+	
+#9. Notification system using emails when analysis is completed.
+
+#10. Application monitoring and server health report via an Admin interface
+
+#11. File management - archiving user files on server using Amazon S3 - we will send link to user to download file and if the user has not downloaded the analysis - we will auto delete (discard) it... File management has to be finalized still as it involves considerable storage cost.
+
+
+Application should have fast page loading times.. user messages to come from locale specific strings. We may add localization later
+
+

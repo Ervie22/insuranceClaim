@@ -1,0 +1,342 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sen:wght@400;700;800&display=swap');
+
+:root
+{
+    --primary-color: rgb(207, 2, 47);
+    --secondary-color: rgb(255,255,255);
+    --text-color: rgb(0,0,0);
+}
+
+
+
+body
+{
+    font-family: "Jost";
+    width: 100%;
+}
+main
+{
+    width: 100%;
+    display: grid;
+    min-height: 100vh;
+
+}
+.top_row
+{
+    background-image: url('/assets/images/girl-glasses.jpg');
+    background-size: cover;
+    width: 100%;
+    min-height: 50vh;
+    position: relative;
+}
+.timer
+{
+    position: absolute;
+    right: 100px;
+    top: 40px;
+}
+.timer-inner
+{
+    width: 130px;
+    height: 130px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    display: grid;
+    column-gap: 50px;
+    align-items: center;
+    border: solid 10px var(--primary-color);
+}
+
+
+
+.timer .timer-count
+{
+    font-size: 20px;
+    color: var(--primary-color);
+    font-weight: normal;
+    text-align: center;
+    line-height: 1;
+}
+.timer .timer-count span
+{
+    display: block;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+
+
+.step-count
+{
+    position: absolute;
+    width: 100%;
+    height: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    z-index: 10;
+
+}
+.step-single
+{
+    display: flex;
+    line-height: 0;
+}
+.step-line
+{
+    display: block;
+    background-color: rgb(219, 219, 219);
+    height: 4px;
+    width: 70px;
+    position: relative;
+}
+.step-line::after
+{
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    transition: 0.5s;
+    background-color: var(--primary-color);
+}
+.step-single .step-line.nth::after
+{
+    left: 0;
+}
+.step-number
+{
+    border-radius: 50%;
+    background-color: rgb(219, 219, 219);
+    width: 56px;
+    height: 56px;
+    transform: translateY(-25px);
+    display: grid;
+    place-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.step-number span
+{
+    position: relative;
+    z-index: 10;
+    font-size: 20px;
+    color: rgb(219, 219, 219);
+    font-weight: bold;
+}
+.step-number::before
+{
+    content: "";
+    width: 0;
+    transition: 0.5s;
+    height: 100%;
+    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--primary-color);
+}
+.step-number::after
+{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 8px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+    width: 40px;
+    height: 40px;
+}
+.step-gap
+{
+    flex: 1;
+    height: 4px;
+    background-color: rgb(219, 219, 219);
+
+}
+.active .step-line::after
+{
+    width: 100%;
+}
+.active .step-number span
+{
+    color: var(--primary-color);
+}
+.active .step-number::before
+{
+    width: 100%;
+}
+.bottom_row
+{
+    background-image: url('/assets/images/question_bg.jpg');
+    background-size: 100%;
+    width: 100%;
+    min-height: 50vh;
+    position: relative;
+    display: grid;
+}
+.wrapper
+{
+    width: 90%;
+    margin: 0 auto;
+    /* position: relative; */
+    z-index: 100;
+    height: 50%;
+    display: grid;
+
+}
+form
+{
+    margin-top: -110px;
+}
+.quiz-question
+{
+    border: solid 5px var(--primary-color);
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    height: 100px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    font-size: 25px;
+    color: var(--text-color);
+    font-weight: bold;
+    text-align: center;
+    padding: 0 150px;
+    display: grid;
+    align-items: center;
+}
+fieldset
+{
+    position: relative;
+    z-index: 1000;
+}
+.radio-field
+{
+    width: 95%;
+    height: 80px;
+    position: relative;
+    display: grid;
+    place-content: center;
+}
+.input-field::before
+{
+    content: "";
+    display: block;
+    height: 70px;
+    width: 2px;
+    margin: 0 auto;
+    background-color: var(--primary-color);
+}
+.radio-field input
+{
+    -webkit-appearance: none;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    border: solid 4px rgb(219, 219, 219);
+    border-radius: 10px;
+    background-color: var(--secondary-color);
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.radio-field input:checked:before
+{
+    content: "";
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    border-radius: 50%;
+    background-color: rgb(239, 239, 239);
+    width: 30px;
+    height: 30px;
+}
+.radio-field input:checked:after
+{
+    content: "";
+    position: absolute;
+    background-image: url('/assets/images/check.png');
+    width: 40px;
+    height: 36px;
+    top: 20px;
+    right: 15px;
+    opacity: 0;
+}
+.radio-field label
+{
+    font-size: 28px;
+    color: var(--text-color);
+    font-weight: bold;
+    pointer-events: none;
+    position: relative;
+    z-index: 10;
+    transition: 0.5s;
+}
+.radio-field input:checked
+{
+    border-color: var(--primary-color);
+}
+.radio-field input:checked~label
+{
+    color: var(--primary-color);
+}
+.next-prev
+{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 40px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.next-prev button
+{
+    font-size: 18px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    background-color: rgb(255, 255, 255);
+    width: 300px;
+    height: 80px;
+    border: solid 2px transparent;
+    text-transform: uppercase;
+      
+}
+.next-prev button i
+{
+    position: relative;
+    top: 1px;
+    margin: 0 10px;
+}
+
+.next-prev .prev
+{
+    border-top-right-radius: 20px;
+}
+.next-prev .next
+{
+    border-top-left-radius: 20px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+
+
+
+
+
+
+#error div
+{
+    z-index: 1000;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}

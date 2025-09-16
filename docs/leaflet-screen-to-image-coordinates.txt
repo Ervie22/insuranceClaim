@@ -1,0 +1,217 @@
+Leaflet already gives you tools to convert between screen coordinates and image (or map) coordinates, using its built-in projection system.
+
+We’ll build a LeafletJS setup to:
+
+	- Display an image on Leaflet
+	- Capture a rectangle drawn in screen coordinates (like via drag)
+	- Convert that rectangle into original image coordinates (top-left origin)
+	- Output the result as { x, y, width, height }
+	
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet Image Coordinate Mapping</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+  />
+  <style>
+    #map {
+      height: 600px;
+    }
+    .info {
+      background: white;
+      padding: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+<div class="info" id="coordsDisplay">Draw a rectangle to get coordinates</div>
+
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+
+<script>
+  // Set your original image size here
+  const imageWidth = 2048;
+  const imageHeight = 2048;
+
+  // Define image bounds in Leaflet CRS units
+  const imageBounds = [[0, 0], [imageHeight, imageWidth]];
+
+  // Create the map
+  const map = L.map('map', {
+    crs: L.CRS.Simple,
+    minZoom: -5,
+    maxZoom: 4
+  });
+
+  // Add image overlay
+  L.imageOverlay('https://upload.wikimedia.org/wikipedia/commons/3/36/Hopetoun_falls.jpg', imageBounds).addTo(map);
+  map.fitBounds(imageBounds);
+
+  // Enable Leaflet Draw for rectangle selection
+  const drawnItems = new L.FeatureGroup();
+  map.addLayer(drawnItems);
+
+  const drawControl = new L.Control.Draw({
+    draw: {
+      polygon: false,
+      marker: false,
+      polyline: false,
+      circle: false,
+      circlemarker: false,
+      rectangle: true
+    },
+    edit: {
+      featureGroup: drawnItems
+    }
+  });
+  map.addControl(drawControl);
+
+  map.on('draw:created', function (e) {
+    const layer = e.layer;
+    drawnItems.clearLayers(); // Remove previous selection
+    drawnItems.addLayer(layer);
+
+    // Get corners of the rectangle in image coordinates
+    const bounds = layer.getBounds();
+
+    const topLeft = bounds.getNorthWest(); // LatLng
+    const bottomRight = bounds.getSouthEast();
+
+    // Convert latlngs to image coordinates (remember, y increases downward in image)
+    const x = Math.round(topLeft.lng);
+    const y = Math.round(topLeft.lat);
+    const w = Math.round(bottomRight.lng - topLeft.lng);
+    const h = Math.round(bottomRight.lat - topLeft.lat);
+
+    document.getElementById('coordsDisplay').innerText =
+      `Image Rect: x=${x}, y=${y}, width=${w}, height=${h}`;
+  });
+</script>
+</body>
+</html>
+
+
+
+
+- Leaflet is in CRS.Simple mode, meaning the coordinates correspond directly to image pixels.
+- The image is placed from [0, 0] (top-left) to [height, width] (bottom-right).
+- When you draw a rectangle using Leaflet Draw, the rectangle is returned in LatLng units.
+- In CRS.Simple, Lat = Y, Lng = X in image space.
+
+
+If not using Leaflet Draw - then this example helps:
++++++++++++++++++++++++++++++++++++++++++++++++++++
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet Image Coordinate Conversion</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+  />
+  <style>
+    #map {
+      height: 600px;
+      border: 2px solid black;
+      position: relative;
+    }
+    .overlay-rect {
+      position: absolute;
+      border: 2px dashed red;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+<p id="output">Drag to draw a rectangle...</p>
+
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<script>
+  const imageWidth = 2048;
+  const imageHeight = 2048;
+
+  const imageBounds = [[0, 0], [imageHeight, imageWidth]];
+
+  const map = L.map('map', {
+    crs: L.CRS.Simple,
+    minZoom: -5,
+    maxZoom: 4,
+  });
+
+  L.imageOverlay('https://upload.wikimedia.org/wikipedia/commons/3/36/Hopetoun_falls.jpg', imageBounds).addTo(map);
+  map.fitBounds(imageBounds);
+
+  const mapContainer = document.getElementById('map');
+  const output = document.getElementById('output');
+
+  let startPoint = null;
+  const overlayRect = document.createElement('div');
+  overlayRect.className = 'overlay-rect';
+  mapContainer.appendChild(overlayRect);
+
+  mapContainer.addEventListener('mousedown', (e) => {
+    startPoint = { x: e.offsetX, y: e.offsetY };
+    overlayRect.style.left = `${startPoint.x}px`;
+    overlayRect.style.top = `${startPoint.y}px`;
+    overlayRect.style.width = `0px`;
+    overlayRect.style.height = `0px`;
+    overlayRect.style.display = 'block';
+  });
+
+  mapContainer.addEventListener('mousemove', (e) => {
+    if (!startPoint) return;
+    const width = e.offsetX - startPoint.x;
+    const height = e.offsetY - startPoint.y;
+
+    overlayRect.style.left = `${Math.min(e.offsetX, startPoint.x)}px`;
+    overlayRect.style.top = `${Math.min(e.offsetY, startPoint.y)}px`;
+    overlayRect.style.width = `${Math.abs(width)}px`;
+    overlayRect.style.height = `${Math.abs(height)}px`;
+  });
+
+  mapContainer.addEventListener('mouseup', (e) => {
+    if (!startPoint) return;
+
+    const endPoint = { x: e.offsetX, y: e.offsetY };
+
+    // Convert screen (container) points to LatLng (image coordinates)
+    const topLeft = map.containerPointToLatLng([
+      Math.min(startPoint.x, endPoint.x),
+      Math.min(startPoint.y, endPoint.y)
+    ]);
+    const bottomRight = map.containerPointToLatLng([
+      Math.max(startPoint.x, endPoint.x),
+      Math.max(startPoint.y, endPoint.y)
+    ]);
+
+    // Leaflet CRS.Simple: lat = y, lng = x
+    const x = Math.round(topLeft.lng);
+    const y = Math.round(topLeft.lat);
+    const w = Math.round(bottomRight.lng - topLeft.lng);
+    const h = Math.round(bottomRight.lat - topLeft.lat);
+
+    output.innerText = `Image Coords: x=${x}, y=${y}, width=${w}, height=${h}`;
+
+    // Reset
+    startPoint = null;
+    setTimeout(() => {
+      overlayRect.style.display = 'none';
+    }, 1000);
+  });
+</script>
+</body>
+</html>

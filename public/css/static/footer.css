@@ -1,0 +1,233 @@
+.new-footer-sec {
+    background: #0b2e58;
+    padding: 50px 0 20px;
+}
+
+.footer-layout-sec {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer-menu-colm {
+    width: 50%;
+    padding: 0 25px;
+}
+
+.left-footer-colm .footer-menu-colm h3 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+
+.left-footer-colm .footer-menu-colm h3 a {
+    color: #fff;
+}
+
+.left-footer-colm .footer-menu-colm ul.footer-listings {
+    padding: 0;
+    /* columns: 2; */
+}
+
+.left-footer-colm .footer-menu-colm ul.footer-listings li {
+    list-style: none;
+    font-size: 13px;
+    font-weight: 300;
+    font-family: 'Poppins', sans-serif;
+    padding: 0 0 10px;
+}
+
+.left-footer-colm .footer-menu-colm ul.footer-listings li a {
+    color: #fff;
+}
+
+.footer-logo-colm {
+    padding: 0px 25px 0px 0px !important;
+}
+
+.inner-colm.add-boxs {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+ }
+
+.inner-colm.add-boxs .add-box-address {
+    padding: 20px 20px;
+    transition: .3s;
+    -o-transition: .3s;
+    -ms-transition: .3s;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    margin: 0 0 10px;
+}
+
+.inner-colm.add-boxs .add-box-address .country-name-add {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+}
+
+.inner-colm.add-boxs .add-box-address address {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    color: #fff;
+    font-size: 20px;
+}
+
+.inner-colm.add-boxs .add-box-address .footer-ph-email {
+    padding: 0;
+    font-size:18px;
+    margin: 0;
+}
+
+.inner-colm.add-boxs .add-box-address .footer-ph-email li {
+    list-style: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.inner-colm.add-boxs .add-box-address .footer-ph-email li a {
+    color: #f16521;
+    font-size:18px;
+}
+
+.footer-bottom-sec {
+    margin: 30px 0 0;
+    padding: 20px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+}
+
+.footer-bottom-sec .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.footer-bottom-sec .copyright-colm p {
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    margin: 0;
+}
+
+.footer-bottom-sec .social-icon-colm ul {
+    padding: 0;
+    margin: 0;
+}
+
+.footer-bottom-sec .social-icon-colm ul li {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 0 0 15px;
+    font-size: 24px;
+}
+
+.footer-bottom-sec .social-icon-colm ul li a {
+    color: #ffffff;
+}
+
+.footer-bottom-sec .social-icon-colm ul li a:hover {
+    color: #f16521;
+}
+
+.footer-logo-colm img {
+    margin: 0 0 20px;
+
+}
+
+.footer-logo-colm p {
+    list-style: none;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    /* padding: 0 20px; */
+    color: #fff;
+    font-weight: 300;
+    line-height: 22px;
+}
+
+footer a {
+    text-decoration: none;
+}
+
+.left-footer-colm .footer-menu-colm h3 a:hover {
+    text-decoration: underline;
+    color: #f16521;
+}
+
+.left-footer-colm .footer-menu-colm ul.footer-listings li a:hover {
+    color: #f16521;
+    text-decoration: underline;
+}
+
+/* responsive */
+
+@media(max-width:767px) {
+    .footer-layout-sec {
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+}
+
+@media(max-width:516px) {.inner-colm.add-boxs
+    .footer-layout-sec .col {
+        margin: 0 auto !important;
+    }
+
+    .footer-layout-sec .col {
+        flex-direction: column !important;
+    }
+    .inner-colm.add-boxs .add-box-address{
+        width: auto; 
+    }
+    
+    .inner-colm.add-boxs{
+        display: flex;
+        flex-direction: column;
+        padding-left:20px;
+        width:100%;
+        justify-content: unset;
+     }
+
+
+    .footer-logo-colm {
+        padding: 0px 20px !important;
+    }
+}
+
+   @media(max-width:580px){
+      .country-name-add{
+         font-size: 19px !important;
+      }
+
+      .inner-colm.add-boxs .add-box-address address{
+         font-size: 17px !important;
+      }
+
+      .inner-colm.add-boxs .add-box-address .footer-ph-email li a{
+         font-size: 15px !important;
+      }
+
+      .footer-bottom-sec .copyright-colm p{
+         font-size: 12px !important;
+      }
+
+      .footer-bottom-sec .social-icon-colm ul li a{
+         font-size: 22px !important;
+      }
+   }
+
+@media (max-width:360px) {
+    
+    .icons{
+       height: 20px !important;
+       width: 20px !important;
+    }
+    .copyright-colm p{
+        font-size: 9px !important;
+     }
+ }
+
+/* end responsive */

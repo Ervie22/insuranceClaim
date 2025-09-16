@@ -1,0 +1,531 @@
+p {
+
+    margin-bottom: 0px !important;
+
+}
+
+input::-webkit-outer-spin-button,
+
+input::-webkit-inner-spin-button {
+
+    display: none;
+
+}
+
+.swiper-slide-prev .card .body-container,
+.swiper-slide-next .card .body-container {
+    display: none !important;
+}
+
+.swiper-slide .swiper-slide-active .text-container {
+    display: block;
+}
+
+.step-note a:hover {
+    text-decoration: underline !important;
+    transition: all 0.2 ease;
+}
+
+
+.vertical-line {
+
+    border-left: 6px solid #ffffff;
+
+    height: 65px;
+
+}
+
+.floating-label {
+    position: absolute;
+    font-size: 17px;
+    top: 10px;
+    left: 10px;
+    background-color: none;
+}
+
+.float-up {
+    top: -14px;
+    transition: all 0.2s ease-in 0s;
+    left: 3%;
+    position: absolute;
+    font-size: 15px;
+    color: #f16521;
+    background-color: #ffffff;
+}
+
+.banner-container .small-text {
+    font-size: 20px !important;
+}
+
+@media(max-width:991px) {
+
+    .all-steps-container {
+
+        gap: 15px !important;
+
+    }
+
+    #form-enquiry img {
+        width: 500px !important;
+        position: absolute !important;
+        left: 0px !important;
+    }
+
+
+    .step-bar {
+
+        display: none !important;
+
+    }
+
+
+
+    .all-steps-container .w-100 {
+
+        width: auto !important;
+
+    }
+
+}
+
+@media(max-width:767px) {
+
+    .footer-layout-sec {
+
+        flex-direction: column !important;
+
+        width: 100% !important;
+
+    }
+
+
+
+    .step-outline p {
+
+        font-size: 19px !important;
+
+    }
+
+
+
+    .all-steps-container {
+
+        gap: 10px !important;
+
+    }
+
+
+
+    .track-container {
+
+        display: grid !important;
+
+        grid-template-columns: repeat(2, 1fr) !important;
+
+        gap: 45px !important;
+
+        width: 100% !important;
+
+        place-items: center !important;
+
+    }
+
+
+    #form-enquiry img {
+        display: none !important;
+    }
+
+
+    .swiper-slide .body-container .text-container p {
+
+        font-size: 12px !important;
+
+    }
+
+
+
+    .swiper-slide .header h3 {
+
+        font-size: 16px !important;
+
+    }
+
+
+
+    .swiper-slide .header p {
+
+        font-size: 12px !important;
+
+    }
+
+
+
+}
+
+@media(max-width:516px) {
+
+    .footer-layout-sec .col {
+
+        margin: 0 auto !important;
+
+    }
+
+    #form-enquiry {
+        padding: 0px !important;
+    }
+
+    #form-enquiry img {
+        display: block !important;
+        width: 360px !important;
+        position: absolute !important;
+        left: -80px !important;
+    }
+
+
+    .footer-layout-sec .col {
+
+        flex-direction: column !important;
+
+    }
+
+    .banner-container .small-text {
+        font-size: 16px !important;
+        margin-left: 0px !important;
+    }
+
+    .banner-container .small-text p {
+        padding-right: 3px !important;
+    }
+
+    .step-outline p {
+
+        font-size: 16px !important;
+
+    }
+
+
+
+    .footer-layout-sec .add-boxs {
+
+        flex-wrap: wrap !important;
+
+        display: flex !important;
+
+        justify-content: start !important;
+
+        padding-left: 20px !important;
+
+    }
+
+
+
+    .custom-anchor-form-img {
+
+        height: 20px !important;
+
+        width: 20px !important;
+
+    }
+
+
+
+    .custom-anchor-form {
+
+        font-size: 12px !important;
+
+    }
+
+
+
+    .container-custom-links {
+
+        width: 150px !important;
+
+    }
+
+
+
+    .track-container {
+
+        display: grid !important;
+
+        grid-template-columns: repeat(2, 1fr) !important;
+
+        gap: 45px !important;
+
+        width: 100% !important;
+
+        place-items: center !important;
+
+    }
+
+    #warning-parent {
+
+        transition: all 0.7s ease-in-out !important;
+
+    }
+
+    .project-container {
+        margin: 0px !important;
+    }
+
+    .track-container {
+        padding: 0px !important;
+    }
+
+    #one_stop_solution {
+        margin-top: 0px !important;
+        margin-bottom: 40px !important;
+    }
+
+    #course_register_form {
+        margin-top: 20px;
+    }
+
+    #meet_our_fellows {
+        margin-top: 30px;
+    }
+
+    .swiper {
+        height: 480px;
+    }
+
+    #catogory_link_div {
+        margin-top: 40px !important;
+        padding: 15px !important;
+    }
+
+    #explore_text {
+        font-size: 24px !important;
+    }
+
+    #text_container {
+        margin-bottom: 10px !important;
+
+    }
+}
+
+@media(max-width: 480px) {
+
+    .steps-container {
+
+        flex-direction: column !important;
+
+        align-items: unset !important;
+
+        gap: 15px 0px !important;
+
+        margin: 0 auto !important;
+
+    }
+
+    .content-begin {
+        margin-top: 90px !important;
+    }
+
+
+    .step-bar {
+
+        display: none !important;
+
+    }
+
+    #track-container {
+        /* margin: 0px 15px 0 15px !important; */
+        margin-bottom: 15px !important;
+    }
+
+    #enquiry_form {
+        margin-top: 20px !important;
+    }
+
+    #one_stop_text_container {
+        margin-bottom: 60px !important;
+        margin-top: 10px !important;
+    }
+
+    #year-label {
+        margin-right: 50px !important;
+    }
+
+    #meet_our_fellows {
+        margin-top: 30px !important;
+    }
+
+}
+
+@media (max-width:430px) {
+
+    .text-heading {
+        font-size: 14px !important;
+        margin-top: 5px !important;
+        padding-right: 30px;
+
+    }
+
+    .courousel-buttons {
+        gap: 45px !important;
+    }
+
+    .container-custom-links {
+        width: 120px !important;
+        height: 100px !important;
+    }
+
+    #card_text_para {
+        padding: 0px 20px !important;
+        font-size: 14px !important;
+        opacity: .85;
+        margin-top: 12px !important;
+    }
+
+    #we_help_div span {
+        font-size: 24px !important;
+    }
+
+    .card_image {
+        width: 40px !important;
+    }
+
+    #explore_detail_container {
+        margin-top: 40px !important;
+    }
+
+    #track-container {
+        margin: auto !important;
+
+    }
+
+    #form_head_text {
+        font-size: 18px !important;
+        margin-top: 10px !important;
+
+    }
+
+    .banner-container .small-text p {
+        padding: 0px !important;
+        margin: 2px !important;
+        font-size: 13px !important;
+    }
+
+    .banner-container h2 {
+        font-size: 38px !important;
+
+    }
+
+    .all-container {
+        height: 530px !important;
+    }
+
+    .display-3 {
+        text-align: center !important;
+    }
+
+    #steps {
+        margin-left: 100px !important;
+    }
+
+
+
+
+}
+
+@media (max-width:390px) {
+    #track-container {
+        margin-left: 5px !important;
+    }
+}
+
+@media (max-width:360px) {
+
+    .text-heading {
+        width: fit-content !important;
+        padding: 5px !important;
+    }
+
+    .container-custom-links {
+        width: 100px !important;
+        height: 100px !important;
+    }
+
+    .track-container {
+        padding: 0px 20px 0 20px !important;
+    }
+
+    #card_head_text {
+        font-size: 18px !important;
+    }
+
+    #card_text_para {
+        padding: 0px 20px !important;
+        font-size: 14px !important;
+        opacity: .85;
+        margin-top: 12px !important;
+    }
+
+    .banner-container h2 {
+        font-size: 31px !important;
+    }
+
+    .banner-container .small-text p {
+        padding: 0px !important;
+        font-size: 12px !important;
+        margin: 2px !important;
+    }
+
+    #explore_text {
+        font-size: 21px !important;
+    }
+
+    #enquiry_form {
+        padding: 0px !important;
+        gap: 0px !important;
+    }
+
+    #form_head_text {
+        font-size: 16px !important;
+        margin-top: 10px !important;
+        padding: 0px 20px !important;
+
+    }
+
+    .form-group {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .all-container {
+        height: 460px !important;
+    }
+
+    #steps {
+        margin-left: 50px !important;
+    }
+
+
+}
+
+@media (max-width:320px) {
+
+    .banner-container h2 {
+        font-size: 27px !important;
+    }
+
+    #explore_text {
+        font-size: 18px !important;
+    }
+
+    .text-above-conatct-form h2 {
+        font-size: 16px !important;
+    }
+
+    .all-container {
+        height: 400px !important;
+    }
+
+    #enquiry_form {
+        margin-top: 70px !important;
+    }
+
+
+}

@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@600&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;    
+    font-family: 'League Spartan', sans-serif !important;
+}
+
+/* .card .lesson_card:hover{
+  transform: scale(1) !important;
+} */
+
+.lesson_card:hover {
+  transform: scale(1.1) !important;
+  animation: 3s ease-in-out 1s 1;
+}
