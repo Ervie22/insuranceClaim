@@ -11,7 +11,7 @@
     <!-- Custom CSS -->
     <style>
         body {
-            background: linear-gradient(to right, #7769F2, #8657F5);
+            background: linear-gradient(to right, #67C090, #59AC77);
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -48,7 +48,7 @@
         }
 
         .btn-login {
-            background-color: #4D3DF6;
+            background-color: #67C090;
             color: white;
             font-weight: 600;
             border-radius: 0.5rem;
@@ -56,7 +56,7 @@
         }
 
         .btn-login:hover {
-            background-color: #3b2be1;
+            background-color: #59AC77;
         }
 
         .login-links a {

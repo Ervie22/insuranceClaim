@@ -60,7 +60,21 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('reset-password');
     Route::get('/get-update-user', [UserController::class, 'getUpdateUser'])->name('update.user-get');
     Route::post('/update-enable', [UserController::class, 'updateEnable']);
+
     Route::get('/patients', [PatientController::class, 'index'])->name('patients.list');
+    Route::get('/create-patient', [PatientController::class, 'createPatient'])->name('patients.create');
+    Route::post('/store-patients', [PatientController::class, 'storePatients'])->name('patients.store');
+    Route::get('/view-patient/{id}', [PatientController::class, 'viewPatient'])->name('patients.view');
+    Route::post('/update-personal-info', [PatientController::class, 'updatePersonalInfo'])->name('patients.update-personal-info');
+    Route::post('/update-guarantor-info', [PatientController::class, 'updateguarantorInfo'])->name('patients.update-guarantor-info');
+    Route::post('/update-employer-info', [PatientController::class, 'updateEmployerInfo'])->name('patients.update-employer-info');
+    Route::post('/update-emergency-info', [PatientController::class, 'updateEmergencyInfo'])->name('patients.update-emergency-info');
+    Route::post('/update-file-info', [PatientController::class, 'updateFileInfo'])->name('patients.update-file-info');
+    Route::post('/update-present-info', [PatientController::class, 'updatePresentInfo'])->name('patients.update-present-info');
+    Route::post('/update-secondary-info', [PatientController::class, 'updateSecondaryInfo'])->name('patients.update-secondary-info');
+    Route::post('/update-tritary-info', [PatientController::class, 'updatetTritaryInfo'])->name('patients.update-tritary-info');
+
+
     Route::get('/claims', [ClaimController::class, 'index'])->name('claims.list');
 
     Route::get('/capitation-payments', [PaymentController::class, 'capitationPayments'])->name('payments.capitation-payments');

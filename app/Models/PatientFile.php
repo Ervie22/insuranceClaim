@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FileJobRegion extends Model
+class PatientFile extends Model
 {
     //
-    protected $table = 'file_jobs_region';
+    protected $table = 'patients_file_details';
 }

@@ -1,25 +1,59 @@
 <style>
   .navbar {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
+    font-weight: 700;
+    /* bold */
+    font-size: 16px;
+    /* adjust as needed */
+    line-height: 1;
+    /* tighter like UI text */
+    letter-spacing: 1px;
+    /* slight spacing between letters */
+    text-transform: none;
+    /* keep Title Case; use uppercase if desired */
+    color: #ffffff;
+    /* change to match your background */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    display: inline-block;
+    padding: 6px 10px;
+    /* spacing around text */
+    margin: 0 6px;
+    cursor: pointer;
+  }
+
+  .navbar .nav-link:hover {
+    color: #ffffff !important;
+  }
+
+  .dropdown-menu .dropdown-item:hover {
+    background-color: #67C090;
+    /* match navbar background */
+    color: #ffffff !important;
   }
 
   .navbar-brand {
     letter-spacing: 3px;
-    color: #c24244;
+    color: #1C352D;
   }
 
   .navbar-brand:hover {
-    color: #c24244;
+    color: #eee;
+  }
+
+  .nav-item:hover {
+    color: #eee;
   }
 
   .navbar-scroll .nav-link,
   .navbar-scroll .fa-bars {
-    color: #7f4722;
+    color: #1C352D;
   }
 
   .navbar-scrolled .nav-link,
   .navbar-scrolled .fa-bars {
-    color: #7f4722;
+    color: #eee;
   }
 
   .navbar-scrolled {
@@ -33,10 +67,20 @@
     /* remove gap */
   }
 </style>
+<?php
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-scroll shadow-0" style=" width:100%;">
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
+$uid = Auth::user()->id;
+$user = User::where('id', $uid)->first();
+$fname = $user['first_name'];
+$lname = isset($user['first_name']) ? $user['first_name'] : '';
+$userName = $fname . ' ' . $lname;
+?>
+<nav class="navbar navbar-expand-lg fixed-top navbar-scroll" style="background-color:#67C090; width:100%;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">ClaimEase</a>
+    <a class="navbar-brand" href="/admin-dashboard">ClaimEase</a>
 
     <button class="navbar-toggler ps-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarExample01"
       aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,9 +153,18 @@
       </ul>
 
       <!-- Profile & Logout -->
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto" style="font-family: ' Segoe UI', Tahoma, Verdana, Arial, sans-serif;
+        font-weight: 700;      
+        font-size: 16px;
+        cursor: pointer;">
+        <form class="d-flex input-group w-auto">
+          <input type="search" class="form-control" placeholder="Find patient, claim, or" aria-label="Search" />
+          <button class="btn btn-sm" type="button" data-mdb-ripple-init data-mdb-ripple-color="dark">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
         <li class="nav-item">
-          <a class="btn btn-sm btn-outline-secondary me-2" href="#profile">Profile</a>
+          <a class="btn btn-sm text-white me-2" href="#profile">{{$userName}}</a>
         </li>
         <li class="nav-item">
           <form method="POST" action="/logout">
