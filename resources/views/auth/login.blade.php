@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <!-- Bootstrap CSS CDN -->
-    <link href="{{ asset('assets/auth/favicon.ico') }}" rel="icon">
+    <link href="{{ asset('/assets/auth/claimease.jpg') }}" rel="icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <style>
         body {
-            background: linear-gradient(to right, #67C090, #59AC77);
+            background: linear-gradient(to right, #d3fbff, #4FB7B3);
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -48,7 +48,7 @@
         }
 
         .btn-login {
-            background-color: #67C090;
+            background-color: #4FB7B3;
             color: white;
             font-weight: 600;
             border-radius: 0.5rem;
@@ -56,7 +56,7 @@
         }
 
         .btn-login:hover {
-            background-color: #59AC77;
+            background-color: #d3fbff;
         }
 
         .login-links a {
@@ -110,7 +110,7 @@
 <body>
 
     <div class="login-card">
-        <!-- <img src="{{ asset('/assets/auth/med-logo.png') }}" style="height: 150px; width: 150px;" alt="logo"> -->
+        <img src="{{ asset('/assets/auth/claimease.jpg') }}" style="height: 75px; width: 150px;" alt="logo">
         <h4>Login</h4>
         <p>Please enter your details to Login.</p>
 

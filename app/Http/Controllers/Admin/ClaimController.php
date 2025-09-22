@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\patient;
 
 
 class ClaimController extends Controller
@@ -37,6 +38,12 @@ class ClaimController extends Controller
 
         // dd($recentFiles);
         $allUsers = User::where('active', '=', '1')->get();
+
         return view('admin.claims.claims', compact('allUsers', 'user', 'userName'));
+    }
+    public function createClaim(Request $request)
+    {
+        $patients = Patient::where('is_deleted', '0')->where('active', '1')->get();
+        return view('admin.claims.create-claim', compact('patients'));
     }
 }

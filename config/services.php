@@ -34,11 +34,9 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-    'stain_handler' => [
-        'url' => env('PATH_PROCESS_STAIN_HANDLER'),
-    ],
-    'tile_handler' => [
-        'url' => env('PATH_CREATE_TILES'),
+
+    'ipinfo' => [
+        'token' => env('IPINFO_TOKEN'),
     ],
 
 ];

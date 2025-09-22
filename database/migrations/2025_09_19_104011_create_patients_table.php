@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->enum('active', ['0', '1'])->default('1')->comment('0->no, 1->yes');
             $table->bigInteger('created_by');
             $table->bigInteger('updated_by')->nullable();
+            $table->enum('is_deleted', ['0', '1'])->default('0')->comment('0->no, 1->yes');
             $table->timestamps(); // creates created_at and updated_at as nullable timestamps
         });
     }

@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Include Bootstrap & DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
 <style>
     .viewPatientPage {
         font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
@@ -8,6 +12,30 @@
         /* bold */
         font-size: 11px;
 
+    }
+
+    .profile-header {
+        background: #eee;
+        /* height: 150px; */
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .profile-pic {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid white;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+    }
+
+    .profile-card {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 </style>
 <!-- upload image modal starts-->
@@ -342,6 +370,10 @@
                                     <input value="{{$fileDetails['pcp_name'] ? $fileDetails['pcp_name']:''}}" type="text" class="form-control" id="pcp_name" name="pcp_name" required>
                                 </div>
                                 <div class="col-md-2">
+                                    <label class="form-label">PCP Phone</label>
+                                    <input value="{{$fileDetails['pcp_phone'] ? $fileDetails['pcp_phone']:''}}" type="text" class="form-control" id="pcp_phone" name="pcp_phone" required>
+                                </div>
+                                <div class="col-md-2">
                                     <label class="form-label">NPI</label>
                                     <input value="{{$fileDetails['npi'] ? $fileDetails['npi']:''}}" type="text" class="form-control" id="npi" name="npi" required>
                                 </div>
@@ -360,11 +392,47 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Language</label>
-                                    <input type="text" value="{{$fileDetails['language'] ? $fileDetails['language']:''}}" class="form-control" id="language" name="language" required>
+                                    <select id="language" name="language" class="form-control" required>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'English') ? 'English' : '' }} value="English">English</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Spanish') ? 'Spanish' : '' }} value="Spanish">Spanish</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Chinese') ? 'Chinese' : '' }} value="Chinese">Chinese</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Tagalog') ? 'Tagalog' : '' }} value="Tagalog">Tagalog</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Vietnamese') ? 'Vietnamese' : '' }} value="Vietnamese">Vietnamese</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Arabic') ? 'Arabic' : '' }} value="Arabic">Arabic</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'French') ? 'French' : '' }} value="French">French</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Korean') ? 'Korean' : '' }} value="Korean">Korean</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Russian') ? 'Russian' : '' }} value="Russian">Russian</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Portuguese') ? 'Portuguese' : '' }} value="Portuguese">Portuguese</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Haitian Creole') ? 'Haitian Creole' : '' }} value="Haitian Creole">Haitian Creole</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == '') ? '' : '' }} value="">Other (specify)</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Race</label>
-                                    <input type="text" value="{{$fileDetails['race'] ? $fileDetails['race']:''}}" class="form-control" id="race" name="race" required>
+                                    <select id="race" name="race" class="form-control" required>
+                                        <option value="">-- Select Race --</option>
+                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'White') ? 'White' : '' }} value="White">White</option>
+                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Black or African American') ? 'Black or African American' : '' }} value="Black or African American">Black or African American</option>
+                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'American Indian or Alaska Native') ? 'American Indian or Alaska Native' : '' }} value="American Indian or Alaska Native">American Indian or Alaska Native</option>
+                                        <optgroup label="Asian">
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Asian Indian') ? 'Asian Indian' : '' }} value="Asian Indian">Asian Indian</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Chinese') ? 'Chinese' : '' }} value="Chinese">Chinese</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Filipino') ? 'Filipino' : '' }} value="Filipino">Filipino</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Japanese') ? 'Japanese' : '' }} value="Japanese">Japanese</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Korean') ? 'Korean' : '' }} value="Korean">Korean</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Vietnamese') ? 'Vietnamese' : '' }} value="Vietnamese">Vietnamese</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Other Asian') ? 'Other Asian' : '' }} value="Other Asian">Other Asian</option>
+                                        </optgroup>
+                                        <optgroup label="Native Hawaiian or Other Pacific Islander">
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Native Hawaiian') ? 'Native Hawaiian' : '' }} value="Native Hawaiian">Native Hawaiian</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Guamanian or Chamorro') ? 'Guamanian or Chamorro' : '' }} value="Guamanian or Chamorro">Guamanian or Chamorro</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Samoan') ? 'Samoan' : '' }} value="Samoan">Samoan</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Other Pacific Islander') ? 'Other Pacific Islander' : '' }} value="Other Pacific Islander">Other Pacific Islander</option>
+                                        </optgroup>
+                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Some other race') ? 'Some other race' : '' }} value="Some other race">Some other race</option>
+                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Two or more races') ? 'Two or more races' : '' }} value="Two or more races">Two or more races</option>
+                                    </select>
+                                    <!-- <input type="text" value="{{$fileDetails['race'] ? $fileDetails['race']:''}}" class="form-control" id="race" name="race" required> -->
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Ethnicity</label>
@@ -389,7 +457,7 @@
                                     <select class="form-control" name="method_of_contact" id="method_of_contact" required>
                                         <option value="">Select Method</option>
                                         <option {{ (isset($fileDetails['method_of_contact']) && $fileDetails['method_of_contact'] == 'Call') ? 'selected' : '' }} value="Call">Call</option>
-                                        <option {{ (isset($fileDetails['method_of_contact']) && $fileDetails['method_of_contact'] == 'Test') ? 'selected' : '' }} value="Text">Text</option>
+                                        <option {{ (isset($fileDetails['method_of_contact']) && $fileDetails['method_of_contact'] == 'Text') ? 'selected' : '' }} value="Text">Text</option>
                                         <option {{ (isset($fileDetails['method_of_contact']) && $fileDetails['method_of_contact'] == 'Email') ? 'selected' : '' }} value="Email">Email</option>
                                     </select>
                                 </div>
@@ -602,202 +670,421 @@
         {{ session('success') }}
     </div>
     @endif
-    <div class="row p-1">
-        <div class="col-4">
-            <div class="row">
 
-                <div class="card  p-1">
-                    <div class="card-header text-white p-1 " style="background-color:#00A6D9">
-                        <h6>
-                            Personal Info
-                            <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#upload_image_modal" title="Upload Patient Image">
-                                <i class="fa fa-camera"></i>
-                            </span>
-                            <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_personal_modal" title="Update Personal Info">
-                                <i class="fa fa-edit"></i>
-                            </span>
-                        </h6>
-                    </div>
-                    <div class="card-body p-1" style="height: 300px;">
-                        <div class="row">
-                            <div class="col-3">
-                                @if(isset($patientDetails['profile_image_path']))
-                                <img src="{{ asset('storage/patient/patient_images/'.$patientDetails['profile_image_path']) }}" alt="Patient Image" class="img-fluid rounded-circle border border-3"
-                                    style="width: 100px; height: 100px; object-fit: cover;">
-                                @else
-                                <!-- Profile Image -->
-                                <img src="https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3"
-                                    alt="Profile Image"
-                                    class="img-fluid rounded-circle border border-3"
-                                    style="width: 100px; height: 100px; object-fit: cover;">
-
-                                @endif
-                            </div>
-                            <div class="col-9">
-                                <h6 style="color:#57564F;">{{$patientDetails['first_name'] ? $patientDetails['first_name']:''}} {{$patientDetails['last_name'] ? $patientDetails['last_name']:''}} {{$patientDetails['mi'] ? $patientDetails['mi']:''}}, {{$patientDetails['sex'] ? $patientDetails['sex']:''}}</h6>
-                                <h6>Mobile: <span style="color:#57564F;">{{$patientDetails['mobilephone'] ? $patientDetails['mobilephone']:''}}</span> Home: <span style="color:#57564F;">{{$patientDetails['homephone'] ? $patientDetails['homephone']:''}}</span></h6>
-                                <h6>Email: <span style="color:#57564F;">{{$patientDetails['email'] ? $patientDetails['email']:''}}</span></h6>
-                                <h6>
-                                    Address: <span style="color:#57564F;">{{$patientDetails['address1'] ? $patientDetails['address1']:''}},{{$patientDetails['address2'] ? $patientDetails['address2']:''}},</span>
-                                </h6>
-                                <h6><span style="color:#57564F;">{{$patientDetails['city'] ? $patientDetails['city']:''}}, {{$patientDetails['state'] ? $patientDetails['state']:''}}, {{$patientDetails['postcode'] ? $patientDetails['postcode']:''}} </span></h6>
-                            </div>
-                        </div>
-                        <div class="row p-3">
-                            <h6 style="color:#57564F;">Emergency Contact Info <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_emergency_modal" title="Update Emergency Info"><i class="fa fa-edit"></i></span></h6>
-                            <table style="width:100%; font-size:14px; font-weight:400;">
-                                <tr>
-                                    <td>Name: <span style="color:#57564F;">{{$employerDetails['emergency_contact'] ? $employerDetails['emergency_contact']:''}}</span></td>
-                                    <td>Relationship: <span style="color:#57564F;">{{$employerDetails['relationship'] ? $employerDetails['relationship']:''}}</span></td>
-                                    <td>Phone: <span style="color:#57564F;">{{$employerDetails['kin_phone'] ? $employerDetails['kin_phone']:''}}</span></td>
-
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Address: <span style="color:#57564F;">{{$employerDetails['kin_address'] ? $employerDetails['kin_address']:''}}</span></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Notes: <span style="color:#57564F;">{{$patientDetails['notes'] ? $patientDetails['notes']:''}}</span></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
+    <div class="card profile-card">
+        <!-- Header Background -->
+        <div class="profile-header">
+            <span type="button" class="btn btn-sm" style="margin-top:40px; margin-left:110px;" data-bs-toggle="modal" data-bs-target="#upload_image_modal" title="Upload Patient Image">
+                <i class="fa fa-camera"></i>
+            </span>
         </div>
-        <div class="col-8">
-            <div class="row">
+        @if(isset($patientDetails['profile_image_path']))
+        <img src="{{ asset('storage/patient/patient_images/'.$patientDetails['profile_image_path']) }}" alt="Patient Image" class="profile-pic"
+            style="width: 100px; height: 100px; object-fit: cover;">
+        @else
+        <!-- Profile Image -->
+        <img src="https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3"
+            alt="Profile Image"
+            class="profile-pic"
+            style="width: 100px; height: 100px; object-fit: cover;">
 
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header text-white p-1 " style="background-color:#00A6D9">
-                            <h6>Insurance Details </h6>
+        @endif
+        <!-- Profile Image -->
+        <!-- <img src="https://via.placeholder.com/120" alt="Profile" class="profile-pic"> -->
+
+        <!-- Profile Details -->
+        <div class="card-body mt-5">
+            <div class="row">
+                <div class="col-3">
+                    <h5 class="card-title mb-0" style="color:#00A6D9;">
+                        {{$patientDetails['first_name'] ? $patientDetails['first_name']:''}}
+                        {{$patientDetails['last_name'] ? $patientDetails['last_name']:''}}
+                        {{$patientDetails['mi'] ? $patientDetails['mi']:''}}
+                        <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_personal_modal" title="Update Personal Info">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    </h5>
+                    <p class="text-muted">{{$patientDetails['sex'] ? $patientDetails['sex']:''}}
+                        <span class="badge {{ $patientDetails['active'] == 1 ? 'bg-success' : 'bg-danger' }}">
+                            {{ $patientDetails['active'] == 1 ? 'Active' : 'Inactive' }}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">Mobile: <span style="color:#57564F;">{{$patientDetails['mobilephone'] ? $patientDetails['mobilephone']:''}}</span> Home: <span style="color:#57564F;">{{$patientDetails['homephone'] ? $patientDetails['homephone']:''}}</span></p>
+                    <p class="text-secondary mb-1">Email: <span style="color:#57564F;">{{$patientDetails['email'] ? $patientDetails['email']:''}}</span></p>
+                    <p class="text-secondary mb-1">
+                        Address:
+                        <span style="color:#57564F;">
+                            {{$patientDetails['address1'] ? $patientDetails['address1']:''}},
+                            {{$patientDetails['address2'] ? $patientDetails['address2']:''}},
+                        </span>
+                        <span style="color:#57564F;">
+                            {{$patientDetails['city'] ? $patientDetails['city']:''}},
+                            {{$patientDetails['state'] ? $patientDetails['state']:''}},
+                            {{$patientDetails['postcode'] ? $patientDetails['postcode']:''}}
+                        </span>
+                    </p>
+                </div>
+                <div class="col-3">
+                    <h5 class="card-title mb-0" style="color:#00A6D9;">
+                        Primary Insurance Info
+                        <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_present_modal" title="Update Primary Insurance Info">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    </h5>
+                    <p class="text-secondary mb-1">
+                        Subscriber ID:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['present_subscriber_id'] ? $insuranceDetails['present_subscriber_id']:''}}
+                        </span>
+                        Group:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['present_group'] ? $insuranceDetails['present_group']:''}}
+                        </span>
+                        Payer ID:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['present_payer_id'] ? $insuranceDetails['present_payer_id']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Addresss:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['present_address'] ? $insuranceDetails['present_address']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Phone:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['present_phone'] ? $insuranceDetails['present_phone']:''}}
+                        </span>
+                        FAX:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['present_fax'] ? $insuranceDetails['present_fax']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Effective Date:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['present_effective_date'] ? date('d-m-Y', strtotime($insuranceDetails['present_effective_date'])):''}}
+                        </span>
+                        Termination Date:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['present_termination_date'] ? date('d-m-Y', strtotime($insuranceDetails['present_termination_date'])):''}}
+                        </span>
+                    </p>
+
+                </div>
+                <div class="col-3">
+                    <h5 class="card-title mb-0" style="color:#00A6D9;">
+                        Secondary Insurance Info
+                        <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_secondary_modal" title="Update Secondary Insurance Info">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    </h5>
+                    <p class="text-secondary mb-1">
+                        Subscriber ID:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['secondary_subscriber_id'] ? $insuranceDetails['secondary_subscriber_id']:''}}
+                        </span>
+                        Group:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['secondary_group'] ? $insuranceDetails['secondary_group']:''}}
+                        </span>
+                        Payer ID:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['secondary_payer_id'] ? $insuranceDetails['secondary_payer_id']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Addresss:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['secondary_address'] ? $insuranceDetails['secondary_address']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Phone:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['secondary_phone'] ? $insuranceDetails['secondary_phone']:''}}
+                        </span>
+                        FAX:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['secondary_fax'] ? $insuranceDetails['secondary_fax']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Effective Date:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['secondary_effective_date'] ? date('d-m-Y', strtotime($insuranceDetails['secondary_effective_date'])):''}}
+                        </span>
+                        Termination Date:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['secondary_termination_date'] ? date('d-m-Y', strtotime($insuranceDetails['secondary_termination_date'])):''}}
+                        </span>
+                    </p>
+
+                </div>
+                <div class="col-3">
+                    <h5 class="card-title mb-0" style="color:#00A6D9;">
+                        Tritary Insurance Info
+                        <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_tritary_modal" title="Update Tritary Insurance Info">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    </h5>
+                    <p class="text-secondary mb-1">
+                        Subscriber ID:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['tritary_subscriber_id'] ? $insuranceDetails['tritary_subscriber_id']:''}}
+                        </span>
+                        Group:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['tritary_group'] ? $insuranceDetails['tritary_group']:''}}
+                        </span>
+                        Payer ID:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['tritary_payer_id'] ? $insuranceDetails['tritary_payer_id']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Addresss:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['tritary_address'] ? $insuranceDetails['tritary_address']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Phone:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['tritary_phone'] ? $insuranceDetails['tritary_phone']:''}}
+                        </span>
+                        FAX:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['tritary_fax'] ? $insuranceDetails['tritary_fax']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Effective Date:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['tritary_effective_date'] ? date('d-m-Y', strtotime($insuranceDetails['tritary_effective_date'])):''}}
+                        </span>
+                        Termination Date:
+                        <span style="color:#57564F;">
+                            {{$insuranceDetails['tritary_termination_date'] ? date('d-m-Y', strtotime($insuranceDetails['tritary_termination_date'])):''}}
+                        </span>
+                    </p>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="card-title mb-0" style="color:#00A6D9;">
+                                Employer Info
+                                <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_employer_modal" title="Update Employer Info">
+                                    <i class="fa fa-edit"></i>
+                                </span>
+                            </h5>
+                            <p class="text-secondary mb-1">Name: <span style="color:#57564F;">{{$employerDetails['employer_name'] ? $employerDetails['employer_name']:''}}</span> Department: <span style="color:#57564F;">{{$employerDetails['department'] ? $employerDetails['department']:''}}</span></p>
+                            <p class="text-secondary mb-1">Phone: <span style="color:#57564F;">{{$employerDetails['employer_phone'] ? $employerDetails['employer_phone']:''}}</span> Email: <span style="color:#57564F;">{{$employerDetails['email'] ? $employerDetails['email']:''}}</span></p>
+                            <p class="text-secondary mb-1">
+                                Address:
+                                <span style="color:#57564F;">
+                                    {{$employerDetails['address1'] ? $employerDetails['address1']:''}},
+                                    {{$employerDetails['address2'] ? $employerDetails['address2']:''}},
+                                </span>
+                                <span style="color:#57564F;">
+                                    {{$employerDetails['city'] ? $employerDetails['city']:''}},
+                                    {{$employerDetails['state'] ? $employerDetails['state']:''}},
+                                    {{$employerDetails['postcode'] ? $employerDetails['postcode']:''}}
+                                </span>
+                            </p>
                         </div>
-                        <div class="card-body p-1" style="height: 320px;">
-                            <h6 style="color:#57564F;">Primary Insurance <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_present_modal" title="Update Primary Insurance Info"><i class="fa fa-edit"></i></span> </h6>
-                            <table style="width:100%; font-size:14px; font-weight:400;">
-                                <tr>
-                                    <td>Subscriber ID: <span style="color:#57564F;">{{$insuranceDetails['present_subscriber_id'] ? $insuranceDetails['present_subscriber_id']:''}}</span></td>
-                                    <td>Group: <span style="color:#57564F;">{{$insuranceDetails['present_group'] ? $insuranceDetails['present_group']:''}}</span></td>
-                                    <td>Payer ID: <span style="color:#57564F;">{{$insuranceDetails['present_payer_id'] ? $insuranceDetails['present_payer_id']:''}}</span></td>
-                                    <td>Addresss: <span style="color:#57564F;">{{$insuranceDetails['present_address'] ? $insuranceDetails['present_address']:''}}</span></h6>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Phone: <span style="color:#57564F;">{{$insuranceDetails['present_phone'] ? $insuranceDetails['present_phone']:''}}</span></td>
-                                    <td>FAX: <span style="color:#57564F;">{{$insuranceDetails['present_fax'] ? $insuranceDetails['present_fax']:''}}</span></td>
-                                    <td>Effective Date: <span style="color:#57564F;">{{$insuranceDetails['present_effective_date'] ? date('d-m-Y', strtotime($insuranceDetails['present_effective_date'])):''}}</span></td>
-                                    <td>Termination Date: <span style="color:#57564F;">{{$insuranceDetails['present_termination_date'] ? date('d-m-Y', strtotime($insuranceDetails['present_termination_date'])):''}}</span></td>
-                                </tr>
-                            </table>
-                            <h6 style="color:#57564F;">Secondary Insurance <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_secondary_modal" title="Update Secondary Insurance Info"><i class="fa fa-edit"></i></span> </h6>
-                            <table style="width:100%; font-size:14px; font-weight:400;">
-                                <tr>
-                                    <td>Subscriber ID: {{$insuranceDetails['secondary_subscriber_id'] ? $insuranceDetails['secondary_subscriber_id']:''}}</td>
-                                    <td>Group: {{$insuranceDetails['secondary_group'] ? $insuranceDetails['secondary_group']:''}}</td>
-                                    <td>Payer ID: {{$insuranceDetails['secondary_payer_id'] ? $insuranceDetails['secondary_payer_id']:''}}</td>
-                                    <td>Addresss: {{$insuranceDetails['secondary_address'] ? $insuranceDetails['secondary_address']:''}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Phone: {{$insuranceDetails['secondary_phone'] ? $insuranceDetails['secondary_phone']:''}}</td>
-                                    <td>FAX: {{$insuranceDetails['secondary_fax'] ? $insuranceDetails['secondary_fax']:''}}</td>
-                                    <td>Effective Date: {{$insuranceDetails['secondary_effective_date'] ? date('d-m-Y', strtotime($insuranceDetails['secondary_effective_date'])):''}}</td>
-                                    <td>Termination Date: {{$insuranceDetails['secondary_termination_date'] ? date('d-m-Y', strtotime($insuranceDetails['secondary_termination_date'])):''}}</td>
-                                </tr>
-                            </table>
-                            <h6 style="color:#57564F;">Tritary Insurance <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_tritary_modal" title="Update Tritary Insurance Info"><i class="fa fa-edit"></i></span> </h6>
-                            <table style="width:100%; font-size:14px; font-weight:400;">
-                                <tr>
-                                    <td>Subscriber ID: {{$insuranceDetails['tritary_subscriber_id'] ? $insuranceDetails['tritary_subscriber_id']:''}}</td>
-                                    <td>Group: {{$insuranceDetails['tritary_group'] ? $insuranceDetails['tritary_group']:''}}</td>
-                                    <td>Payer ID: {{$insuranceDetails['tritary_payer_id'] ? $insuranceDetails['tritary_payer_id']:''}}</td>
-                                    <td>Addresss: {{$insuranceDetails['tritary_address'] ? $insuranceDetails['tritary_address']:''}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Phone: {{$insuranceDetails['tritary_phone'] ? $insuranceDetails['tritary_phone']:''}}</td>
-                                    <td>FAX: {{$insuranceDetails['tritary_fax'] ? $insuranceDetails['tritary_fax']:''}}</td>
-                                    <td>Effective Date: {{$insuranceDetails['tritary_effective_date'] ? date('d-m-Y', strtotime($insuranceDetails['tritary_effective_date'])):''}}</td>
-                                    <td>Termination Date: {{$insuranceDetails['tritary_termination_date'] ? date('d-m-Y', strtotime($insuranceDetails['tritary_termination_date'])):''}}</td>
-                                </tr>
-                            </table>
-                            <h6 style="color:#57564F;">Employer Info <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_employer_modal" title="Update Employer Info"><i class="fa fa-edit"></i></span> </h6>
-                            <table style="width:100%; font-size:14px; font-weight:400;">
-                                <tr>
-                                    <td>Name: {{$employerDetails['employer_name'] ? $employerDetails['employer_name']:''}}</td>
-                                    <td>Department: {{$employerDetails['department'] ? $employerDetails['department']:''}}</td>
-                                    <td>Phone: {{$employerDetails['employer_phone'] ? $employerDetails['employer_phone']:''}}</td>
-                                    <td>Email: {{$employerDetails['email'] ? $employerDetails['email']:''}}</td>
-                                    <td>Address: {{$employerDetails['address1'] ? $employerDetails['address1']:''}}, {{$employerDetails['address2'] ? $employerDetails['address2']:''}},
-                                        {{$employerDetails['city'] ? $employerDetails['city']:''}}, {{$employerDetails['state'] ? $employerDetails['state']:''}}, {{$employerDetails['postcode'] ? $employerDetails['postcode']:''}}
-                                    </td>
-                                </tr>
-                            </table>
+                        <div class="col-6">
+                            <h5 class="card-title mb-0" style="color:#00A6D9;">
+                                Emergency Info
+                                <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_emergency_modal" title="Update Emergency Insurance Info">
+                                    <i class="fa fa-edit"></i>
+                                </span>
+                            </h5>
+                            <p class="text-secondary mb-1">
+                                Name:
+                                <span style="color:#57564F;">
+                                    {{$employerDetails['emergency_contact'] ? $employerDetails['emergency_contact']:''}}
+                                </span>
+                                Relationship:
+                                <span style="color:#57564F;">
+                                    {{$employerDetails['relationship'] ? $employerDetails['relationship']:''}}
+                                </span>
+
+                            </p>
+
+                            <p class="text-secondary mb-1">
+                                Phone:
+                                <span style="color:#57564F;">
+                                    {{$employerDetails['kin_phone'] ? $employerDetails['kin_phone']:''}}
+                                </span>
+                            </p>
+                            <p class="text-secondary mb-1">
+                                Addresss:
+                                <span style="color:#57564F;">
+                                    {{$employerDetails['kin_address'] ? $employerDetails['kin_address']:''}}
+                                </span>
+                            </p>
+                            <p class="text-secondary mb-1">
+                                Note:
+                                <span style="color:#57564F;">
+                                    {{$patientDetails['notes'] ? $patientDetails['notes']:''}}
+                                </span>
+                            </p>
+
+                        </div>
+                        <div class="col-6">
+                            <h5 class="card-title mb-0" style="color:#00A6D9;">
+                                Guarantors Info
+                                <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_guarantor_modal" title="Update Guarantors  Info">
+                                    <i class="fa fa-edit"></i>
+                                </span>
+                            </h5>
+                            <p class="text-secondary mb-1">
+                                Name:
+                                <span style="color:#57564F;">
+                                    {{$guarantorDetails['first_name'] ? $guarantorDetails['first_name']:''}} {{$guarantorDetails['last_name'] ? $guarantorDetails['last_name']:''}} {{$guarantorDetails['mi'] ? $guarantorDetails['mi']:''}}
+                                </span>
+
+                            </p>
+                            <p class="text-secondary mb-1">Mobile: <span style="color:#57564F;">{{$guarantorDetails['mobilephone'] ? $guarantorDetails['mobilephone']:''}}</span> Home: <span style="color:#57564F;">{{$guarantorDetails['homephone'] ? $guarantorDetails['homephone']:''}}</span></p>
+                            <p class="text-secondary mb-1">Email: <span style="color:#57564F;">{{$guarantorDetails['email'] ? $guarantorDetails['email']:''}}</span></p>
+                            <p class="text-secondary mb-1">
+                                Address:
+                                <span style="color:#57564F;">
+                                    {{$guarantorDetails['address1'] ? $guarantorDetails['address1']:''}},
+                                    {{$guarantorDetails['address2'] ? $guarantorDetails['address2']:''}},
+                                </span>
+                                <span style="color:#57564F;">
+                                    {{$guarantorDetails['city'] ? $guarantorDetails['city']:''}},
+                                    {{$guarantorDetails['state'] ? $guarantorDetails['state']:''}},
+                                    {{$guarantorDetails['postcode'] ? $guarantorDetails['postcode']:''}}
+                                </span>
+                            </p>
+
+
+                        </div>
+                        <div class="col-6">
+                            <h5 class="card-title mb-0" style="color:#00A6D9;">
+                                Consent File Info
+                                <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_file_modal" title="Update File  Info">
+                                    <i class="fa fa-edit"></i>
+                                </span>
+                            </h5>
+                            <p class="text-secondary mb-1">
+                                PCP Name:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['pcp_name'] ? $fileDetails['pcp_name']:''}}
+                                </span>
+                                PCP Phone:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['pcp_phone'] ? $fileDetails['pcp_phone']:''}}
+                                </span>
+                            </p>
+                            <p class="text-secondary mb-1">
+
+                                NPI:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['npi'] ? $fileDetails['npi']:''}}
+                                </span>
+                                ABN:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['abn'] ? $fileDetails['abn']:''}}
+                                </span>
+
+                            </p>
+                            <p class="text-secondary mb-1">
+                                Privacy Notice:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['privacy_notice'] ? $fileDetails['privacy_notice']:''}}
+                                </span>
+                                ROI:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['roi'] ? $fileDetails['roi']:''}}
+                                </span>
+                                Language:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['Language'] ? $fileDetails['Language']:''}}
+                                </span>
+                            </p>
+                            <p class="text-secondary mb-1">
+                                Race:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['race'] ? $fileDetails['race']:''}}
+                                </span>
+                                Ethnicity:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['ethnicity'] ? $fileDetails['ethnicity']:''}}
+                                </span>
+                            </p>
+                            <p class="text-secondary mb-1">
+                                Gender:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['gender'] ? $fileDetails['gender']:''}}
+                                </span>
+                                Method Of Call:
+                                <span style="color:#57564F;">
+                                    {{$fileDetails['method_of_contact'] ? $fileDetails['method_of_contact']:''}}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-haeder text-white" style="background-color:#00A6D9;">
+                                <h6>Patient History</h6>
+                            </div>
+                            <div class="card-body" style="height:300px; overflow-y:auto;">
+                                <table id="logsTable" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Log Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($patientHistory as $key=>$val)
+                                        <tr>
+                                            <td>
+                                                <p>{{$val['action']}} by {{$val['user_name']}} at {{date('d-m-Y', strtotime($val['created_at']))}}</p>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+
             </div>
+
 
         </div>
     </div>
-    <div class="row">
-        <div class="col-7">
 
-
-            <div class="card">
-                <div class="card-header text-white p-1 " style="background-color:#00A6D9">
-                    <h6>Other Details </h6>
-                </div>
-                <div class="card-body p-1" style="height: 250px;">
-                    <h6>Guarantors Info <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_guarantor_modal" title="Update Guarantor Info"><i class="fa fa-edit"></i></span></h6>
-                    <table style="width:100%; font-size:14px; font-weight:400;">
-                        <tr>
-                            <td>Name: {{$guarantorDetails['first_name'] ? $guarantorDetails['first_name']:''}} {{$guarantorDetails['last_name'] ? $guarantorDetails['last_name']:''}} {{$guarantorDetails['mi'] ? $guarantorDetails['mi']:''}}</td>
-                            <td>Mobile: {{$guarantorDetails['mobilephone'] ? $guarantorDetails['mobilephone']:''}}</td>
-                            <td>Home: {{$guarantorDetails['homephone'] ? $guarantorDetails['homephone']:''}}</td>
-                            <td>Email: {{$guarantorDetails['email'] ? $guarantorDetails['email']:''}}</td>
-                            <td>
-                                {{$guarantorDetails['address1'] ? $guarantorDetails['address1']:''}},
-                                {{$guarantorDetails['address2'] ? $guarantorDetails['address2']:''}},
-                                {{$guarantorDetails['city'] ? $guarantorDetails['city']:''}}, {{$guarantorDetails['state'] ? $guarantorDetails['state']:''}}, {{$guarantorDetails['postcode'] ? $guarantorDetails['postcode']:''}}
-                            </td>
-                        </tr>
-                    </table>
-                    <h6>Consent on File Info <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_file_modal" title="Update File Info"><i class="fa fa-edit"></i></span></h6>
-                    <table style="width:100%; font-size:14px; font-weight:400;">
-                        <tr>
-                            <td>PCP Name: {{$fileDetails['pcp_name'] ? $fileDetails['pcp_name']:''}}</td>
-                            <td>NPI: {{$fileDetails['npi'] ? $fileDetails['npi']:''}} </td>
-                            <td>ABN: {{$fileDetails['abn'] ? $fileDetails['abn']:''}}</td>
-                            <td>Privacy Notice: {{$fileDetails['privacy_notice'] ? $fileDetails['privacy_notice']:''}} </td>
-                            <td>ROI: {{$fileDetails['roi'] ? $fileDetails['roi']:''}}</td>
-                            <td>Language: {{$fileDetails['language'] ? $fileDetails['language']:''}}</td>
-                        </tr>
-                        <tr>
-                            <td>Race: {{$fileDetails['race'] ? $fileDetails['race']:''}}</td>
-                            <td>Ethnicity: {{$fileDetails['ethnicity'] ? $fileDetails['ethnicity']:''}}</td>
-
-                            <td>Marital Status: {{$fileDetails['marital_status'] ? $fileDetails['marital_status']:''}}</td>
-                            <td> Gender: {{$fileDetails['gender'] ? $fileDetails['gender']:''}}</td>
-                            <td>Method of contact: {{$fileDetails['method_of_contact'] ? $fileDetails['method_of_contact']:''}}</td>
-                            <td></td>
-                        </tr>
-                    </table>
-
-                </div>
-            </div>
-
-        </div>
-        <div class="col-5">
-            <div class="row">
-
-            </div>
-
-        </div>
-    </div>
 </div>
-<script>
 
+<!-- Include jQuery & DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#logsTable').DataTable({
+            pageLength: 5, // number of rows per page
+            lengthMenu: [5, 10, 25, 50], // dropdown for rows
+            // order: [
+            //     [2, 'desc']
+            // ], // default sort by timestamp DESC
+        });
+    });
 </script>
 @endsection

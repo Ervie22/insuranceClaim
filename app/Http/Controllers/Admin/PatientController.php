@@ -11,6 +11,9 @@ use App\Models\PatientEmployer;
 use App\Models\PatientFile;
 use App\Models\PatientGuarantor;
 use App\Models\PatientInsurance;
+use App\Models\PatientHistory;
+use Illuminate\Support\Facades\Storage;
+use App\Services\IpGeoService;
 
 
 class PatientController extends Controller
@@ -31,6 +34,29 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function uploadPatientImage(Request $request)
+    {
+        $request->validate([
+            'patient_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $patient = Patient::find($request->patient_id); // Pass patient_id if needed
+
+        if ($request->hasFile('patient_image')) {
+            $image = $request->file('patient_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+
+            // Save image in 'public/patient_images' folder
+            $path = $image->storeAs('patient/patient_images', $imageName);
+
+            // Save image path in database
+            $patient->profile_image_path = $imageName; // or $path depending on how you want to store
+            $patient->save();
+        }
+
+        return back()->with('success', 'Patient image uploaded successfully!');
+    }
+
     public function index()
     {
         $uid = Auth::user()->id;
@@ -48,9 +74,38 @@ class PatientController extends Controller
     {
         return view('admin.patients.create-patient');
     }
-    public function updatePersonalInfo(Request $request)
+    function getClientIps(\Illuminate\Http\Request $request): array
+    {
+        $ip = $request->ip(); // main client IP (could be v4 or v6)
+
+        $forwarded = $request->header('X-Forwarded-For');
+        $ips = $forwarded ? array_map('trim', explode(',', $forwarded)) : [$ip];
+        // dd($ip);
+        $ipv4 = null;
+        $ipv6 = null;
+
+        foreach ($ips as $candidate) {
+            if (filter_var($candidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                $ipv4 = $candidate;
+            }
+            if (filter_var($candidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                $ipv6 = $candidate;
+            }
+        }
+        // dd($ipv4, $ipv6);
+        return [
+            'ipv4' => $ipv4,
+            'ipv6' => $ipv6,
+            'all'  => $ips,  // optional: full chain of forwarded IPs
+        ];
+    }
+
+    public function updatePersonalInfo(Request $request, IpGeoService $geoService)
     {
         $input = $request->all();
+
+        // $ips = $this->getClientIps($ip);
+        // dd($ip, $geo);
         $uid = Auth::user()->id;
         $patientId = $input['patient_id'];
         $patientDetails = Patient::where('id', $patientId)->first();
@@ -71,10 +126,34 @@ class PatientController extends Controller
         $patientDetails->updated_by = $uid;
         $patientDetails->save();
 
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $uid = Auth::user()->id;
+        $user = User::where('id', $uid)->first();
+        $fname = $user['first_name'];
+        $lname = isset($user['first_name']) ? $user['first_name'] : '';
+        $userName = $fname . ' ' . $lname;
+        PatientHistory::create([
+            'user_id' => $uid,
+            'user_name' => $userName,
+            'action' => "Patient Personal details updated",
+            'patient_id' => $patientId,
+            'ip_address' => isset($ip) ? $ip : 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country' => $geo['country'] ?? null,
+            'region' => $geo['region'] ?? null,
+            'city' => $geo['city'] ?? null,
+            'latitude' => $geo['latitude'] ?? null,
+            'longitude' => $geo['longitude'] ?? null,
+            'isp' => $geo['org'] ?? null,
+            'raw_geo' => $geo,
+            'notes' => null
+        ]);
+
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
     }
-    public function updateguarantorInfo(Request $request)
+    public function updateguarantorInfo(Request $request, IpGeoService $geoService)
     {
         $input = $request->all();
         $uid = Auth::user()->id;
@@ -95,10 +174,34 @@ class PatientController extends Controller
         $guarantorDetails->state = $input['guarantors_state'];
         $guarantorDetails->postcode = $input['guarantors_postcode'];
         $guarantorDetails->save();
+
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $uid = Auth::user()->id;
+        $user = User::where('id', $uid)->first();
+        $fname = $user['first_name'];
+        $lname = isset($user['first_name']) ? $user['first_name'] : '';
+        $userName = $fname . ' ' . $lname;
+        PatientHistory::create([
+            'user_id' => $uid,
+            'user_name' => $userName,
+            'action' => "Patient guarantors details updated",
+            'patient_id' => $patientId,
+            'ip_address' => isset($ip) ? $ip : 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country' => $geo['country'] ?? null,
+            'region' => $geo['region'] ?? null,
+            'city' => $geo['city'] ?? null,
+            'latitude' => $geo['latitude'] ?? null,
+            'longitude' => $geo['longitude'] ?? null,
+            'isp' => $geo['org'] ?? null,
+            'raw_geo' => $geo,
+            'notes' => null
+        ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
     }
-    public function updateEmployerInfo(Request $request)
+    public function updateEmployerInfo(Request $request, IpGeoService $geoService)
     {
         $input = $request->all();
         $uid = Auth::user()->id;
@@ -114,10 +217,34 @@ class PatientController extends Controller
         $patientEmployer->state = $input['employer_state'];
         $patientEmployer->postcode = $input['employer_postcode'];
         $patientEmployer->save();
+
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $uid = Auth::user()->id;
+        $user = User::where('id', $uid)->first();
+        $fname = $user['first_name'];
+        $lname = isset($user['first_name']) ? $user['first_name'] : '';
+        $userName = $fname . ' ' . $lname;
+        PatientHistory::create([
+            'user_id' => $uid,
+            'user_name' => $userName,
+            'action' => "Patient Employer details updated",
+            'patient_id' => $patientId,
+            'ip_address' => isset($ip) ? $ip : 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country' => $geo['country'] ?? null,
+            'region' => $geo['region'] ?? null,
+            'city' => $geo['city'] ?? null,
+            'latitude' => $geo['latitude'] ?? null,
+            'longitude' => $geo['longitude'] ?? null,
+            'isp' => $geo['org'] ?? null,
+            'raw_geo' => $geo,
+            'notes' => null
+        ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
     }
-    public function updateEmergencyInfo(Request $request)
+    public function updateEmergencyInfo(Request $request, IpGeoService $geoService)
     {
         $input = $request->all();
         $uid = Auth::user()->id;
@@ -128,10 +255,33 @@ class PatientController extends Controller
         $patientEmployer->kin_phone = $input['emergency_phone'];
         $patientEmployer->kin_address = $input['emergency_address'];
         $patientEmployer->save();
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $uid = Auth::user()->id;
+        $user = User::where('id', $uid)->first();
+        $fname = $user['first_name'];
+        $lname = isset($user['first_name']) ? $user['first_name'] : '';
+        $userName = $fname . ' ' . $lname;
+        PatientHistory::create([
+            'user_id' => $uid,
+            'user_name' => $userName,
+            'action' => "Patient Emergency details updated",
+            'patient_id' => $patientId,
+            'ip_address' => isset($ip) ? $ip : 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country' => $geo['country'] ?? null,
+            'region' => $geo['region'] ?? null,
+            'city' => $geo['city'] ?? null,
+            'latitude' => $geo['latitude'] ?? null,
+            'longitude' => $geo['longitude'] ?? null,
+            'isp' => $geo['org'] ?? null,
+            'raw_geo' => $geo,
+            'notes' => null
+        ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
     }
-    public function updateFileInfo(Request $request)
+    public function updateFileInfo(Request $request, IpGeoService $geoService)
     {
         $input = $request->all();
         $uid = Auth::user()->id;
@@ -149,10 +299,34 @@ class PatientController extends Controller
         $patientFile->gender = $input['gender'];
         $patientFile->method_of_contact = $input['method_of_contact'];
         $patientFile->save();
+
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $uid = Auth::user()->id;
+        $user = User::where('id', $uid)->first();
+        $fname = $user['first_name'];
+        $lname = isset($user['first_name']) ? $user['first_name'] : '';
+        $userName = $fname . ' ' . $lname;
+        PatientHistory::create([
+            'user_id' => $uid,
+            'user_name' => $userName,
+            'action' => "Patient consent on file info updated",
+            'patient_id' => $patientId,
+            'ip_address' => isset($ip) ? $ip : 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country' => $geo['country'] ?? null,
+            'region' => $geo['region'] ?? null,
+            'city' => $geo['city'] ?? null,
+            'latitude' => $geo['latitude'] ?? null,
+            'longitude' => $geo['longitude'] ?? null,
+            'isp' => $geo['org'] ?? null,
+            'raw_geo' => $geo,
+            'notes' => null
+        ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
     }
-    public function updatePresentInfo(Request $request)
+    public function updatePresentInfo(Request $request,  IpGeoService $geoService)
     {
         $input = $request->all();
         $uid = Auth::user()->id;
@@ -167,10 +341,34 @@ class PatientController extends Controller
         $patientInsurance->present_effective_date = $input['primary_effective_date'];
         $patientInsurance->present_termination_date = $input['primary_termination_date'];
         $patientInsurance->save();
+
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $uid = Auth::user()->id;
+        $user = User::where('id', $uid)->first();
+        $fname = $user['first_name'];
+        $lname = isset($user['first_name']) ? $user['first_name'] : '';
+        $userName = $fname . ' ' . $lname;
+        PatientHistory::create([
+            'user_id' => $uid,
+            'user_name' => $userName,
+            'action' => "Patient Primary Insurance details updated",
+            'patient_id' => $patientId,
+            'ip_address' => isset($ip) ? $ip : 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country' => $geo['country'] ?? null,
+            'region' => $geo['region'] ?? null,
+            'city' => $geo['city'] ?? null,
+            'latitude' => $geo['latitude'] ?? null,
+            'longitude' => $geo['longitude'] ?? null,
+            'isp' => $geo['org'] ?? null,
+            'raw_geo' => $geo,
+            'notes' => null
+        ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
     }
-    public function updateSecondaryInfo(Request $request)
+    public function updateSecondaryInfo(Request $request, IpGeoService $geoService)
     {
         $input = $request->all();
         $uid = Auth::user()->id;
@@ -185,10 +383,34 @@ class PatientController extends Controller
         $patientInsurance->secondary_effective_date = $input['secondary_effective_date'];
         $patientInsurance->secondary_termination_date = $input['secondary_termination_date'];
         $patientInsurance->save();
+
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $uid = Auth::user()->id;
+        $user = User::where('id', $uid)->first();
+        $fname = $user['first_name'];
+        $lname = isset($user['first_name']) ? $user['first_name'] : '';
+        $userName = $fname . ' ' . $lname;
+        PatientHistory::create([
+            'user_id' => $uid,
+            'user_name' => $userName,
+            'action' => "Patient Secondary Insurance details updated",
+            'patient_id' => $patientId,
+            'ip_address' => isset($ip) ? $ip : 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country' => $geo['country'] ?? null,
+            'region' => $geo['region'] ?? null,
+            'city' => $geo['city'] ?? null,
+            'latitude' => $geo['latitude'] ?? null,
+            'longitude' => $geo['longitude'] ?? null,
+            'isp' => $geo['org'] ?? null,
+            'raw_geo' => $geo,
+            'notes' => null
+        ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
     }
-    public function updatetTritaryInfo(Request $request)
+    public function updatetTritaryInfo(Request $request, IpGeoService $geoService)
     {
         $input = $request->all();
         $uid = Auth::user()->id;
@@ -203,10 +425,34 @@ class PatientController extends Controller
         $patientInsurance->tritary_effective_date = $input['tritary_effective_date'];
         $patientInsurance->tritary_termination_date = $input['tritary_termination_date'];
         $patientInsurance->save();
+
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $uid = Auth::user()->id;
+        $user = User::where('id', $uid)->first();
+        $fname = $user['first_name'];
+        $lname = isset($user['first_name']) ? $user['first_name'] : '';
+        $userName = $fname . ' ' . $lname;
+        PatientHistory::create([
+            'user_id' => $uid,
+            'user_name' => $userName,
+            'action' => "Patient Tritary Insurance details updated",
+            'patient_id' => $patientId,
+            'ip_address' => isset($ip) ? $ip : 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country' => $geo['country'] ?? null,
+            'region' => $geo['region'] ?? null,
+            'city' => $geo['city'] ?? null,
+            'latitude' => $geo['latitude'] ?? null,
+            'longitude' => $geo['longitude'] ?? null,
+            'isp' => $geo['org'] ?? null,
+            'raw_geo' => $geo,
+            'notes' => null
+        ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
     }
-    public function storePatients(Request $request)
+    public function storePatients(Request $request, IpGeoService $geoService)
     {
         $input = $request->all();
         $uid = Auth::user()->id;
@@ -227,6 +473,7 @@ class PatientController extends Controller
         $patient->postcode = $input['postcode'];
         $patient->notes = $input['patient_notes'];
         $patient->created_by = $uid;
+        $patient->is_deleted = '0';
         $patient->save();
 
         $patientGuarantor = new PatientGuarantor;
@@ -307,18 +554,68 @@ class PatientController extends Controller
         $patientInsurance->tritary_effective_date = $input['tritary_effective_date'];
         $patientInsurance->tritary_termination_date = $input['tritary_termination_date'];
         $patientInsurance->save();
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $uid = Auth::user()->id;
+        $user = User::where('id', $uid)->first();
+        $fname = $user['first_name'];
+        $lname = isset($user['first_name']) ? $user['first_name'] : '';
+        $userName = $fname . ' ' . $lname;
+        PatientHistory::create([
+            'user_id' => $uid,
+            'user_name' => $userName,
+            'action' => "Patient Created",
+            'patient_id' => $patient->id,
+            'ip_address' => isset($ip) ? $ip : 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country' => $geo['country'] ?? null,
+            'region' => $geo['region'] ?? null,
+            'city' => $geo['city'] ?? null,
+            'latitude' => $geo['latitude'] ?? null,
+            'longitude' => $geo['longitude'] ?? null,
+            'isp' => $geo['org'] ?? null,
+            'raw_geo' => $geo,
+            'notes' => null
+        ]);
         // return view('admin.patients.create-patient');
         return redirect('/patients')->with('success', 'Patient created successfully!');
         // dd($input);
     }
-    public function viewPatient($id)
+    public function viewPatient($id, Request $request, IpGeoService $geoService)
     {
         // dd($id);
+
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
         $patientDetails = Patient::where('id', $id)->first();
         $employerDetails = PatientEmployer::where('patient_id', $id)->first();
         $fileDetails = PatientFile::where('patient_id', $id)->first();
         $guarantorDetails = PatientGuarantor::where('patient_id', $id)->first();
         $insuranceDetails = PatientInsurance::where('patient_id', $id)->first();
-        return view('admin.patients.view-patient', compact('patientDetails', 'insuranceDetails', 'guarantorDetails', 'fileDetails', 'employerDetails', 'id'));
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $uid = Auth::user()->id;
+        $user = User::where('id', $uid)->first();
+        $fname = $user['first_name'];
+        $lname = isset($user['first_name']) ? $user['first_name'] : '';
+        $userName = $fname . ' ' . $lname;
+        PatientHistory::create([
+            'user_id' => $uid,
+            'user_name' => $userName,
+            'action' => "Patient Viewed",
+            'patient_id' => $id,
+            'ip_address' => isset($ip) ? $ip : 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country' => $geo['country'] ?? null,
+            'region' => $geo['region'] ?? null,
+            'city' => $geo['city'] ?? null,
+            'latitude' => $geo['latitude'] ?? null,
+            'longitude' => $geo['longitude'] ?? null,
+            'isp' => $geo['org'] ?? null,
+            'raw_geo' => $geo,
+            'notes' => null
+        ]);
+        $patientHistory = PatientHistory::where('patient_id', $id)->orderBy('id', 'desc')->get();
+        return view('admin.patients.new-view', compact('patientHistory', 'patientDetails', 'insuranceDetails', 'guarantorDetails', 'fileDetails', 'employerDetails', 'id'));
     }
 }

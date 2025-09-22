@@ -6,10 +6,10 @@
     <form id="createPatientForm" method="POST" action="{{ route('patients.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="card">
-            <div class="card-header text-white" style="background-color:#67C090;">
+            <div class="card-header text-white p-1" style="background-color:#00A6D9;">
                 <h6>Patients Info</h6>
             </div>
-            <div class="card-body">
+            <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="col-md-2">
                         <label class="form-label">First Name</label>
@@ -75,10 +75,10 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header text-white" style="background-color:#67C090;">
+            <div class="card-header text-white p-1" style="background-color:#00A6D9;">
                 <h6>Guarantors Info</h6>
             </div>
-            <div class="card-body">
+            <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="col-md-2">
                         <label class="form-label">First Name</label>
@@ -144,10 +144,10 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header text-white" style="background-color:#67C090;">
+            <div class="card-header text-white p-1" style="background-color:#00A6D9;">
                 <h6>Employer & Emergency Contact Info</h6>
             </div>
-            <div class="card-body">
+            <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="col-md-2">
                         <label class="form-label">Employer Name</label>
@@ -206,14 +206,18 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header text-white" style="background-color:#67C090;">
+            <div class="card-header text-white p-1" style="background-color:#00A6D9;">
                 <h6>Consent On File</h6>
             </div>
-            <div class="card-body">
+            <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="col-md-2">
                         <label class="form-label">PCP Name</label>
                         <input type="text" class="form-control" id="pcp_name" name="pcp_name" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">PCP Phone</label>
+                        <input type="text" class="form-control" id="pcp_phone" name="pcp_hone" required>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">NPI</label>
@@ -234,15 +238,83 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Language</label>
-                        <input type="text" class="form-control" id="language" name="language" required>
+                        <select id="language" name="language" class="form-control" required>
+                            <option value="">-- Select Language --</option>
+                            <option>English</option>
+                            <option>Spanish</option>
+                            <option>Chinese (Mandarin, Cantonese)</option>
+                            <option>Tagalog</option>
+                            <option>Vietnamese</option>
+                            <option>Arabic</option>
+                            <option>French</option>
+                            <option>Korean</option>
+                            <option>Russian</option>
+                            <option>Portuguese</option>
+                            <option>Haitian Creole</option>
+                            <option>Other (specify)</option>
+                        </select>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Race</label>
-                        <input type="text" class="form-control" id="race" name="race" required>
+                        <select id="race" name="race" class="form-control" required>
+                            <option value="">-- Select Race --</option>
+                            <option>White</option>
+                            <option>Black or African American</option>
+                            <option>American Indian or Alaska Native</option>
+                            <optgroup label="Asian">
+                                <option>Asian Indian</option>
+                                <option>Chinese</option>
+                                <option>Filipino</option>
+                                <option>Japanese</option>
+                                <option>Korean</option>
+                                <option>Vietnamese</option>
+                                <option>Other Asian</option>
+                            </optgroup>
+                            <optgroup label="Native Hawaiian or Other Pacific Islander">
+                                <option>Native Hawaiian</option>
+                                <option>Guamanian or Chamorro</option>
+                                <option>Samoan</option>
+                                <option>Other Pacific Islander</option>
+                            </optgroup>
+                            <option>Some other race</option>
+                            <option>Two or more races</option>
+                        </select>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Ethnicity</label>
-                        <input type="text" class="form-control" id="ethnicity" name="ethnicity" required>
+                        <select id="ethnicity" name="ethnicity" class="form-control" required>
+                            <option value="">-- Select Ethnicity --</option>
+                            <optgroup label="White">
+                                <option>English / Welsh / Scottish / Northern Irish / British</option>
+                                <option>Irish</option>
+                                <option>Gypsy or Irish Traveller</option>
+                                <option>Any other White background</option>
+                            </optgroup>
+                            <optgroup label="Mixed / Multiple ethnic groups">
+                                <option>White and Black Caribbean</option>
+                                <option>White and Black African</option>
+                                <option>White and Asian</option>
+                                <option>Any other Mixed / Multiple ethnic background</option>
+                            </optgroup>
+                            <optgroup label="Asian / Asian British">
+                                <option>Indian</option>
+                                <option>Pakistani</option>
+                                <option>Bangladeshi</option>
+                                <option>Chinese</option>
+                                <option>Any other Asian background</option>
+                            </optgroup>
+                            <optgroup label="Black / African / Caribbean / Black British">
+                                <option>African</option>
+                                <option>Caribbean</option>
+                                <option>Any other Black / African / Caribbean background</option>
+                            </optgroup>
+                            <optgroup label="Other ethnic group">
+                                <option>Arab</option>
+                                <option>Any other ethnic group</option>
+                            </optgroup>
+                            <option>Prefer not to say</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" id="ethnicity" name="ethnicity" required> -->
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Marital Status</label>
@@ -255,8 +327,30 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Gender identity / Pronouns</label>
-                        <input type="text" class="form-control" id="gender" name="gender" required>
+                        <label for="gender_identity">Gender Identity & Pronouns</label>
+                        <select id="gender" name="gender" class="form-control">
+                            <option value="">-- Select Gender / Identity / Pronouns --</option>
+                            <!-- Binary -->
+                            <option value="male_he_him">Male (He/Him)</option>
+                            <option value="female_she_her">Female (She/Her)</option>
+
+                            <!-- Non-binary / Gender diverse -->
+                            <option value="non_binary_they_them">Non-binary (They/Them)</option>
+                            <option value="agender_they_them">Agender (They/Them)</option>
+                            <option value="genderqueer_they_them">Genderqueer (They/Them)</option>
+                            <option value="genderfluid_they_them">Genderfluid (They/Them)</option>
+                            <option value="two_spirit_they_them">Two-Spirit (They/Them)</option>
+
+                            <!-- Transgender -->
+                            <option value="trans_male_he_him">Transgender Male (He/Him)</option>
+                            <option value="trans_female_she_her">Transgender Female (She/Her)</option>
+
+                            <!-- Other / Custom -->
+                            <option value="other">Other (please specify)</option>
+
+                            <!-- Prefer not to say -->
+                            <option value="prefer_not_say">Prefer not to say</option>
+                        </select>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Preferred Method of Contact</label>
@@ -275,10 +369,10 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header text-white" style="background-color:#67C090;">
+            <div class="card-header text-white p-1" style="background-color:#00A6D9;">
                 <h6>Present Insurance</h6>
             </div>
-            <div class="card-body">
+            <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="col-md-2">
                         <label class="form-label">Subscriber ID</label>
@@ -318,10 +412,10 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header text-white" style="background-color:#67C090;">
+            <div class="card-header text-white p-1" style="background-color:#00A6D9;">
                 <h6>Secondary Insurance</h6>
             </div>
-            <div class="card-body">
+            <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="col-md-2">
                         <label class="form-label">Subscriber ID</label>
@@ -361,10 +455,10 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header text-white" style="background-color:#67C090;">
+            <div class="card-header text-white p-1" style="background-color:#00A6D9;">
                 <h6>Tritary Insurance</h6>
             </div>
-            <div class="card-body">
+            <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="col-md-2">
                         <label class="form-label">Subscriber ID</label>
@@ -405,7 +499,7 @@
 
         </div>
         <div class="col text-center">
-            <button type="submit" class="btn btn-success text-white">Submit</button>
+            <button type="submit" class="btn  text-white" style="background-color:#00A6D9;">Submit</button>
         </div>
     </form>
 </div>

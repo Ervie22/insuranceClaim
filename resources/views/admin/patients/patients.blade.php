@@ -1,27 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- DataTables CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Include Bootstrap & DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
-<style>
-    #patientsTable thead {
-        background-color: #67C090 !important;
-        color: white !important;
-    }
-</style>
+
 
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4>Patient List</h4>
-        <a class="btn btn-success" href="/create-patient">
+        <a class="btn " style="background-color:#00A6D9; color:#d3fbff;" href="/create-patient">
             <i class="fa fa-plus"></i> Create Patient
         </a>
     </div>
 
     <div class="card">
         <div class="card-body">
-            <table class="table table-bordered table-striped" id="patientsTable">
+            <table class="table table-bordered" id="patientsTable">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -59,14 +55,10 @@
         </div>
     </div>
 </div>
-@endsection
-
-@push('scripts')
-<!-- jQuery first -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<!-- Include jQuery & DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
     $(function() {
@@ -78,4 +70,4 @@
         });
     });
 </script>
-@endpush
+@endsection

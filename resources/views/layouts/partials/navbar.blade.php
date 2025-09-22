@@ -11,7 +11,7 @@
     /* slight spacing between letters */
     text-transform: none;
     /* keep Title Case; use uppercase if desired */
-    color: #ffffff;
+    color: #57564F;
     /* change to match your background */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -24,36 +24,36 @@
   }
 
   .navbar .nav-link:hover {
-    color: #ffffff !important;
+    color: #57564F !important;
   }
 
   .dropdown-menu .dropdown-item:hover {
-    background-color: #67C090;
+    background-color: #d3fbff;
     /* match navbar background */
-    color: #ffffff !important;
+    color: #57564F !important;
   }
 
   .navbar-brand {
     letter-spacing: 3px;
-    color: #1C352D;
+    color: #00A6D9;
   }
 
   .navbar-brand:hover {
-    color: #eee;
+    color: #57564F;
   }
 
   .nav-item:hover {
-    color: #eee;
+    color: #57564F;
   }
 
   .navbar-scroll .nav-link,
   .navbar-scroll .fa-bars {
-    color: #1C352D;
+    color: #00A6D9;
   }
 
   .navbar-scrolled .nav-link,
   .navbar-scrolled .fa-bars {
-    color: #eee;
+    color: #57564F;
   }
 
   .navbar-scrolled {
@@ -78,9 +78,9 @@ $fname = $user['first_name'];
 $lname = isset($user['first_name']) ? $user['first_name'] : '';
 $userName = $fname . ' ' . $lname;
 ?>
-<nav class="navbar navbar-expand-lg fixed-top navbar-scroll" style="background-color:#67C090; width:100%;">
+<nav class="navbar navbar-expand-lg fixed-top navbar-scroll" style="background-color:#d3fbff; width:100%;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/admin-dashboard">ClaimEase</a>
+    <a class="navbar-brand" href="/admin-dashboard"> <img src="{{ asset('/assets/auth/claimease.jpg') }}" style="height: 50px; width: 100px;" alt="logo"></a>
 
     <button class="navbar-toggler ps-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarExample01"
       aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
@@ -164,7 +164,7 @@ $userName = $fname . ' ' . $lname;
           </button>
         </form>
         <li class="nav-item">
-          <a class="btn btn-sm text-white me-2" href="#profile">{{$userName}}</a>
+          <a class="btn btn-sm  me-2" style="color:#00A6D9;" href="#profile">{{$userName}}</a>
         </li>
         <li class="nav-item">
           <form method="POST" action="/logout">

@@ -73,9 +73,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-present-info', [PatientController::class, 'updatePresentInfo'])->name('patients.update-present-info');
     Route::post('/update-secondary-info', [PatientController::class, 'updateSecondaryInfo'])->name('patients.update-secondary-info');
     Route::post('/update-tritary-info', [PatientController::class, 'updatetTritaryInfo'])->name('patients.update-tritary-info');
+    Route::post('/upload-patient-image', [PatientController::class, 'uploadPatientImage'])->name('patients.upload_image');
 
 
     Route::get('/claims', [ClaimController::class, 'index'])->name('claims.list');
+    Route::get('/create-claim', [ClaimController::class, 'createClaim'])->name('claims.create');
 
     Route::get('/capitation-payments', [PaymentController::class, 'capitationPayments'])->name('payments.capitation-payments');
     Route::get('/insurance-payouts', [PaymentController::class, 'insurancePayouts'])->name('payments.insurance-payouts');
