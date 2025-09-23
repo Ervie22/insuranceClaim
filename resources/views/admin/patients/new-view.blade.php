@@ -456,8 +456,10 @@
                                         <option value="">Select </option>
                                         <option {{ (isset($fileDetails['marital_status']) && $fileDetails['marital_status'] == 'Single') ? 'selected' : '' }} value="Single">Single</option>
                                         <option {{ (isset($fileDetails['marital_status']) && $fileDetails['marital_status'] == 'Married') ? 'selected' : '' }} value="Married">Married</option>
-                                        <option {{ (isset($fileDetails['marital_status']) && $fileDetails['marital_status'] == 'Divorced') ? 'selected' : '' }} value="Divorced">Divorced</option>
-                                        <option {{ (isset($fileDetails['marital_status']) && $fileDetails['marital_status'] == 'Widowed') ? 'selected' : '' }} value="Widowed">Widowed</option>
+                                        <option {{ (isset($fileDetails['marital_status']) && $fileDetails['marital_status'] == 'Employed') ? 'selected' : '' }} value="Employed">Employed</option>
+                                        <option {{ (isset($fileDetails['marital_status']) && $fileDetails['marital_status'] == 'Full-Time Student') ? 'selected' : '' }} value="Full-Time Student">Full-Time Student</option>
+                                        <option {{ (isset($fileDetails['marital_status']) && $fileDetails['marital_status'] == 'Part-Time Student') ? 'selected' : '' }} value="Part-Time Student">Part-Time Student</option>
+                                        <option {{ (isset($fileDetails['marital_status']) && $fileDetails['marital_status'] == 'Other') ? 'selected' : '' }} value="Other">Other</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">

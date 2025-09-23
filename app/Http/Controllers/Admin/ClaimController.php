@@ -41,14 +41,26 @@ class ClaimController extends Controller
 
         return view('admin.claims.claims', compact('allUsers', 'user', 'userName'));
     }
-    public function createClaim(Request $request)
+    public function createHcfaClaim(Request $request)
     {
         $patients = Patient::where('is_deleted', '0')->where('active', '1')->get();
-        return view('admin.claims.create-claim', compact('patients'));
+        return view('admin.claims.create-hcfa-claim', compact('patients'));
+    }
+    public function createUb92Claim(Request $request)
+    {
+        $patients = Patient::where('is_deleted', '0')->where('active', '1')->get();
+        return view('admin.claims.create-ub92-claim', compact('patients'));
     }
     public function getPatient($id)
     {
-        $patients = Patient::where('id', $id)->first();
+        $patients = Patient::leftJoin('patients_insurance_details as pid', 'pid.patient_id', '=', 'patients.id')
+            ->leftJoin('patients_guarantors_details as pgd', 'pgd.patient_id', '=', 'patients.id')
+            ->leftJoin('patients_employer_emergency_details as peed', 'peed.patient_id', '=', 'patients.id')
+            ->leftJoin('patients_file_details as pfd', 'pfd.patient_id', '=', 'patients.id')
+            ->leftJoin('patients_notes as pn', 'pn.patient_id', '=', 'patients.id')
+            ->where('patients.id', $id)
+            ->select('patients.id as patientID', 'patients.*', 'pid.*', 'pgd.*', 'peed.*', 'pfd.*', 'pn.*')
+            ->first();
 
         return response()->json([
             'success' => true,

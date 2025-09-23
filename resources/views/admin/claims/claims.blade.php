@@ -10,8 +10,11 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4>Claim List</h4>
-        <a class="btn " style="background-color:#00A6D9; color:#d3fbff;" href="/create-claim">
-            <i class="fa fa-plus"></i> Create Claim
+        <a class="btn " style="background-color:#00A6D9; color:#d3fbff;" href="/create-hcfa-claim">
+            <i class="fa fa-plus"></i> Create HCFA1500 Claim
+        </a>
+        <a class="btn " style="background-color:#00A6D9; color:#d3fbff;" href="/create-ub92-claim">
+            <i class="fa fa-plus"></i> Create UB92 Claim
         </a>
     </div>
 

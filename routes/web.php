@@ -79,7 +79,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/claims', [ClaimController::class, 'index'])->name('claims.list');
-    Route::get('/create-claim', [ClaimController::class, 'createClaim'])->name('claims.create');
+    Route::get('/create-hcfa-claim', [ClaimController::class, 'createHcfaClaim'])->name('claims.create-hcfa-claim');
+    Route::get('/create-ub92-claim', [ClaimController::class, 'createUb92Claim'])->name('claims.create-ub92-claim');
     Route::get('/get-patient/{id}', [ClaimController::class, 'getPatient'])->name('claims.get-patient');
     Route::post('/store-claim', [ClaimController::class, 'storeClaim'])->name('claims.store');
 
