@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->nullable(); // nullable if guest
             $table->string('user_name')->nullable();
-            $table->string('action'); // e.g. 'updated_patient', 'viewed_record'
+            $table->longText('action')->nullable(); // e.g. 'updated_patient', 'viewed_record'
             $table->unsignedBigInteger('patient_id')->nullable();
             $table->string('ip_address', 45)->nullable(); // IPv6 safe
             $table->string('user_agent', 1000)->nullable();

@@ -12,6 +12,7 @@ use App\Models\PatientFile;
 use App\Models\PatientGuarantor;
 use App\Models\PatientInsurance;
 use App\Models\PatientHistory;
+use App\Models\PatientNote;
 use Illuminate\Support\Facades\Storage;
 use App\Services\IpGeoService;
 
@@ -34,7 +35,7 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function uploadPatientImage(Request $request)
+    public function uploadPatientImage(Request $request, IpGeoService $geoService)
     {
         $request->validate([
             'patient_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -52,9 +53,70 @@ class PatientController extends Controller
             // Save image path in database
             $patient->profile_image_path = $imageName; // or $path depending on how you want to store
             $patient->save();
+
+            $uid = Auth::user()->id;
+            $ip = $request->ip();
+            $geo = $geoService->lookup($ip);
+            $user = User::where('id', $uid)->first();
+            $userName = trim($user->first_name . ' ' . $user->last_name);
+
+            // Save history
+            PatientHistory::create([
+                'user_id'    => $uid,
+                'user_name'  => $userName,
+                'action'     => "Patient Image Changed",
+                'patient_id' => $request->patient_id,
+                'ip_address' => $ip ?? 'NA',
+                'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+                'country'    => $geo['country'] ?? null,
+                'region'     => $geo['region'] ?? null,
+                'city'       => $geo['city'] ?? null,
+                'latitude'   => $geo['latitude'] ?? null,
+                'longitude'  => $geo['longitude'] ?? null,
+                'isp'        => $geo['org'] ?? null,
+                'raw_geo'    => $geo,
+                'notes'      => null,
+            ]);
         }
 
         return back()->with('success', 'Patient image uploaded successfully!');
+    }
+    public function uploadPatientNote(Request $request, IpGeoService $geoService)
+    {
+
+        $uid = Auth::user()->id;
+        $patient = new PatientNote;
+        $patient->patient_id = $request->patient_id;
+        $patient->notes = $request->patient_notes; // or $path depending on how you want to store
+        $patient->created_by = $uid;
+        $patient->updated_by = $uid;
+        $patient->save();
+        // Get user info
+        $uid = Auth::user()->id;
+        $ip = $request->ip();
+        $geo = $geoService->lookup($ip);
+        $user = User::where('id', $uid)->first();
+        $userName = trim($user->first_name . ' ' . $user->last_name);
+
+        // Save history
+        PatientHistory::create([
+            'user_id'    => $uid,
+            'user_name'  => $userName,
+            'action'     => "Patient Note Changed",
+            'patient_id' => $request->patient_id,
+            'ip_address' => $ip ?? 'NA',
+            'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
+            'country'    => $geo['country'] ?? null,
+            'region'     => $geo['region'] ?? null,
+            'city'       => $geo['city'] ?? null,
+            'latitude'   => $geo['latitude'] ?? null,
+            'longitude'  => $geo['longitude'] ?? null,
+            'isp'        => $geo['org'] ?? null,
+            'raw_geo'    => $geo,
+            'notes'      => null,
+        ]);
+
+        return back()->with('success', 'Patient notes updated successfully!');
     }
 
     public function index()
@@ -104,61 +166,117 @@ class PatientController extends Controller
     {
         $input = $request->all();
 
-        // $ips = $this->getClientIps($ip);
-        // dd($ip, $geo);
         $uid = Auth::user()->id;
         $patientId = $input['patient_id'];
-        $patientDetails = Patient::where('id', $patientId)->first();
-        $patientDetails->first_name = $input['firstname'];
-        $patientDetails->last_name = $input['lastname'];
-        $patientDetails->mi = $input['mi'];
-        $patientDetails->dob = $input['dob'];
-        $patientDetails->sex = $input['sex'];
-        $patientDetails->ssn = $input['ssn'];
-        $patientDetails->homephone = $input['homephone'];
-        $patientDetails->mobilephone = $input['mobilephone'];
-        $patientDetails->email = $input['email'];
-        $patientDetails->address1 = $input['address1'];
-        $patientDetails->address2 = $input['address2'];
-        $patientDetails->city = $input['city'];
-        $patientDetails->state = $input['state'];
-        $patientDetails->postcode = $input['postcode'];
-        $patientDetails->updated_by = $uid;
+
+        // Fetch old patient details before update
+        $patientDetails = Patient::where('id', $patientId)->firstOrFail();
+        $oldData = $patientDetails->toArray();
+
+        // Fields we want to check for changes
+        $fields = [
+            'first_name' => 'Patient First Name',
+            'last_name' => 'Patient Last Name',
+            'mi' => 'Patient Middle Initial',
+            'dob' => 'Patient Date of Birth',
+            'sex' => 'Patient Sex',
+            'ssn' => 'Patient  SSN',
+            'homephone' => 'Patient  Home Phone',
+            'mobilephone' => 'Patient Mobile Phone',
+            'email' => 'Patient Email',
+            'address1' => 'Patient Address Line 1',
+            'address2' => 'Patient Address Line 2',
+            'city' => 'Patient City',
+            'state' => 'Patient State',
+            'postcode' => 'Patient Postcode',
+        ];
+
+        // Update patient details
+        $patientDetails->first_name   = $input['firstname'];
+        $patientDetails->last_name    = $input['lastname'];
+        $patientDetails->mi           = $input['mi'];
+        $patientDetails->dob          = $input['dob'];
+        $patientDetails->sex          = $input['sex'];
+        $patientDetails->ssn          = $input['ssn'];
+        $patientDetails->homephone    = $input['homephone'];
+        $patientDetails->mobilephone  = $input['mobilephone'];
+        $patientDetails->email        = $input['email'];
+        $patientDetails->address1     = $input['address1'];
+        $patientDetails->address2     = $input['address2'];
+        $patientDetails->city         = $input['city'];
+        $patientDetails->state        = $input['state'];
+        $patientDetails->postcode     = $input['postcode'];
+        $patientDetails->updated_by   = $uid;
         $patientDetails->save();
 
+        // Compare new vs old and log changes
+        $changes = [];
+        foreach ($fields as $dbField => $label) {
+            $newValue = $patientDetails->$dbField;
+            $oldValue = $oldData[$dbField] ?? null;
+
+            if ($oldValue != $newValue) {
+                $changes[] = "$label changed from '{$oldValue}' to '{$newValue}'";
+            }
+        }
+
+        $actionText = !empty($changes)
+            ? implode("; ", $changes)
+            : "Patient Personal details updated (no field changes)";
+
+        // Get user info
         $ip = $request->ip();
         $geo = $geoService->lookup($ip);
-        $uid = Auth::user()->id;
         $user = User::where('id', $uid)->first();
-        $fname = $user['first_name'];
-        $lname = isset($user['first_name']) ? $user['first_name'] : '';
-        $userName = $fname . ' ' . $lname;
+        $userName = trim($user->first_name . ' ' . $user->last_name);
+
+        // Save history
         PatientHistory::create([
-            'user_id' => $uid,
-            'user_name' => $userName,
-            'action' => "Patient Personal details updated",
+            'user_id'    => $uid,
+            'user_name'  => $userName,
+            'action'     => $actionText,
             'patient_id' => $patientId,
-            'ip_address' => isset($ip) ? $ip : 'NA',
+            'ip_address' => $ip ?? 'NA',
             'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
-            'country' => $geo['country'] ?? null,
-            'region' => $geo['region'] ?? null,
-            'city' => $geo['city'] ?? null,
-            'latitude' => $geo['latitude'] ?? null,
-            'longitude' => $geo['longitude'] ?? null,
-            'isp' => $geo['org'] ?? null,
-            'raw_geo' => $geo,
-            'notes' => null
+            'country'    => $geo['country'] ?? null,
+            'region'     => $geo['region'] ?? null,
+            'city'       => $geo['city'] ?? null,
+            'latitude'   => $geo['latitude'] ?? null,
+            'longitude'  => $geo['longitude'] ?? null,
+            'isp'        => $geo['org'] ?? null,
+            'raw_geo'    => $geo,
+            'notes'      => null,
         ]);
 
-        // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
     }
+
     public function updateguarantorInfo(Request $request, IpGeoService $geoService)
     {
         $input = $request->all();
         $uid = Auth::user()->id;
         $patientId = $input['patient_id'];
         $guarantorDetails = PatientGuarantor::where('patient_id', $patientId)->first();
+        $oldData = $guarantorDetails->toArray();
+
+        // Fields we want to check for changes
+        $fields = [
+            'first_name' => 'Guarantors First Name',
+            'last_name' => 'Guarantors Last Name',
+            'mi' => 'Guarantors Middle Initial',
+            'dob' => 'Guarantors Date of Birth',
+            'status' => 'Guarantors Status',
+            'relationship' => 'Guarantors Relationship',
+            'homephone' => 'Guarantors Home Phone',
+            'mobilephone' => 'Guarantors Mobile Phone',
+            'email' => 'Guarantors Email',
+            'address1' => 'Guarantors Address Line 1',
+            'address2' => 'Guarantors Address Line 2',
+            'city' => 'Guarantors City',
+            'state' => 'Guarantors State',
+            'postcode' => 'Guarantors Postcode',
+        ];
+
         $guarantorDetails->first_name = $input['guarantors_firstname'];
         $guarantorDetails->last_name = $input['guarantors_lastname'];
         $guarantorDetails->mi = $input['guarantors_mi'];
@@ -175,28 +293,43 @@ class PatientController extends Controller
         $guarantorDetails->postcode = $input['guarantors_postcode'];
         $guarantorDetails->save();
 
+        // Compare new vs old and log changes
+        $changes = [];
+        foreach ($fields as $dbField => $label) {
+            $newValue = $guarantorDetails->$dbField;
+            $oldValue = $oldData[$dbField] ?? null;
+
+            if ($oldValue != $newValue) {
+                $changes[] = "$label changed from '{$oldValue}' to '{$newValue}'";
+            }
+        }
+
+        $actionText = !empty($changes)
+            ? implode("; ", $changes)
+            : "Patient Guarantor details updated (no field changes)";
+
+        // Get user info
         $ip = $request->ip();
         $geo = $geoService->lookup($ip);
-        $uid = Auth::user()->id;
         $user = User::where('id', $uid)->first();
-        $fname = $user['first_name'];
-        $lname = isset($user['first_name']) ? $user['first_name'] : '';
-        $userName = $fname . ' ' . $lname;
+        $userName = trim($user->first_name . ' ' . $user->last_name);
+
+        // Save history
         PatientHistory::create([
-            'user_id' => $uid,
-            'user_name' => $userName,
-            'action' => "Patient guarantors details updated",
+            'user_id'    => $uid,
+            'user_name'  => $userName,
+            'action'     => $actionText,
             'patient_id' => $patientId,
-            'ip_address' => isset($ip) ? $ip : 'NA',
+            'ip_address' => $ip ?? 'NA',
             'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
-            'country' => $geo['country'] ?? null,
-            'region' => $geo['region'] ?? null,
-            'city' => $geo['city'] ?? null,
-            'latitude' => $geo['latitude'] ?? null,
-            'longitude' => $geo['longitude'] ?? null,
-            'isp' => $geo['org'] ?? null,
-            'raw_geo' => $geo,
-            'notes' => null
+            'country'    => $geo['country'] ?? null,
+            'region'     => $geo['region'] ?? null,
+            'city'       => $geo['city'] ?? null,
+            'latitude'   => $geo['latitude'] ?? null,
+            'longitude'  => $geo['longitude'] ?? null,
+            'isp'        => $geo['org'] ?? null,
+            'raw_geo'    => $geo,
+            'notes'      => null,
         ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
@@ -207,6 +340,21 @@ class PatientController extends Controller
         $uid = Auth::user()->id;
         $patientId = $input['patient_id'];
         $patientEmployer = PatientEmployer::where('patient_id', $patientId)->first();
+        $oldData = $patientEmployer->toArray();
+
+        // Fields we want to check for changes
+        $fields = [
+            'employer_name' => 'Employer Name',
+            'department' => 'Employer Department',
+            'employer_phone' => 'Employer Phone',
+            'email' => 'Employer Email',
+            'address1' => 'Employer Address Line 1',
+            'address2' => 'Employer Address Line 2',
+            'city' => 'Employer City',
+            'state' => 'Employer State',
+            'postcode' => 'Employer Postcode',
+        ];
+
         $patientEmployer->employer_name = $input['employer_name'];
         $patientEmployer->department = $input['department'];
         $patientEmployer->employer_phone = $input['employer_phone'];
@@ -218,28 +366,43 @@ class PatientController extends Controller
         $patientEmployer->postcode = $input['employer_postcode'];
         $patientEmployer->save();
 
+        // Compare new vs old and log changes
+        $changes = [];
+        foreach ($fields as $dbField => $label) {
+            $newValue = $patientEmployer->$dbField;
+            $oldValue = $oldData[$dbField] ?? null;
+
+            if ($oldValue != $newValue) {
+                $changes[] = "$label changed from '{$oldValue}' to '{$newValue}'";
+            }
+        }
+
+        $actionText = !empty($changes)
+            ? implode("; ", $changes)
+            : "Patient Employer details updated (no field changes)";
+
+        // Get user info
         $ip = $request->ip();
         $geo = $geoService->lookup($ip);
-        $uid = Auth::user()->id;
         $user = User::where('id', $uid)->first();
-        $fname = $user['first_name'];
-        $lname = isset($user['first_name']) ? $user['first_name'] : '';
-        $userName = $fname . ' ' . $lname;
+        $userName = trim($user->first_name . ' ' . $user->last_name);
+
+        // Save history
         PatientHistory::create([
-            'user_id' => $uid,
-            'user_name' => $userName,
-            'action' => "Patient Employer details updated",
+            'user_id'    => $uid,
+            'user_name'  => $userName,
+            'action'     => $actionText,
             'patient_id' => $patientId,
-            'ip_address' => isset($ip) ? $ip : 'NA',
+            'ip_address' => $ip ?? 'NA',
             'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
-            'country' => $geo['country'] ?? null,
-            'region' => $geo['region'] ?? null,
-            'city' => $geo['city'] ?? null,
-            'latitude' => $geo['latitude'] ?? null,
-            'longitude' => $geo['longitude'] ?? null,
-            'isp' => $geo['org'] ?? null,
-            'raw_geo' => $geo,
-            'notes' => null
+            'country'    => $geo['country'] ?? null,
+            'region'     => $geo['region'] ?? null,
+            'city'       => $geo['city'] ?? null,
+            'latitude'   => $geo['latitude'] ?? null,
+            'longitude'  => $geo['longitude'] ?? null,
+            'isp'        => $geo['org'] ?? null,
+            'raw_geo'    => $geo,
+            'notes'      => null,
         ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
@@ -250,33 +413,58 @@ class PatientController extends Controller
         $uid = Auth::user()->id;
         $patientId = $input['patient_id'];
         $patientEmployer = PatientEmployer::where('patient_id', $patientId)->first();
+        $oldData = $patientEmployer->toArray();
+
+        // Fields we want to check for changes
+        $fields = [
+            'emergency_contact' => 'Emergency Contact Name',
+            'relationship' => 'Emergency Relationship',
+            'kin_phone' => 'Emergency contact phone',
+            'kin_address' => 'Emergency contact address',
+        ];
+
         $patientEmployer->emergency_contact = $input['emergency_contact'];
         $patientEmployer->relationship = $input['emergency_relationship'];
-        $patientEmployer->kin_phone = $input['emergency_phone'];
-        $patientEmployer->kin_address = $input['emergency_address'];
+        $patientEmployer->kin_phone = $input['kin_phone'];
+        $patientEmployer->kin_address = $input['kin_address'];
         $patientEmployer->save();
+        // Compare new vs old and log changes
+        $changes = [];
+        foreach ($fields as $dbField => $label) {
+            $newValue = $patientEmployer->$dbField;
+            $oldValue = $oldData[$dbField] ?? null;
+
+            if ($oldValue != $newValue) {
+                $changes[] = "$label changed from '{$oldValue}' to '{$newValue}'";
+            }
+        }
+
+        $actionText = !empty($changes)
+            ? implode("; ", $changes)
+            : "Patient Emergency Contact details updated (no field changes)";
+
+        // Get user info
         $ip = $request->ip();
         $geo = $geoService->lookup($ip);
-        $uid = Auth::user()->id;
         $user = User::where('id', $uid)->first();
-        $fname = $user['first_name'];
-        $lname = isset($user['first_name']) ? $user['first_name'] : '';
-        $userName = $fname . ' ' . $lname;
+        $userName = trim($user->first_name . ' ' . $user->last_name);
+
+        // Save history
         PatientHistory::create([
-            'user_id' => $uid,
-            'user_name' => $userName,
-            'action' => "Patient Emergency details updated",
+            'user_id'    => $uid,
+            'user_name'  => $userName,
+            'action'     => $actionText,
             'patient_id' => $patientId,
-            'ip_address' => isset($ip) ? $ip : 'NA',
+            'ip_address' => $ip ?? 'NA',
             'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
-            'country' => $geo['country'] ?? null,
-            'region' => $geo['region'] ?? null,
-            'city' => $geo['city'] ?? null,
-            'latitude' => $geo['latitude'] ?? null,
-            'longitude' => $geo['longitude'] ?? null,
-            'isp' => $geo['org'] ?? null,
-            'raw_geo' => $geo,
-            'notes' => null
+            'country'    => $geo['country'] ?? null,
+            'region'     => $geo['region'] ?? null,
+            'city'       => $geo['city'] ?? null,
+            'latitude'   => $geo['latitude'] ?? null,
+            'longitude'  => $geo['longitude'] ?? null,
+            'isp'        => $geo['org'] ?? null,
+            'raw_geo'    => $geo,
+            'notes'      => null,
         ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
@@ -287,7 +475,27 @@ class PatientController extends Controller
         $uid = Auth::user()->id;
         $patientId = $input['patient_id'];
         $patientFile = PatientFile::where('patient_id', $patientId)->first();
+        $oldData = $patientFile->toArray();
+
+        // Fields we want to check for changes
+        $fields = [
+            'pcp_name' => 'Patient PCP Name',
+            'pcp_phone' => 'Patient PCP Phone',
+            'npi' => 'Patient NPI',
+            'npi' => 'Patient NPI',
+            'abn' => 'ABN Signature on file status',
+            'privacy_notice' => 'Privacy Notice status',
+            'roi' => 'ROI Signature on file status',
+            'language' => 'Patient Language',
+            'Race' => 'Patient Race',
+            'ethnicity' => 'Patient Ethnicity',
+            'marital_status' => 'Patient Marital Status',
+            'gender' => 'Patient Gender Identity',
+            'method_of_contact' => 'Patient method of contact',
+        ];
+
         $patientFile->pcp_name = $input['pcp_name'];
+        $patientFile->pcp_phone = $input['pcp_phone'];
         $patientFile->npi = $input['npi'];
         $patientFile->abn = $input['abn'];
         $patientFile->privacy_notice = $input['privacy_notice'];
@@ -300,28 +508,43 @@ class PatientController extends Controller
         $patientFile->method_of_contact = $input['method_of_contact'];
         $patientFile->save();
 
+        // Compare new vs old and log changes
+        $changes = [];
+        foreach ($fields as $dbField => $label) {
+            $newValue = $patientFile->$dbField;
+            $oldValue = $oldData[$dbField] ?? null;
+
+            if ($oldValue != $newValue) {
+                $changes[] = "$label changed from '{$oldValue}' to '{$newValue}'";
+            }
+        }
+
+        $actionText = !empty($changes)
+            ? implode("; ", $changes)
+            : "Patient Emergency Consent on details updated (no field changes)";
+
+        // Get user info
         $ip = $request->ip();
         $geo = $geoService->lookup($ip);
-        $uid = Auth::user()->id;
         $user = User::where('id', $uid)->first();
-        $fname = $user['first_name'];
-        $lname = isset($user['first_name']) ? $user['first_name'] : '';
-        $userName = $fname . ' ' . $lname;
+        $userName = trim($user->first_name . ' ' . $user->last_name);
+
+        // Save history
         PatientHistory::create([
-            'user_id' => $uid,
-            'user_name' => $userName,
-            'action' => "Patient consent on file info updated",
+            'user_id'    => $uid,
+            'user_name'  => $userName,
+            'action'     => $actionText,
             'patient_id' => $patientId,
-            'ip_address' => isset($ip) ? $ip : 'NA',
+            'ip_address' => $ip ?? 'NA',
             'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
-            'country' => $geo['country'] ?? null,
-            'region' => $geo['region'] ?? null,
-            'city' => $geo['city'] ?? null,
-            'latitude' => $geo['latitude'] ?? null,
-            'longitude' => $geo['longitude'] ?? null,
-            'isp' => $geo['org'] ?? null,
-            'raw_geo' => $geo,
-            'notes' => null
+            'country'    => $geo['country'] ?? null,
+            'region'     => $geo['region'] ?? null,
+            'city'       => $geo['city'] ?? null,
+            'latitude'   => $geo['latitude'] ?? null,
+            'longitude'  => $geo['longitude'] ?? null,
+            'isp'        => $geo['org'] ?? null,
+            'raw_geo'    => $geo,
+            'notes'      => null,
         ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
@@ -332,38 +555,67 @@ class PatientController extends Controller
         $uid = Auth::user()->id;
         $patientId = $input['patient_id'];
         $patientInsurance = PatientInsurance::where('patient_id', $patientId)->first();
-        $patientInsurance->present_subscriber_id = $input['primary_subscriberid'];
-        $patientInsurance->present_group = $input['primary_group'];
-        $patientInsurance->present_payer_id = $input['primary_payerid'];
-        $patientInsurance->present_address = $input['primary_address'];
-        $patientInsurance->present_phone = $input['primary_phone'];
-        $patientInsurance->present_fax = $input['primary_fax'];
-        $patientInsurance->present_effective_date = $input['primary_effective_date'];
-        $patientInsurance->present_termination_date = $input['primary_termination_date'];
+        $oldData = $patientInsurance->toArray();
+
+        // Fields we want to check for changes
+        $fields = [
+            'present_subscriber_id' => 'Primary Insurance Subsriber ID',
+            'present_group' => 'Primary Insurance Group',
+            'present_payer_id' => 'Primary Insurance Payer ID',
+            'present_address' => 'Primary Insurance Address',
+            'present_phone' => 'Primary Insurance Phone',
+            'present_fax' => 'Primary Insurance Fax',
+            'present_effective_date' => 'Primary Insurance Effective Date',
+            'present_termination_date' => 'Primary Insurance Termination Date',
+        ];
+
+        $patientInsurance->present_subscriber_id = $input['present_subscriber_id'];
+        $patientInsurance->present_group = $input['present_group'];
+        $patientInsurance->present_payer_id = $input['present_payer_id'];
+        $patientInsurance->present_address = $input['present_address'];
+        $patientInsurance->present_phone = $input['present_phone'];
+        $patientInsurance->present_fax = $input['present_fax'];
+        $patientInsurance->present_effective_date = $input['present_effective_date'];
+        $patientInsurance->present_termination_date = $input['present_termination_date'];
         $patientInsurance->save();
 
+        // Compare new vs old and log changes
+        $changes = [];
+        foreach ($fields as $dbField => $label) {
+            $newValue = $patientInsurance->$dbField;
+            $oldValue = $oldData[$dbField] ?? null;
+
+            if ($oldValue != $newValue) {
+                $changes[] = "$label changed from '{$oldValue}' to '{$newValue}'";
+            }
+        }
+
+        $actionText = !empty($changes)
+            ? implode("; ", $changes)
+            : "Patient Primary Insurance details updated (no field changes)";
+
+        // Get user info
         $ip = $request->ip();
         $geo = $geoService->lookup($ip);
-        $uid = Auth::user()->id;
         $user = User::where('id', $uid)->first();
-        $fname = $user['first_name'];
-        $lname = isset($user['first_name']) ? $user['first_name'] : '';
-        $userName = $fname . ' ' . $lname;
+        $userName = trim($user->first_name . ' ' . $user->last_name);
+
+        // Save history
         PatientHistory::create([
-            'user_id' => $uid,
-            'user_name' => $userName,
-            'action' => "Patient Primary Insurance details updated",
+            'user_id'    => $uid,
+            'user_name'  => $userName,
+            'action'     => $actionText,
             'patient_id' => $patientId,
-            'ip_address' => isset($ip) ? $ip : 'NA',
+            'ip_address' => $ip ?? 'NA',
             'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
-            'country' => $geo['country'] ?? null,
-            'region' => $geo['region'] ?? null,
-            'city' => $geo['city'] ?? null,
-            'latitude' => $geo['latitude'] ?? null,
-            'longitude' => $geo['longitude'] ?? null,
-            'isp' => $geo['org'] ?? null,
-            'raw_geo' => $geo,
-            'notes' => null
+            'country'    => $geo['country'] ?? null,
+            'region'     => $geo['region'] ?? null,
+            'city'       => $geo['city'] ?? null,
+            'latitude'   => $geo['latitude'] ?? null,
+            'longitude'  => $geo['longitude'] ?? null,
+            'isp'        => $geo['org'] ?? null,
+            'raw_geo'    => $geo,
+            'notes'      => null,
         ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
@@ -374,9 +626,22 @@ class PatientController extends Controller
         $uid = Auth::user()->id;
         $patientId = $input['patient_id'];
         $patientInsurance = PatientInsurance::where('patient_id', $patientId)->first();
-        $patientInsurance->secondary_subscriber_id = $input['secondary_subscriberid'];
+        $oldData = $patientInsurance->toArray();
+
+        // Fields we want to check for changes
+        $fields = [
+            'secondary_subscriber_id' => 'Secondary Insurance Subsriber ID',
+            'secondary_group' => 'Secondary Insurance Group',
+            'secondary_payer_id' => 'Secondary Insurance Payer ID',
+            'secondary_address' => 'Secondary Insurance Address',
+            'secondary_phone' => 'Secondary Insurance Phone',
+            'secondary_fax' => 'Secondary Insurance Fax',
+            'secondary_effective_date' => 'Secondary Insurance Effective Date',
+            'secondary_termination_date' => 'Secondary Insurance Termination Date',
+        ];
+        $patientInsurance->secondary_subscriber_id = $input['secondary_subscriber_id'];
         $patientInsurance->secondary_group = $input['secondary_group'];
-        $patientInsurance->secondary_payer_id = $input['secondary_payerid'];
+        $patientInsurance->secondary_payer_id = $input['secondary_payer_id'];
         $patientInsurance->secondary_address = $input['secondary_address'];
         $patientInsurance->secondary_phone = $input['secondary_phone'];
         $patientInsurance->secondary_fax = $input['secondary_fax'];
@@ -384,28 +649,43 @@ class PatientController extends Controller
         $patientInsurance->secondary_termination_date = $input['secondary_termination_date'];
         $patientInsurance->save();
 
+        // Compare new vs old and log changes
+        $changes = [];
+        foreach ($fields as $dbField => $label) {
+            $newValue = $patientInsurance->$dbField;
+            $oldValue = $oldData[$dbField] ?? null;
+
+            if ($oldValue != $newValue) {
+                $changes[] = "$label changed from '{$oldValue}' to '{$newValue}'";
+            }
+        }
+
+        $actionText = !empty($changes)
+            ? implode("; ", $changes)
+            : "Patient Secondary Insurance details updated (no field changes)";
+
+        // Get user info
         $ip = $request->ip();
         $geo = $geoService->lookup($ip);
-        $uid = Auth::user()->id;
         $user = User::where('id', $uid)->first();
-        $fname = $user['first_name'];
-        $lname = isset($user['first_name']) ? $user['first_name'] : '';
-        $userName = $fname . ' ' . $lname;
+        $userName = trim($user->first_name . ' ' . $user->last_name);
+
+        // Save history
         PatientHistory::create([
-            'user_id' => $uid,
-            'user_name' => $userName,
-            'action' => "Patient Secondary Insurance details updated",
+            'user_id'    => $uid,
+            'user_name'  => $userName,
+            'action'     => $actionText,
             'patient_id' => $patientId,
-            'ip_address' => isset($ip) ? $ip : 'NA',
+            'ip_address' => $ip ?? 'NA',
             'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
-            'country' => $geo['country'] ?? null,
-            'region' => $geo['region'] ?? null,
-            'city' => $geo['city'] ?? null,
-            'latitude' => $geo['latitude'] ?? null,
-            'longitude' => $geo['longitude'] ?? null,
-            'isp' => $geo['org'] ?? null,
-            'raw_geo' => $geo,
-            'notes' => null
+            'country'    => $geo['country'] ?? null,
+            'region'     => $geo['region'] ?? null,
+            'city'       => $geo['city'] ?? null,
+            'latitude'   => $geo['latitude'] ?? null,
+            'longitude'  => $geo['longitude'] ?? null,
+            'isp'        => $geo['org'] ?? null,
+            'raw_geo'    => $geo,
+            'notes'      => null,
         ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
@@ -416,9 +696,22 @@ class PatientController extends Controller
         $uid = Auth::user()->id;
         $patientId = $input['patient_id'];
         $patientInsurance = PatientInsurance::where('patient_id', $patientId)->first();
-        $patientInsurance->tritary_subscriber_id = $input['tritary_subscriberid'];
+        $oldData = $patientInsurance->toArray();
+
+        // Fields we want to check for changes
+        $fields = [
+            'tritary_subscriber_id' => 'Tritary Insurance Subsriber ID',
+            'tritary_group' => 'Tritary Insurance Group',
+            'tritary_payer_id' => 'Tritary Insurance Payer ID',
+            'tritary_address' => 'Tritary Insurance Address',
+            'tritary_phone' => 'Tritary Insurance Phone',
+            'tritary_fax' => 'Tritary Insurance Fax',
+            'tritary_effective_date' => 'Tritary Insurance Effective Date',
+            'tritary_termination_date' => 'Tritary Insurance Termination Date',
+        ];
+        $patientInsurance->tritary_subscriber_id = $input['tritary_subscriber_id'];
         $patientInsurance->tritary_group = $input['tritary_group'];
-        $patientInsurance->tritary_payer_id = $input['tritary_payerid'];
+        $patientInsurance->tritary_payer_id = $input['tritary_payer_id'];
         $patientInsurance->tritary_address = $input['tritary_address'];
         $patientInsurance->tritary_phone = $input['tritary_phone'];
         $patientInsurance->tritary_fax = $input['tritary_fax'];
@@ -426,28 +719,43 @@ class PatientController extends Controller
         $patientInsurance->tritary_termination_date = $input['tritary_termination_date'];
         $patientInsurance->save();
 
+        // Compare new vs old and log changes
+        $changes = [];
+        foreach ($fields as $dbField => $label) {
+            $newValue = $patientInsurance->$dbField;
+            $oldValue = $oldData[$dbField] ?? null;
+
+            if ($oldValue != $newValue) {
+                $changes[] = "$label changed from '{$oldValue}' to '{$newValue}'";
+            }
+        }
+
+        $actionText = !empty($changes)
+            ? implode("; ", $changes)
+            : "Patient Secondary Insurance details updated (no field changes)";
+
+        // Get user info
         $ip = $request->ip();
         $geo = $geoService->lookup($ip);
-        $uid = Auth::user()->id;
         $user = User::where('id', $uid)->first();
-        $fname = $user['first_name'];
-        $lname = isset($user['first_name']) ? $user['first_name'] : '';
-        $userName = $fname . ' ' . $lname;
+        $userName = trim($user->first_name . ' ' . $user->last_name);
+
+        // Save history
         PatientHistory::create([
-            'user_id' => $uid,
-            'user_name' => $userName,
-            'action' => "Patient Tritary Insurance details updated",
+            'user_id'    => $uid,
+            'user_name'  => $userName,
+            'action'     => $actionText,
             'patient_id' => $patientId,
-            'ip_address' => isset($ip) ? $ip : 'NA',
+            'ip_address' => $ip ?? 'NA',
             'user_agent' => substr($request->header('User-Agent') ?? '', 0, 1000),
-            'country' => $geo['country'] ?? null,
-            'region' => $geo['region'] ?? null,
-            'city' => $geo['city'] ?? null,
-            'latitude' => $geo['latitude'] ?? null,
-            'longitude' => $geo['longitude'] ?? null,
-            'isp' => $geo['org'] ?? null,
-            'raw_geo' => $geo,
-            'notes' => null
+            'country'    => $geo['country'] ?? null,
+            'region'     => $geo['region'] ?? null,
+            'city'       => $geo['city'] ?? null,
+            'latitude'   => $geo['latitude'] ?? null,
+            'longitude'  => $geo['longitude'] ?? null,
+            'isp'        => $geo['org'] ?? null,
+            'raw_geo'    => $geo,
+            'notes'      => null,
         ]);
         // Redirect back to the same page with success message
         return redirect()->back()->with('success', 'Patient information updated successfully!');
@@ -471,11 +779,15 @@ class PatientController extends Controller
         $patient->city = $input['city'];
         $patient->state = $input['state'];
         $patient->postcode = $input['postcode'];
-        $patient->notes = $input['patient_notes'];
         $patient->created_by = $uid;
         $patient->is_deleted = '0';
         $patient->save();
-
+        $patientNote = new PatientNote;
+        $patientNote->patient_id = $patient->id;
+        $patientNote->notes = $input['patient_notes'];
+        $patientNote->created_by = $uid;
+        $patientNote->updated_by = $uid;
+        $patientNote->save();
         $patientGuarantor = new PatientGuarantor;
         $patientGuarantor->patient_id = $patient->id;
         $patientGuarantor->first_name = $input['guarantors_firstname'];
@@ -507,13 +819,14 @@ class PatientController extends Controller
         $patientEmployer->postcode = $input['employer_postcode'];
         $patientEmployer->emergency_contact = $input['emergency_contact'];
         $patientEmployer->relationship = $input['emergency_relationship'];
-        $patientEmployer->kin_phone = $input['emergency_phone'];
-        $patientEmployer->kin_address = $input['emergency_address'];
+        $patientEmployer->kin_phone = $input['kin_phone'];
+        $patientEmployer->kin_address = $input['kin_address'];
         $patientEmployer->save();
 
         $patientFile = new PatientFile;
         $patientFile->patient_id = $patient->id;
         $patientFile->pcp_name = $input['pcp_name'];
+        $patientFile->pcp_phone = $input['pcp_phone'];
         $patientFile->npi = $input['npi'];
         $patientFile->abn = $input['abn'];
         $patientFile->privacy_notice = $input['privacy_notice'];
@@ -529,25 +842,25 @@ class PatientController extends Controller
 
         $patientInsurance = new PatientInsurance;
         $patientInsurance->patient_id = $patient->id;
-        $patientInsurance->present_subscriber_id = $input['primary_subscriberid'];
-        $patientInsurance->present_group = $input['primary_group'];
-        $patientInsurance->present_payer_id = $input['primary_payerid'];
-        $patientInsurance->present_address = $input['primary_address'];
-        $patientInsurance->present_phone = $input['primary_phone'];
-        $patientInsurance->present_fax = $input['primary_fax'];
-        $patientInsurance->present_effective_date = $input['primary_effective_date'];
-        $patientInsurance->present_termination_date = $input['primary_termination_date'];
-        $patientInsurance->secondary_subscriber_id = $input['secondary_subscriberid'];
+        $patientInsurance->present_subscriber_id = $input['present_subscriber_id'];
+        $patientInsurance->present_group = $input['present_group'];
+        $patientInsurance->present_payer_id = $input['present_payer_id'];
+        $patientInsurance->present_address = $input['present_address'];
+        $patientInsurance->present_phone = $input['present_phone'];
+        $patientInsurance->present_fax = $input['present_fax'];
+        $patientInsurance->present_effective_date = $input['present_effective_date'];
+        $patientInsurance->present_termination_date = $input['present_termination_date'];
+        $patientInsurance->Tritary_subscriber_id = $input['secondary_subscriber_id'];
         $patientInsurance->secondary_group = $input['secondary_group'];
-        $patientInsurance->secondary_payer_id = $input['secondary_payerid'];
+        $patientInsurance->secondary_payer_id = $input['secondary_payer_id'];
         $patientInsurance->secondary_address = $input['secondary_address'];
         $patientInsurance->secondary_phone = $input['secondary_phone'];
         $patientInsurance->secondary_fax = $input['secondary_fax'];
         $patientInsurance->secondary_effective_date = $input['secondary_effective_date'];
         $patientInsurance->secondary_termination_date = $input['secondary_termination_date'];
-        $patientInsurance->tritary_subscriber_id = $input['tritary_subscriberid'];
+        $patientInsurance->tritary_subscriber_id = $input['tritary_subscriber_id'];
         $patientInsurance->tritary_group = $input['tritary_group'];
-        $patientInsurance->tritary_payer_id = $input['tritary_payerid'];
+        $patientInsurance->tritary_payer_id = $input['tritary_payer_id'];
         $patientInsurance->tritary_address = $input['tritary_address'];
         $patientInsurance->tritary_phone = $input['tritary_phone'];
         $patientInsurance->tritary_fax = $input['tritary_fax'];
@@ -616,6 +929,13 @@ class PatientController extends Controller
             'notes' => null
         ]);
         $patientHistory = PatientHistory::where('patient_id', $id)->orderBy('id', 'desc')->get();
-        return view('admin.patients.new-view', compact('patientHistory', 'patientDetails', 'insuranceDetails', 'guarantorDetails', 'fileDetails', 'employerDetails', 'id'));
+        $patientNote = PatientNote::where('patient_id', $id)->orderBy('id', 'desc')->first();
+        $patientNoteList = PatientNote::leftJoin('users as u', 'u.id', '=', 'patients_notes.updated_by')
+            ->where('patients_notes.patient_id', $id)
+            ->orderBy('patients_notes.id', 'desc')
+            ->select('patients_notes.notes', 'u.first_name', 'u.last_name', 'patients_notes.updated_at')
+            ->get();
+        // dd($patientNote);
+        return view('admin.patients.new-view', compact('patientNoteList', 'patientNote', 'patientHistory', 'patientDetails', 'insuranceDetails', 'guarantorDetails', 'fileDetails', 'employerDetails', 'id'));
     }
 }

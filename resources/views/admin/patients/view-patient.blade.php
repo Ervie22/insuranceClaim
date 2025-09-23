@@ -303,11 +303,11 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Phone</label>
-                                    <input type="text" value="{{$employerDetails['kin_phone'] ? $employerDetails['kin_phone']:''}}" class="form-control" id="emergency_phone" name="emergency_phone" required>
+                                    <input type="text" value="{{$employerDetails['kin_phone'] ? $employerDetails['kin_phone']:''}}" class="form-control" id="kin_phone" name="kin_phone" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Address</label>
-                                    <input value="{{$employerDetails['kin_address'] ? $employerDetails['kin_address']:''}}" type="text" class="form-control" id="emergency_address" name="emergency_address" required>
+                                    <input value="{{$employerDetails['kin_address'] ? $employerDetails['kin_address']:''}}" type="text" class="form-control" id="kin_address" name="kin_address" required>
                                 </div>
                             </div>
                         </div>
@@ -427,36 +427,36 @@
                                 <input type="hidden" id="patient_id" name="patient_id" value="{{$id}}">
                                 <div class="col-md-2">
                                     <label class="form-label">Subscriber ID</label>
-                                    <input value="{{$insuranceDetails['present_subscriber_id'] ? $insuranceDetails['present_subscriber_id']:''}}" type="text" class="form-control" id="primary_subscriberid" name="primary_subscriberid" required>
+                                    <input value="{{$insuranceDetails['present_subscriber_id'] ? $insuranceDetails['present_subscriber_id']:''}}" type="text" class="form-control" id="present_subscriber_id" name="present_subscriber_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Group</label>
-                                    <input value="{{$insuranceDetails['present_group'] ? $insuranceDetails['present_group']:''}}" type="text" class="form-control" id="primary_group" name="primary_group" required>
+                                    <input value="{{$insuranceDetails['present_group'] ? $insuranceDetails['present_group']:''}}" type="text" class="form-control" id="present_group" name="present_group" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Payer ID</label>
-                                    <input type="text" value="{{$insuranceDetails['present_payer_id'] ? $insuranceDetails['present_payer_id']:''}}" class="form-control" id="primary_payerid" name="primary_payerid" required>
+                                    <input type="text" value="{{$insuranceDetails['present_payer_id'] ? $insuranceDetails['present_payer_id']:''}}" class="form-control" id="present_payer_id" name="present_payer_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Address</label>
-                                    <input type="text" value="{{$insuranceDetails['present_address'] ? $insuranceDetails['present_address']:''}}" class="form-control" id="primary_address" name="primary_address" required>
+                                    <input type="text" value="{{$insuranceDetails['present_address'] ? $insuranceDetails['present_address']:''}}" class="form-control" id="present_address" name="present_address" required>
                                 </div>
 
                                 <div class="col-md-2">
                                     <label class="form-label">Phone</label>
-                                    <input type="text" value="{{$insuranceDetails['present_phone'] ? $insuranceDetails['present_phone']:''}}" class="form-control" id="primary_phone" name="primary_phone" required>
+                                    <input type="text" value="{{$insuranceDetails['present_phone'] ? $insuranceDetails['present_phone']:''}}" class="form-control" id="present_phone" name="present_phone" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Fax</label>
-                                    <input type="text" value="{{$insuranceDetails['present_fax'] ? $insuranceDetails['present_fax']:''}}" class="form-control" id="primary_fax" name="primary_fax" required>
+                                    <input type="text" value="{{$insuranceDetails['present_fax'] ? $insuranceDetails['present_fax']:''}}" class="form-control" id="present_fax" name="present_fax" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Effective Date</label>
-                                    <input type="date" value="{{$insuranceDetails['present_effective_date'] ? $insuranceDetails['present_effective_date']:''}}" class="form-control" id="primary_effective_date" name="primary_effective_date" required>
+                                    <input type="date" value="{{$insuranceDetails['present_effective_date'] ? $insuranceDetails['present_effective_date']:''}}" class="form-control" id="present_effective_date" name="present_effective_date" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Termination Date</label>
-                                    <input type="date" value="{{$insuranceDetails['present_termination_date'] ? $insuranceDetails['present_termination_date']:''}}" class="form-control" id="primary_termination_date" name="primary_termination_date" required>
+                                    <input type="date" value="{{$insuranceDetails['present_termination_date'] ? $insuranceDetails['present_termination_date']:''}}" class="form-control" id="present_termination_date" name="present_termination_date" required>
                                 </div>
 
                             </div>
@@ -489,7 +489,7 @@
                                 <input type="hidden" id="patient_id" name="patient_id" value="{{$id}}">
                                 <div class="col-md-2">
                                     <label class="form-label">Subscriber ID</label>
-                                    <input value="{{$insuranceDetails['secondary_subscriber_id'] ? $insuranceDetails['secondary_subscriber_id']:''}}" type="text" class="form-control" id="secondary_subscriberid" name="secondary_subscriberid" required>
+                                    <input value="{{$insuranceDetails['secondary_subscriber_id'] ? $insuranceDetails['secondary_subscriber_id']:''}}" type="text" class="form-control" id="secondary_subscriber_id" name="secondary_subscriber_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Group</label>
@@ -497,7 +497,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Payer ID</label>
-                                    <input type="text" value="{{$insuranceDetails['secondary_payer_id'] ? $insuranceDetails['secondary_payer_id']:''}}" class="form-control" id="secondary_payerid" name="secondary_payerid" required>
+                                    <input type="text" value="{{$insuranceDetails['secondary_payer_id'] ? $insuranceDetails['secondary_payer_id']:''}}" class="form-control" id="secondary_payer_id" name="secondary_payer_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Address</label>
@@ -551,7 +551,7 @@
                                 <input type="hidden" id="patient_id" name="patient_id" value="{{$id}}">
                                 <div class="col-md-2">
                                     <label class="form-label">Subscriber ID</label>
-                                    <input value="{{$insuranceDetails['tritary_subscriber_id'] ? $insuranceDetails['tritary_subscriber_id']:''}}" type="text" class="form-control" id="tritary_subscriberid" name="tritary_subscriberid" required>
+                                    <input value="{{$insuranceDetails['tritary_subscriber_id'] ? $insuranceDetails['tritary_subscriber_id']:''}}" type="text" class="form-control" id="tritary_subscriber_id" name="tritary_subscriber_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Group</label>
@@ -559,7 +559,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Payer ID</label>
-                                    <input type="text" value="{{$insuranceDetails['tritary_payer_id'] ? $insuranceDetails['tritary_payer_id']:''}}" class="form-control" id="tritary_payerid" name="tritary_payerid" required>
+                                    <input type="text" value="{{$insuranceDetails['tritary_payer_id'] ? $insuranceDetails['tritary_payer_id']:''}}" class="form-control" id="tritary_payer_id" name="tritary_payer_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Address</label>

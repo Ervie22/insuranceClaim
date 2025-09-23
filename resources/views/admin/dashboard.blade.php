@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
@@ -10,6 +10,14 @@
         /* background-color: #0f172a; */
         color: #0f172a;
     }
+
+    .chart-card {
+        background: #eee;
+        border-radius: 15px;
+        /* padding: 20px; */
+        /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); */
+    }
+
 
     .card {
         /* background-color: #1e293b; */
@@ -87,7 +95,9 @@
                                         <p>Balance Payones</p>
                                     </div>
                                     <div class="card-body">
-                                        <canvas id="logsChart"></canvas>
+                                        <div class="chart-card">
+                                            <canvas id="balanceChart"></canvas>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -178,6 +188,55 @@
             </div>
         </div>
     </div>
+    <!-- bar chart payones script balance payer starts-->
+    <script>
+        const ctx = document.getElementById('balanceChart').getContext('2d');
+        const balanceChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                datasets: [{
+                    label: 'Payments',
+                    data: [35, 45, 69, 40, 12], // sample data
+                    backgroundColor: [
+                        '#4cc9f0',
+                        '#4895ef',
+                        '#4361ee',
+                        '#3f37c9',
+                        '#3a0ca3'
+                    ],
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#ccc'
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#ccc'
+                        },
+                        grid: {
+                            color: 'rgba(255,255,255,0.1)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <!-- bar chart payones script balance payer ends-->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // ✅ Sample data (not from DB)

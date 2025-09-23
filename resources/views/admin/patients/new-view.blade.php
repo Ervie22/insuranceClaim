@@ -15,7 +15,7 @@
     }
 
     .profile-header {
-        background: #eee;
+        /* background: #59AC77; */
         /* height: 150px; */
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
@@ -27,9 +27,9 @@
         object-fit: cover;
         border-radius: 50%;
         border: 4px solid white;
-        position: absolute;
+        /* position: absolute;
         top: 20px;
-        left: 20px;
+        left: 20px; */
     }
 
     .profile-card {
@@ -44,7 +44,7 @@
         <div class="modal-content">
             <form action="{{ route('patients.upload_image') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="modal-header " style="background-color:#00A6D9;">
+                <div class="modal-header " style="background-color:#59AC77;">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Patient Image</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn " style="background-color:#00A6D9;">Save</button>
+                    <button type="submit" class="btn " style="background-color:#59AC77;">Save</button>
                 </div>
             </form>
         </div>
@@ -69,7 +69,7 @@
 <div class="modal fade" id="update_personal_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#00A6D9;">
+            <div class="modal-header " style="background-color:#59AC77;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Personal Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -146,7 +146,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#00A6D9;">Save</button>
+                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
                 </div>
             </form>
         </div>
@@ -157,7 +157,7 @@
 <div class="modal fade" id="update_guarantor_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#00A6D9;">
+            <div class="modal-header " style="background-color:#59AC77;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Guarantor Image</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -234,7 +234,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#00A6D9;">Save</button>
+                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
                 </div>
             </form>
         </div>
@@ -245,7 +245,7 @@
 <div class="modal fade" id="update_employer_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#00A6D9;">
+            <div class="modal-header " style="background-color:#59AC77;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Employer Image</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -299,7 +299,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#00A6D9;">Save</button>
+                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
                 </div>
             </form>
         </div>
@@ -310,7 +310,7 @@
 <div class="modal fade" id="update_emergency_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#00A6D9;">
+            <div class="modal-header " style="background-color:#59AC77;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Emergency Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -331,11 +331,11 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Phone</label>
-                                    <input type="text" value="{{$employerDetails['kin_phone'] ? $employerDetails['kin_phone']:''}}" class="form-control" id="emergency_phone" name="emergency_phone" required>
+                                    <input type="text" value="{{$employerDetails['kin_phone'] ? $employerDetails['kin_phone']:''}}" class="form-control" id="kin_phone" name="kin_phone" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Address</label>
-                                    <input value="{{$employerDetails['kin_address'] ? $employerDetails['kin_address']:''}}" type="text" class="form-control" id="emergency_address" name="emergency_address" required>
+                                    <input value="{{$employerDetails['kin_address'] ? $employerDetails['kin_address']:''}}" type="text" class="form-control" id="kin_address" name="kin_address" required>
                                 </div>
                             </div>
                         </div>
@@ -343,7 +343,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#00A6D9;">Save</button>
+                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
                 </div>
             </form>
         </div>
@@ -354,7 +354,7 @@
 <div class="modal fade" id="update_file_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#00A6D9;">
+            <div class="modal-header " style="background-color:#59AC77;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update File Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -379,31 +379,43 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">ABN Signature on file</label>
-                                    <input value="{{$fileDetails['abn'] ? $fileDetails['abn']:''}}" type="text" class="form-control" id="abn" name="abn" required>
+                                    <select class="form-control" name="abn" id="abn" required>
+                                        <option value="">Select Method</option>
+                                        <option {{ (isset($fileDetails['abn']) && $fileDetails['abn'] == 'Yes') ? 'selected' : '' }} value="Yes">Yes</option>
+                                        <option {{ (isset($fileDetails['abn']) && $fileDetails['abn'] == 'No') ? 'selected' : '' }} value="No">No</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Privay Notice</label>
-                                    <input type="text" value="{{$fileDetails['privacy_notice'] ? $fileDetails['privacy_notice']:''}}" class="form-control" id="privacy_notice" name="privacy_notice" required>
+                                    <select class="form-control" name="privacy_notice" id="privacy_notice" required>
+                                        <option value="">Select Method</option>
+                                        <option {{ (isset($fileDetails['privacy_notice']) && $fileDetails['privacy_notice'] == 'Yes') ? 'selected' : '' }} value="Yes">Yes</option>
+                                        <option {{ (isset($fileDetails['privacy_notice']) && $fileDetails['privacy_notice'] == 'No') ? 'selected' : '' }} value="No">No</option>
+                                    </select>
                                 </div>
 
                                 <div class="col-md-2">
                                     <label class="form-label">ROI Signature on file</label>
-                                    <input type="text" value="{{$fileDetails['roi'] ? $fileDetails['roi']:''}}" class="form-control" id="roi" name="roi" required>
+                                    <select class="form-control" name="roi" id="roi" required>
+                                        <option value="">Select Method</option>
+                                        <option {{ (isset($fileDetails['roi']) && $fileDetails['roi'] == 'Yes') ? 'selected' : '' }} value="Yes">Yes</option>
+                                        <option {{ (isset($fileDetails['roi']) && $fileDetails['roi'] == 'No') ? 'selected' : '' }} value="No">No</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Language</label>
                                     <select id="language" name="language" class="form-control" required>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'English') ? 'English' : '' }} value="English">English</option>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Spanish') ? 'Spanish' : '' }} value="Spanish">Spanish</option>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Chinese') ? 'Chinese' : '' }} value="Chinese">Chinese</option>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Tagalog') ? 'Tagalog' : '' }} value="Tagalog">Tagalog</option>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Vietnamese') ? 'Vietnamese' : '' }} value="Vietnamese">Vietnamese</option>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Arabic') ? 'Arabic' : '' }} value="Arabic">Arabic</option>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'French') ? 'French' : '' }} value="French">French</option>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Korean') ? 'Korean' : '' }} value="Korean">Korean</option>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Russian') ? 'Russian' : '' }} value="Russian">Russian</option>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Portuguese') ? 'Portuguese' : '' }} value="Portuguese">Portuguese</option>
-                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Haitian Creole') ? 'Haitian Creole' : '' }} value="Haitian Creole">Haitian Creole</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'English') ? 'selected' : '' }} value="English">English</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Spanish') ? 'selected' : '' }} value="Spanish">Spanish</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Chinese') ? 'selected' : '' }} value="Chinese">Chinese</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Tagalog') ? 'selected' : '' }} value="Tagalog">Tagalog</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Vietnamese') ? 'selected' : '' }} value="Vietnamese">Vietnamese</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Arabic') ? 'selected' : '' }} value="Arabic">Arabic</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'French') ? 'selected' : '' }} value="French">French</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Korean') ? 'selected' : '' }} value="Korean">Korean</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Russian') ? 'selected' : '' }} value="Russian">Russian</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Portuguese') ? 'selected' : '' }} value="Portuguese">Portuguese</option>
+                                        <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == 'Haitian Creole') ? 'selected' : '' }} value="Haitian Creole">Haitian Creole</option>
                                         <option {{ (isset($fileDetails['language']) && $fileDetails['language'] == '') ? '' : '' }} value="">Other (specify)</option>
                                     </select>
                                 </div>
@@ -411,26 +423,26 @@
                                     <label class="form-label">Race</label>
                                     <select id="race" name="race" class="form-control" required>
                                         <option value="">-- Select Race --</option>
-                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'White') ? 'White' : '' }} value="White">White</option>
-                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Black or African American') ? 'Black or African American' : '' }} value="Black or African American">Black or African American</option>
-                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'American Indian or Alaska Native') ? 'American Indian or Alaska Native' : '' }} value="American Indian or Alaska Native">American Indian or Alaska Native</option>
+                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'White') ? 'selected' : '' }} value="White">White</option>
+                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Black or African American') ? 'selected' : '' }} value="Black or African American">Black or African American</option>
+                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'American Indian or Alaska Native') ? 'selected' : '' }} value="American Indian or Alaska Native">American Indian or Alaska Native</option>
                                         <optgroup label="Asian">
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Asian Indian') ? 'Asian Indian' : '' }} value="Asian Indian">Asian Indian</option>
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Chinese') ? 'Chinese' : '' }} value="Chinese">Chinese</option>
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Filipino') ? 'Filipino' : '' }} value="Filipino">Filipino</option>
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Japanese') ? 'Japanese' : '' }} value="Japanese">Japanese</option>
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Korean') ? 'Korean' : '' }} value="Korean">Korean</option>
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Vietnamese') ? 'Vietnamese' : '' }} value="Vietnamese">Vietnamese</option>
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Other Asian') ? 'Other Asian' : '' }} value="Other Asian">Other Asian</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Asian Indian') ? 'selected' : '' }} value="Asian Indian">Asian Indian</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Chinese') ? 'selected' : '' }} value="Chinese">Chinese</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Filipino') ? 'selected' : '' }} value="Filipino">Filipino</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Japanese') ? 'selected' : '' }} value="Japanese">Japanese</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Korean') ? 'selected' : '' }} value="Korean">Korean</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Vietnamese') ? 'selected' : '' }} value="Vietnamese">Vietnamese</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Other Asian') ? 'selected' : '' }} value="Other Asian">Other Asian</option>
                                         </optgroup>
                                         <optgroup label="Native Hawaiian or Other Pacific Islander">
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Native Hawaiian') ? 'Native Hawaiian' : '' }} value="Native Hawaiian">Native Hawaiian</option>
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Guamanian or Chamorro') ? 'Guamanian or Chamorro' : '' }} value="Guamanian or Chamorro">Guamanian or Chamorro</option>
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Samoan') ? 'Samoan' : '' }} value="Samoan">Samoan</option>
-                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Other Pacific Islander') ? 'Other Pacific Islander' : '' }} value="Other Pacific Islander">Other Pacific Islander</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Native Hawaiian') ? 'selected' : '' }} value="Native Hawaiian">Native Hawaiian</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Guamanian or Chamorro') ? 'selected' : '' }} value="Guamanian or Chamorro">Guamanian or Chamorro</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Samoan') ? 'selected' : '' }} value="Samoan">Samoan</option>
+                                            <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Other Pacific Islander') ? 'selected' : '' }} value="Other Pacific Islander">Other Pacific Islander</option>
                                         </optgroup>
-                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Some other race') ? 'Some other race' : '' }} value="Some other race">Some other race</option>
-                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Two or more races') ? 'Two or more races' : '' }} value="Two or more races">Two or more races</option>
+                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Some other race') ? 'selected' : '' }} value="Some other race">Some other race</option>
+                                        <option {{ (isset($fileDetails['race']) && $fileDetails['race'] == 'Two or more races') ? 'selected' : '' }} value="Two or more races">Two or more races</option>
                                     </select>
                                     <!-- <input type="text" value="{{$fileDetails['race'] ? $fileDetails['race']:''}}" class="form-control" id="race" name="race" required> -->
                                 </div>
@@ -461,17 +473,14 @@
                                         <option {{ (isset($fileDetails['method_of_contact']) && $fileDetails['method_of_contact'] == 'Email') ? 'selected' : '' }} value="Email">Email</option>
                                     </select>
                                 </div>
-                                <div class="col-md-12">
-                                    <label class="form-label">Patient Notes</label>
-                                    <textarea class="form-control" name="patient_notes" id="patient_notes">{{$patientDetails['notes'] ? $patientDetails['notes']:''}}</textarea>
-                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#00A6D9;">Save</button>
+                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
                 </div>
             </form>
         </div>
@@ -482,7 +491,7 @@
 <div class="modal fade" id="update_present_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#00A6D9;">
+            <div class="modal-header " style="background-color:#59AC77;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Present Insurance Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -495,36 +504,36 @@
                                 <input type="hidden" id="patient_id" name="patient_id" value="{{$id}}">
                                 <div class="col-md-2">
                                     <label class="form-label">Subscriber ID</label>
-                                    <input value="{{$insuranceDetails['present_subscriber_id'] ? $insuranceDetails['present_subscriber_id']:''}}" type="text" class="form-control" id="primary_subscriberid" name="primary_subscriberid" required>
+                                    <input value="{{$insuranceDetails['present_subscriber_id'] ? $insuranceDetails['present_subscriber_id']:''}}" type="text" class="form-control" id="present_subscriber_id" name="present_subscriber_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Group</label>
-                                    <input value="{{$insuranceDetails['present_group'] ? $insuranceDetails['present_group']:''}}" type="text" class="form-control" id="primary_group" name="primary_group" required>
+                                    <input value="{{$insuranceDetails['present_group'] ? $insuranceDetails['present_group']:''}}" type="text" class="form-control" id="present_group" name="present_group" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Payer ID</label>
-                                    <input type="text" value="{{$insuranceDetails['present_payer_id'] ? $insuranceDetails['present_payer_id']:''}}" class="form-control" id="primary_payerid" name="primary_payerid" required>
+                                    <input type="text" value="{{$insuranceDetails['present_payer_id'] ? $insuranceDetails['present_payer_id']:''}}" class="form-control" id="present_payer_id" name="present_payer_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Address</label>
-                                    <input type="text" value="{{$insuranceDetails['present_address'] ? $insuranceDetails['present_address']:''}}" class="form-control" id="primary_address" name="primary_address" required>
+                                    <input type="text" value="{{$insuranceDetails['present_address'] ? $insuranceDetails['present_address']:''}}" class="form-control" id="present_address" name="present_address" required>
                                 </div>
 
                                 <div class="col-md-2">
                                     <label class="form-label">Phone</label>
-                                    <input type="text" value="{{$insuranceDetails['present_phone'] ? $insuranceDetails['present_phone']:''}}" class="form-control" id="primary_phone" name="primary_phone" required>
+                                    <input type="text" value="{{$insuranceDetails['present_phone'] ? $insuranceDetails['present_phone']:''}}" class="form-control" id="present_phone" name="present_phone" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Fax</label>
-                                    <input type="text" value="{{$insuranceDetails['present_fax'] ? $insuranceDetails['present_fax']:''}}" class="form-control" id="primary_fax" name="primary_fax" required>
+                                    <input type="text" value="{{$insuranceDetails['present_fax'] ? $insuranceDetails['present_fax']:''}}" class="form-control" id="present_fax" name="present_fax" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Effective Date</label>
-                                    <input type="date" value="{{$insuranceDetails['present_effective_date'] ? $insuranceDetails['present_effective_date']:''}}" class="form-control" id="primary_effective_date" name="primary_effective_date" required>
+                                    <input type="date" value="{{$insuranceDetails['present_effective_date'] ? $insuranceDetails['present_effective_date']:''}}" class="form-control" id="present_effective_date" name="present_effective_date" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Termination Date</label>
-                                    <input type="date" value="{{$insuranceDetails['present_termination_date'] ? $insuranceDetails['present_termination_date']:''}}" class="form-control" id="primary_termination_date" name="primary_termination_date" required>
+                                    <input type="date" value="{{$insuranceDetails['present_termination_date'] ? $insuranceDetails['present_termination_date']:''}}" class="form-control" id="present_termination_date" name="present_termination_date" required>
                                 </div>
 
                             </div>
@@ -533,7 +542,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#00A6D9;">Save</button>
+                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
                 </div>
             </form>
         </div>
@@ -544,7 +553,7 @@
 <div class="modal fade" id="update_secondary_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#00A6D9;">
+            <div class="modal-header " style="background-color:#59AC77;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Secondary Insurance Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -557,7 +566,7 @@
                                 <input type="hidden" id="patient_id" name="patient_id" value="{{$id}}">
                                 <div class="col-md-2">
                                     <label class="form-label">Subscriber ID</label>
-                                    <input value="{{$insuranceDetails['secondary_subscriber_id'] ? $insuranceDetails['secondary_subscriber_id']:''}}" type="text" class="form-control" id="secondary_subscriberid" name="secondary_subscriberid" required>
+                                    <input value="{{$insuranceDetails['secondary_subscriber_id'] ? $insuranceDetails['secondary_subscriber_id']:''}}" type="text" class="form-control" id="secondary_subscriber_id" name="secondary_subscriber_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Group</label>
@@ -565,7 +574,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Payer ID</label>
-                                    <input type="text" value="{{$insuranceDetails['secondary_payer_id'] ? $insuranceDetails['secondary_payer_id']:''}}" class="form-control" id="secondary_payerid" name="secondary_payerid" required>
+                                    <input type="text" value="{{$insuranceDetails['secondary_payer_id'] ? $insuranceDetails['secondary_payer_id']:''}}" class="form-control" id="secondary_payer_id" name="secondary_payer_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Address</label>
@@ -595,7 +604,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#00A6D9;">Save</button>
+                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
                 </div>
             </form>
         </div>
@@ -606,7 +615,7 @@
 <div class="modal fade" id="update_tritary_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#00A6D9;">
+            <div class="modal-header " style="background-color:#59AC77;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Tritary Insurance Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -619,7 +628,7 @@
                                 <input type="hidden" id="patient_id" name="patient_id" value="{{$id}}">
                                 <div class="col-md-2">
                                     <label class="form-label">Subscriber ID</label>
-                                    <input value="{{$insuranceDetails['tritary_subscriber_id'] ? $insuranceDetails['tritary_subscriber_id']:''}}" type="text" class="form-control" id="tritary_subscriberid" name="tritary_subscriberid" required>
+                                    <input value="{{$insuranceDetails['tritary_subscriber_id'] ? $insuranceDetails['tritary_subscriber_id']:''}}" type="text" class="form-control" id="tritary_subscriber_id" name="tritary_subscriber_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Group</label>
@@ -627,7 +636,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Payer ID</label>
-                                    <input type="text" value="{{$insuranceDetails['tritary_payer_id'] ? $insuranceDetails['tritary_payer_id']:''}}" class="form-control" id="tritary_payerid" name="tritary_payerid" required>
+                                    <input type="text" value="{{$insuranceDetails['tritary_payer_id'] ? $insuranceDetails['tritary_payer_id']:''}}" class="form-control" id="tritary_payer_id" name="tritary_payer_id" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Address</label>
@@ -657,46 +666,92 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#00A6D9;">Save</button>
+                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <!-- update tritary infomodal ends-->
+<!-- update tritary note modal starts-->
+<div class="modal fade" id="update_note_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header " style="background-color:#59AC77;">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Update Notes</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{{ route('patients.update-patient-note') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body p-1">
+                            <div class="row g-3">
+                                <input type="hidden" id="patient_id" name="patient_id" value="{{$id}}">
+                                <div class="col-md-12">
+                                    <label class="form-label">Notes</label>
+                                    <textarea class="form-control" name="patient_notes" id="patient_notes">
+                                    {{$patientNote['notes'] ? $patientNote['notes']:''}}
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- update notes modal ends-->
 <div class="container-fluid viewPatientPage">
     @if(session('success'))
-    <div class="alert alert-success">
+    <div class="alert alert-success" id="success-alert">
         {{ session('success') }}
     </div>
     @endif
 
     <div class="card profile-card">
         <!-- Header Background -->
-        <div class="profile-header">
-            <span type="button" class="btn btn-sm" style="margin-top:40px; margin-left:110px;" data-bs-toggle="modal" data-bs-target="#upload_image_modal" title="Upload Patient Image">
-                <i class="fa fa-camera"></i>
-            </span>
-        </div>
-        @if(isset($patientDetails['profile_image_path']))
-        <img src="{{ asset('storage/patient/patient_images/'.$patientDetails['profile_image_path']) }}" alt="Patient Image" class="profile-pic"
-            style="width: 100px; height: 100px; object-fit: cover;">
-        @else
-        <!-- Profile Image -->
-        <img src="https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3"
-            alt="Profile Image"
-            class="profile-pic"
-            style="width: 100px; height: 100px; object-fit: cover;">
+        <!-- <div class="profile-header">
 
-        @endif
+
+            <div class="row" style=" margin-left:120px;" style="width:100%;">
+
+
+            </div>
+        </div> -->
+
         <!-- Profile Image -->
         <!-- <img src="https://via.placeholder.com/120" alt="Profile" class="profile-pic"> -->
 
         <!-- Profile Details -->
-        <div class="card-body mt-5">
+        <div class="card-body">
             <div class="row">
-                <div class="col-3">
-                    <h5 class="card-title mb-0" style="color:#00A6D9;">
+                <div class="col-1">
+                    @if(isset($patientDetails['profile_image_path']))
+                    <img src="{{ asset('storage/patient/patient_images/'.$patientDetails['profile_image_path']) }}" alt="Patient Image" class="profile-pic"
+                        style="width: 100px; height: 100px; object-fit: cover;">
+                    <span type="button" class="btn btn-sm" style="margin-left:110;" data-bs-toggle="modal" data-bs-target="#upload_image_modal" title="Upload Patient Image">
+                        <i class="fa fa-camera"></i>
+                    </span>
+                    @else
+                    <!-- Profile Image -->
+                    <img src="https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3"
+                        alt="Profile Image"
+                        class="profile-pic"
+                        style="width: 100px; height: 100px; object-fit: cover;">
+                    <span type="button" class="btn btn-sm" style="margin-left:110;" data-bs-toggle=" modal" data-bs-target="#upload_image_modal" title="Upload Patient Image">
+                        <i class="fa fa-camera"></i>
+                    </span>
+                    @endif
+
+                </div>
+                <div class="col-4">
+                    <h5 class="card-title mb-0" style="color:#59AC77;">
                         {{$patientDetails['first_name'] ? $patientDetails['first_name']:''}}
                         {{$patientDetails['last_name'] ? $patientDetails['last_name']:''}}
                         {{$patientDetails['mi'] ? $patientDetails['mi']:''}}
@@ -724,8 +779,71 @@
                         </span>
                     </p>
                 </div>
+                <div class="col-4">
+                    <h5 class="card-title mb-0" style="color:#59AC77;">
+                        Emergency Info
+                        <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_emergency_modal" title="Update Emergency Insurance Info">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    </h5>
+                    <p class="text-secondary mb-1">
+                        Name:
+                        <span style="color:#57564F;">
+                            {{$employerDetails['emergency_contact'] ? $employerDetails['emergency_contact']:''}}
+                        </span>
+                        Relationship:
+                        <span style="color:#57564F;">
+                            {{$employerDetails['relationship'] ? $employerDetails['relationship']:''}}
+                        </span>
+
+                    </p>
+
+                    <p class="text-secondary mb-1">
+                        Phone:
+                        <span style="color:#57564F;">
+                            {{$employerDetails['kin_phone'] ? $employerDetails['kin_phone']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Addresss:
+                        <span style="color:#57564F;">
+                            {{$employerDetails['kin_address'] ? $employerDetails['kin_address']:''}}
+                        </span>
+                    </p>
+                    <p class="text-secondary mb-1">
+                        Note:
+                        <span style="color:#57564F;">
+                            {{$patientDetails['notes'] ? $patientDetails['notes']:''}}
+                        </span>
+                    </p>
+                </div>
                 <div class="col-3">
-                    <h5 class="card-title mb-0" style="color:#00A6D9;">
+                    <h5 class="card-title mb-0" style="color:#59AC77;">
+                        Employer Info
+                        <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_employer_modal" title="Update Employer Info">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    </h5>
+                    <p class="text-secondary mb-1">Name: <span style="color:#57564F;">{{$employerDetails['employer_name'] ? $employerDetails['employer_name']:''}}</span> Department: <span style="color:#57564F;">{{$employerDetails['department'] ? $employerDetails['department']:''}}</span></p>
+                    <p class="text-secondary mb-1">Phone: <span style="color:#57564F;">{{$employerDetails['employer_phone'] ? $employerDetails['employer_phone']:''}}</span> Email: <span style="color:#57564F;">{{$employerDetails['email'] ? $employerDetails['email']:''}}</span></p>
+                    <p class="text-secondary mb-1">
+                        Address:
+                        <span style="color:#57564F;">
+                            {{$employerDetails['address1'] ? $employerDetails['address1']:''}},
+                            {{$employerDetails['address2'] ? $employerDetails['address2']:''}},
+                        </span>
+                        <span style="color:#57564F;">
+                            {{$employerDetails['city'] ? $employerDetails['city']:''}},
+                            {{$employerDetails['state'] ? $employerDetails['state']:''}},
+                            {{$employerDetails['postcode'] ? $employerDetails['postcode']:''}}
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-3">
+                    <h5 class="card-title mb-0" style="color:#59AC77;">
                         Primary Insurance Info
                         <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_present_modal" title="Update Primary Insurance Info">
                             <i class="fa fa-edit"></i>
@@ -774,7 +892,7 @@
 
                 </div>
                 <div class="col-3">
-                    <h5 class="card-title mb-0" style="color:#00A6D9;">
+                    <h5 class="card-title mb-0" style="color:#59AC77;">
                         Secondary Insurance Info
                         <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_secondary_modal" title="Update Secondary Insurance Info">
                             <i class="fa fa-edit"></i>
@@ -823,7 +941,7 @@
 
                 </div>
                 <div class="col-3">
-                    <h5 class="card-title mb-0" style="color:#00A6D9;">
+                    <h5 class="card-title mb-0" style="color:#59AC77;">
                         Tritary Insurance Info
                         <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_tritary_modal" title="Update Tritary Insurance Info">
                             <i class="fa fa-edit"></i>
@@ -871,105 +989,44 @@
                     </p>
 
                 </div>
+                <div class="col-3">
+
+                    <h5 class="card-title mb-0" style="color:#59AC77;">
+                        Guarantors Info
+                        <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_guarantor_modal" title="Update Guarantors  Info">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    </h5>
+                    <p class="text-secondary mb-1">
+                        Name:
+                        <span style="color:#57564F;">
+                            {{$guarantorDetails['first_name'] ? $guarantorDetails['first_name']:''}} {{$guarantorDetails['last_name'] ? $guarantorDetails['last_name']:''}} {{$guarantorDetails['mi'] ? $guarantorDetails['mi']:''}}
+                        </span>
+
+                    </p>
+                    <p class="text-secondary mb-1">Mobile: <span style="color:#57564F;">{{$guarantorDetails['mobilephone'] ? $guarantorDetails['mobilephone']:''}}</span> Home: <span style="color:#57564F;">{{$guarantorDetails['homephone'] ? $guarantorDetails['homephone']:''}}</span></p>
+                    <p class="text-secondary mb-1">Email: <span style="color:#57564F;">{{$guarantorDetails['email'] ? $guarantorDetails['email']:''}}</span></p>
+                    <p class="text-secondary mb-1">
+                        Address:
+                        <span style="color:#57564F;">
+                            {{$guarantorDetails['address1'] ? $guarantorDetails['address1']:''}},
+                            {{$guarantorDetails['address2'] ? $guarantorDetails['address2']:''}},
+                        </span>
+                        <span style="color:#57564F;">
+                            {{$guarantorDetails['city'] ? $guarantorDetails['city']:''}},
+                            {{$guarantorDetails['state'] ? $guarantorDetails['state']:''}},
+                            {{$guarantorDetails['postcode'] ? $guarantorDetails['postcode']:''}}
+                        </span>
+                    </p>
+
+                </div>
 
             </div>
             <div class="row">
                 <div class="col-6">
                     <div class="row">
                         <div class="col-6">
-                            <h5 class="card-title mb-0" style="color:#00A6D9;">
-                                Employer Info
-                                <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_employer_modal" title="Update Employer Info">
-                                    <i class="fa fa-edit"></i>
-                                </span>
-                            </h5>
-                            <p class="text-secondary mb-1">Name: <span style="color:#57564F;">{{$employerDetails['employer_name'] ? $employerDetails['employer_name']:''}}</span> Department: <span style="color:#57564F;">{{$employerDetails['department'] ? $employerDetails['department']:''}}</span></p>
-                            <p class="text-secondary mb-1">Phone: <span style="color:#57564F;">{{$employerDetails['employer_phone'] ? $employerDetails['employer_phone']:''}}</span> Email: <span style="color:#57564F;">{{$employerDetails['email'] ? $employerDetails['email']:''}}</span></p>
-                            <p class="text-secondary mb-1">
-                                Address:
-                                <span style="color:#57564F;">
-                                    {{$employerDetails['address1'] ? $employerDetails['address1']:''}},
-                                    {{$employerDetails['address2'] ? $employerDetails['address2']:''}},
-                                </span>
-                                <span style="color:#57564F;">
-                                    {{$employerDetails['city'] ? $employerDetails['city']:''}},
-                                    {{$employerDetails['state'] ? $employerDetails['state']:''}},
-                                    {{$employerDetails['postcode'] ? $employerDetails['postcode']:''}}
-                                </span>
-                            </p>
-                        </div>
-                        <div class="col-6">
-                            <h5 class="card-title mb-0" style="color:#00A6D9;">
-                                Emergency Info
-                                <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_emergency_modal" title="Update Emergency Insurance Info">
-                                    <i class="fa fa-edit"></i>
-                                </span>
-                            </h5>
-                            <p class="text-secondary mb-1">
-                                Name:
-                                <span style="color:#57564F;">
-                                    {{$employerDetails['emergency_contact'] ? $employerDetails['emergency_contact']:''}}
-                                </span>
-                                Relationship:
-                                <span style="color:#57564F;">
-                                    {{$employerDetails['relationship'] ? $employerDetails['relationship']:''}}
-                                </span>
-
-                            </p>
-
-                            <p class="text-secondary mb-1">
-                                Phone:
-                                <span style="color:#57564F;">
-                                    {{$employerDetails['kin_phone'] ? $employerDetails['kin_phone']:''}}
-                                </span>
-                            </p>
-                            <p class="text-secondary mb-1">
-                                Addresss:
-                                <span style="color:#57564F;">
-                                    {{$employerDetails['kin_address'] ? $employerDetails['kin_address']:''}}
-                                </span>
-                            </p>
-                            <p class="text-secondary mb-1">
-                                Note:
-                                <span style="color:#57564F;">
-                                    {{$patientDetails['notes'] ? $patientDetails['notes']:''}}
-                                </span>
-                            </p>
-
-                        </div>
-                        <div class="col-6">
-                            <h5 class="card-title mb-0" style="color:#00A6D9;">
-                                Guarantors Info
-                                <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_guarantor_modal" title="Update Guarantors  Info">
-                                    <i class="fa fa-edit"></i>
-                                </span>
-                            </h5>
-                            <p class="text-secondary mb-1">
-                                Name:
-                                <span style="color:#57564F;">
-                                    {{$guarantorDetails['first_name'] ? $guarantorDetails['first_name']:''}} {{$guarantorDetails['last_name'] ? $guarantorDetails['last_name']:''}} {{$guarantorDetails['mi'] ? $guarantorDetails['mi']:''}}
-                                </span>
-
-                            </p>
-                            <p class="text-secondary mb-1">Mobile: <span style="color:#57564F;">{{$guarantorDetails['mobilephone'] ? $guarantorDetails['mobilephone']:''}}</span> Home: <span style="color:#57564F;">{{$guarantorDetails['homephone'] ? $guarantorDetails['homephone']:''}}</span></p>
-                            <p class="text-secondary mb-1">Email: <span style="color:#57564F;">{{$guarantorDetails['email'] ? $guarantorDetails['email']:''}}</span></p>
-                            <p class="text-secondary mb-1">
-                                Address:
-                                <span style="color:#57564F;">
-                                    {{$guarantorDetails['address1'] ? $guarantorDetails['address1']:''}},
-                                    {{$guarantorDetails['address2'] ? $guarantorDetails['address2']:''}},
-                                </span>
-                                <span style="color:#57564F;">
-                                    {{$guarantorDetails['city'] ? $guarantorDetails['city']:''}},
-                                    {{$guarantorDetails['state'] ? $guarantorDetails['state']:''}},
-                                    {{$guarantorDetails['postcode'] ? $guarantorDetails['postcode']:''}}
-                                </span>
-                            </p>
-
-
-                        </div>
-                        <div class="col-6">
-                            <h5 class="card-title mb-0" style="color:#00A6D9;">
+                            <h5 class="card-title mb-0" style="color:#59AC77;">
                                 Consent File Info
                                 <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_file_modal" title="Update File  Info">
                                     <i class="fa fa-edit"></i>
@@ -1032,58 +1089,107 @@
                                 </span>
                             </p>
                         </div>
+                        <div class="col-6">
+
+
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="row">
-                        <div class="card">
-                            <div class="card-haeder text-white" style="background-color:#00A6D9;">
-                                <h6>Patient History</h6>
-                            </div>
-                            <div class="card-body" style="height:300px; overflow-y:auto;">
-                                <table id="logsTable" class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Log Details</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($patientHistory as $key=>$val)
-                                        <tr>
-                                            <td>
-                                                <p>{{$val['action']}} by {{$val['user_name']}} at {{date('d-m-Y', strtotime($val['created_at']))}}</p>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div class="card p-1" style="width:100%;">
+                        <div class="card-haeder text-white" style="background-color:#59AC77; width:100%;">
+                            <h6>Notes <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_note_modal" title="Update Notes">
+                                    <i class="fa fa-edit"></i>
+                                </span></h6>
+                        </div>
+                        <div class="card-body" style="height:300px; overflow-y:auto;">
+                            <table id="notesTable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20%">User</th>
+                                        <th style="width:60%">Notes</th>
+                                        <th style="width:20%">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($patientNoteList as $keyn=>$valn)
+                                    <tr>
+                                        <td>{{$valn['first_name']}} {{$valn['last_name']}}</td>
+                                        <td>
+                                            {{$valn['notes']}}
+                                        </td>
+                                        <td>{{date('d-m-Y H:i', strtotime($valn['updated_at']))}}</td>
+                                    </tr>
+
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
 
 
             </div>
+            <div class="row" style="width:100%;">
+                <div class="card p-1" style="width:100%;">
+                    <div class="card-haeder text-white" style="background-color:#59AC77; width:100%;">
+                        <h6>Patient History</h6>
+                    </div>
+                    <div class="card-body" style="height:300px; overflow-y:auto;">
+                        <table id="logsTable" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:20%">User</th>
+                                    <th style="width:60%">Action</th>
+                                    <th style="width:20%">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($patientHistory as $key=>$val)
+                                <tr>
+                                    <td>{{$val['user_name']}}</td>
+                                    <td>
+                                        {{$val['action']}}
+                                    </td>
+                                    <td>{{date('d-m-Y H:i', strtotime($val['created_at']))}}</td>
+                                </tr>
 
-
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
 
 <!-- Include jQuery & DataTables JS -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
+<script>
+    // hide alert after 3 seconds
+    setTimeout(function() {
+        $('#success-alert').fadeOut('slow');
+    }, 3000);
+</script>
 <script>
     $(document).ready(function() {
         $('#logsTable').DataTable({
             pageLength: 5, // number of rows per page
             lengthMenu: [5, 10, 25, 50], // dropdown for rows
-            // order: [
-            //     [2, 'desc']
-            // ], // default sort by timestamp DESC
+            order: [
+                [2, 'desc']
+            ], // default sort by timestamp DESC
+        });
+        $('#notesTable').DataTable({
+            pageLength: 5, // number of rows per page
+            lengthMenu: [3, 10, 25, 50], // dropdown for rows
+            order: [
+                [2, 'desc']
+            ], // default sort by timestamp DESC
         });
     });
 </script>

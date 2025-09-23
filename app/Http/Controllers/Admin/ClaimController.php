@@ -46,4 +46,13 @@ class ClaimController extends Controller
         $patients = Patient::where('is_deleted', '0')->where('active', '1')->get();
         return view('admin.claims.create-claim', compact('patients'));
     }
+    public function getPatient($id)
+    {
+        $patients = Patient::where('id', $id)->first();
+
+        return response()->json([
+            'success' => true,
+            'data' => $patients
+        ]);
+    }
 }

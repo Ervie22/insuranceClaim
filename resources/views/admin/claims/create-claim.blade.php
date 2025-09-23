@@ -1,158 +1,171 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <title>Claim Form</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .form-section {
-            display: none;
-            margin-top: 20px;
-        }
-    </style>
-</head>
+@section('content')
 
-<body class="bg-light">
-    <div class="container mt-4">
-        <div class="card shadow-lg">
-            <div class="card-header bg-primary text-white">
-                <h4>Insurance Claim Form</h4>
+<div class="container-fluid">
+    <form id="createClaimForm" method="POST" action="{{ route('claims.store') }}" enctype="multipart/form-data">
+        @csrf
+        <div class="card">
+            <div class="card-header text-white p-1" style="background-color:#00A6D9;">
+                <h6>Patients Info</h6>
             </div>
-            <div class="card-body">
-                <!-- Select Form Type -->
-                <div class="mb-3">
-                    <label for="formType" class="form-label">Select Form Type</label>
-                    <select id="formType" class="form-select">
-                        <option value="">-- Select --</option>
-                        <option value="hcfa">HCFA-1500 (Professional)</option>
-                        <option value="ub92">UB-92 (Institutional)</option>
-                    </select>
-                </div>
-
-                <!-- Patient Dropdown -->
-                <div class="mb-3">
-                    <label for="patientSelect" class="form-label">Select Patient</label>
-                    <select id="patientSelect" class="form-select">
-                        <option value="">-- Select Patient --</option>
-                        @foreach($patients as $patient)
-                        <option value="{{ $patient->id }}"
-                            data-name="{{ $patient->name }}"
-                            data-dob="{{ $patient->dob }}"
-                            data-gender="{{ $patient->gender }}"
-                            data-address="{{ $patient->address }}">
-                            {{ $patient->name }} ({{ $patient->dob }})
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Patient Details Auto Fill -->
-                <div id="patientDetails" class="border rounded p-3 bg-light mb-4" style="display:none;">
-                    <h6>Patient Details</h6>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="form-label">Name</label>
-                            <input type="text" id="patientName" name="patientName" class="form-control" readonly>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">DOB</label>
-                            <input type="text" id="patientDOB" name="patientDOB" class="form-control" readonly>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Gender</label>
-                            <input type="text" id="patientGender" name="patientGender" class="form-control" readonly>
-                        </div>
-                        <div class="col-12 mt-2">
-                            <label class="form-label">Address</label>
-                            <input type="text" id="patientAddress" name="patientAddress" class="form-control" readonly>
-                        </div>
+            <div class="card-body p-1">
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label class="form-label">Patient</label>
+                        <select class="form-control" onchange="getPatientDetails()" name="patient_id" id="patient_id" required>
+                            <option value="">Select Patient</option>
+                            @foreach($patients as $key=>$val)
+                            <option value="{{$val['id']}}">{{$val['first_name']}} {{$val['last_name']}} {{$val['mi']}}</option>
+                            @endforeach
+                        </select>
                     </div>
-                </div>
-
-                <!-- HCFA-1500 Section -->
-                <div id="hcfaSection" class="form-section">
-                    <h5>HCFA-1500 (Professional Claim)</h5>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Insurance ID</label>
-                            <input type="text" name="insurance_id" class="form-control">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Provider Name</label>
-                            <input type="text" name="provider_name" class="form-control">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label class="form-label">Diagnosis Codes</label>
-                            <input type="text" name="diagnosis_codes" class="form-control" placeholder="ICD-10 Codes">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label class="form-label">Procedure Codes</label>
-                            <input type="text" name="procedure_codes" class="form-control" placeholder="CPT/HCPCS">
-                        </div>
+                    <div class="col-md-2">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstname" name="firstname" required>
                     </div>
-                </div>
-
-                <!-- UB-92 Section -->
-                <div id="ub92Section" class="form-section">
-                    <h5>UB-92 (Institutional Claim)</h5>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Provider Name</label>
-                            <input type="text" name="provider_name" class="form-control">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Type of Bill</label>
-                            <input type="text" name="type_of_bill" class="form-control">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Admission Date</label>
-                            <input type="date" name="admission_date" class="form-control">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Discharge Date</label>
-                            <input type="date" name="discharge_date" class="form-control">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label class="form-label">Diagnosis Codes</label>
-                            <input type="text" name="diagnosis_codes" class="form-control" placeholder="ICD-10 Codes">
-                        </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" required>
                     </div>
-                </div>
-
-                <!-- Submit -->
-                <div class="text-end mt-3">
-                    <button type="submit" class="btn btn-success">Submit Claim</button>
+                    <div class="col-md-2">
+                        <label class="form-label">MI</label>
+                        <input type="text" class="form-control" id="mi" name="mi" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">DOB</label>
+                        <input type="date" class="form-control" name="dob" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Sex at Birth</label>
+                        <select class="form-control" name="sex" id="sex" required>
+                            <option value="">Select Sex</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">SSN</label>
+                        <input type="text" class="form-control" id="ssn" name="ssn" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Home Phone</label>
+                        <input type="text" class="form-control" id="homephone" name="homephone" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Mobile Phone</label>
+                        <input type="text" class="form-control" id="mobilephone" name="mobilephone" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Address 1</label>
+                        <input type="text" class="form-control" id="address1" name="address1" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Address 2</label>
+                        <input type="text" class="form-control" id="address2" name="address2" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">City</label>
+                        <input type="text" class="form-control" id="city" name="city" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">State</label>
+                        <input type="text" class="form-control" id="state" name="state" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Post Code</label>
+                        <input type="text" class="form-control" id="postcode" name="postcode" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Form Type</label>
+                        <select class="form-control" onchange="formChange()" name="form_type" id="form_type" required>
+                            <option value="">Select Form</option>
+                            <option value="1">HCFA1500</option>
+                            <option value="2">UB92</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="card mt-1" id="hcfaForm" style="display:none;">
+            <div class="card-header text-white p-1" style="background-color:#00A6D9;">
+                <h6>HBCA1500 Form</h6>
+            </div>
+            <div class="card-body p-1">
 
-    <script>
-        // Form type toggle
-        document.getElementById('formType').addEventListener('change', function() {
-            document.querySelectorAll('.form-section').forEach(s => s.style.display = 'none');
-            if (this.value === 'hcfa') {
-                document.getElementById('hcfaSection').style.display = 'block';
-            } else if (this.value === 'ub92') {
-                document.getElementById('ub92Section').style.display = 'block';
+            </div>
+        </div>
+        <div class="card" id="ubForm" style="display:none;">
+            <div class="card-header text-white p-1" style="background-color:#00A6D9;">
+                <h6>UB92 Form</h6>
+            </div>
+            <div class="card-body p-1">
+
+            </div>
+        </div>
+
+        <div class="col mt-1 text-center">
+            <button type="submit" class="btn  text-white" style="background-color:#00A6D9;">Submit</button>
+        </div>
+    </form>
+</div>
+<script>
+    function formChange() {
+        var formType = $('#form_type').val();
+        var patientId = $('#patient_id').val();
+        if (patientId === "" || patientId === null) {
+            alert('Select Patient First');
+            $('#form_type').val(""); // reset the form_type dropdown
+        }
+        if (patientId != "" || patientId != null) {
+            if (formType == 1) {
+                $('#hcfaForm').show();
+                $('#ubForm').hide();
+            }
+            if (formType == 2) {
+                $('#ubForm').show();
+                $('#hcfaForm').hide();
+            }
+        }
+
+    }
+
+    function getPatientDetails() {
+        var patientId = $('#patient_id').val();
+        $.ajax({
+            url: '/get-patient/' + patientId, // Laravel route
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Example: fill patient fields automatically
+                    $('#firstname').val(response.data.first_name);
+                    $('#lastname').val(response.data.last_name);
+                    $('#mi').val(response.data.mi);
+                    $('#dob').val(response.data.dob);
+                    $('#sex').val(response.data.sex);
+                    $('#ssn').val(response.data.ssn);
+                    $('#homephone').val(response.data.homephone);
+                    $('#mobilephone').val(response.data.mobilephone);
+                    $('#email').val(response.data.email);
+                    $('#address1').val(response.data.address1);
+                    $('#address2').val(response.data.address2);
+                    $('#city').val(response.data.city);
+                    $('#state').val(response.data.state);
+                    $('#postcode').val(response.data.postcode);
+                } else {
+                    alert("Patient not found");
+                }
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+                alert("Error fetching patient details");
             }
         });
-
-        // Auto fill patient details
-        document.getElementById('patientSelect').addEventListener('change', function() {
-            let option = this.options[this.selectedIndex];
-            if (option.value) {
-                document.getElementById('patientDetails').style.display = 'block';
-                document.getElementById('patientName').value = option.getAttribute('data-name');
-                document.getElementById('patientDOB').value = option.getAttribute('data-dob');
-                document.getElementById('patientGender').value = option.getAttribute('data-gender');
-                document.getElementById('patientAddress').value = option.getAttribute('data-address');
-            } else {
-                document.getElementById('patientDetails').style.display = 'none';
-            }
-        });
-    </script>
-</body>
-
-</html>
+    }
+</script>
+@endsection

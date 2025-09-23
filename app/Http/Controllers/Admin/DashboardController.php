@@ -38,5 +38,10 @@ class DashboardController extends Controller
         // dd($recentFiles);
         $allUsers = User::where('active', '=', '1')->get();
         return view('admin.dashboard', compact('allUsers', 'user', 'userName'));
+        // return view('test');
+    }
+    public function test()
+    {
+        return view('test');
     }
 }

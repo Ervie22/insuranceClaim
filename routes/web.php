@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Admin routes
     Route::get('/admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/test-url', [AdminDashboardController::class, 'test'])->name('test');
     Route::get('/admin-user-management', [UserController::class, 'userManagement'])->name('admin.user-management');
     Route::post('/update-user', [UserController::class, 'updateUser'])->name('update.user');
     Route::post('/create-user', [UserController::class, 'createUser'])->name('create-user');
@@ -74,10 +75,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-secondary-info', [PatientController::class, 'updateSecondaryInfo'])->name('patients.update-secondary-info');
     Route::post('/update-tritary-info', [PatientController::class, 'updatetTritaryInfo'])->name('patients.update-tritary-info');
     Route::post('/upload-patient-image', [PatientController::class, 'uploadPatientImage'])->name('patients.upload_image');
+    Route::post('/update-patient-note', [PatientController::class, 'uploadPatientNote'])->name('patients.update-patient-note');
 
 
     Route::get('/claims', [ClaimController::class, 'index'])->name('claims.list');
     Route::get('/create-claim', [ClaimController::class, 'createClaim'])->name('claims.create');
+    Route::get('/get-patient/{id}', [ClaimController::class, 'getPatient'])->name('claims.get-patient');
+    Route::post('/store-claim', [ClaimController::class, 'storeClaim'])->name('claims.store');
 
     Route::get('/capitation-payments', [PaymentController::class, 'capitationPayments'])->name('payments.capitation-payments');
     Route::get('/insurance-payouts', [PaymentController::class, 'insurancePayouts'])->name('payments.insurance-payouts');
