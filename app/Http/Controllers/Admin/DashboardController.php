@@ -44,4 +44,8 @@ class DashboardController extends Controller
     {
         return view('test');
     }
+    public function test2()
+    {
+        return view('test2');
+    }
 }

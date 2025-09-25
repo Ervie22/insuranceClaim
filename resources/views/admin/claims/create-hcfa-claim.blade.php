@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <form id="createClaimForm" method="POST" action="{{ route('claims.store') }}" enctype="multipart/form-data">
         @csrf
-        <div class="card mb-1">
+        <div class="card mb-1" style="background-color:#DDF4E7;">
             <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="form-check col-1">
@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <div class="card mb-1">
+        <div class="card mb-1" style="background-color:#DDF4E7;">
             <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="col-md-2">
@@ -163,7 +163,7 @@
                 </div>
             </div>
         </div>
-        <div class="card mb-1">
+        <div class="card mb-1" style="background-color:#DDF4E7;">
             <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="col-md-2">
@@ -223,7 +223,7 @@
                 </div>
             </div>
         </div>
-        <div class="card mb-1" id="anotherInsuredsDetail" style="display:none;">
+        <div class="card mb-1" style="background-color:#DDF4E7;" id="anotherInsuredsDetail" style="display:none;">
             <div class="card-body p-1">
                 <div class="row g-3">
                     <div class="col-md-2">
@@ -259,12 +259,160 @@
                 </div>
             </div>
         </div>
+        <div class="card mb-1" style="background-color:#DDF4E7;">
+            <div class="card-body p-1">
+                <div class="row g-3 p-2">
+                    Is Patient condititon related to:
+
+                    <div class="col-md-2">
+                        <label class="form-label">Employment? Current Or Previous </label> <br>
+                        <div class="row">
+                            <div class="form-check col-6">
+                                <label class="form-check-label" for="yes">
+                                    Yes
+                                </label> <br>
+                                <input class="form-check-input" style="margin-left:10px;" value="yes" type="radio" name="employemnt" id="yes">
+                            </div>
+                            <div class="form-check col-6">
+                                <label class="form-check-label" for="No">
+                                    No
+                                </label> <br>
+                                <input class="form-check-input" style="margin-left:10px;" value="No" type="radio" name="employemnt" id="No">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Auto Accident? </label> <br>
+                        <div class="row">
+                            <div class="form-check col-4">
+                                <label class="form-check-label" for="yes">
+                                    Yes
+                                </label> <br>
+                                <input class="form-check-input" style="margin-left:10px;" value="yes" type="radio" name="auto_accident" id="yes">
+                            </div>
+                            <div class="form-check col-4">
+                                <label class="form-check-label" for="No">
+                                    No
+                                </label> <br>
+                                <input class="form-check-input" style="margin-left:10px;" value="No" type="radio" name="auto_accident" id="No">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Place (State)</label>
+                                <input type="text" class="form-control" id="accident_state" name="accident_state">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Other Accident? </label> <br>
+                        <div class="row">
+                            <div class="form-check col-6">
+                                <label class="form-check-label" for="yes">
+                                    Yes
+                                </label> <br>
+                                <input class="form-check-input" style="margin-left:10px;" value="yes" type="radio" name="other_accident" id="yes">
+                            </div>
+                            <div class="form-check col-6">
+                                <label class="form-check-label" for="No">
+                                    No
+                                </label> <br>
+                                <input class="form-check-input" style="margin-left:10px;" value="No" type="radio" name="other_accident" id="No">
+                            </div>
+                        </div>
+
+                    </div>
 
 
-        <div class="col mt-1 text-center">
-            <button type="submit" class="btn  text-white" style="background-color:#00A6D9;">Submit</button>
+                    <div class="col-md-2">
+                        <label class="form-label">Reserved For Local use</label>
+                        <textarea class="form-control" id="local_use" name="local_use" required></textarea>
+                    </div>
+
+
+                </div>
+            </div>
         </div>
-    </form>
+        <div class="card mb-1" style="background-color:#DDF4E7;">
+            <div class="row g-3 p-1">
+                <div class="col-md-2">
+                    <label class="form-label">Date of current</label>
+                    <input type="date" class="form-control" name="current_date" id="current_date" required>
+                </div>
+                <div class="form-check col-1">
+                    <label class="form-check-label" for="ILLNESS">
+                        ILLNESS (First symptom)
+                    </label> <br>
+                    <input class="form-check-input" style="margin-left:30px;" type="radio" value="ILLNESS" name="current_problem" id="ILLNESS">
+                </div>
+                <div class="form-check col-1">
+                    <label class="form-check-label" for="INJURY">
+                        INJURY (Accident)
+                    </label> <br> <br>
+                    <input class="form-check-input" style="margin-left:30px;" type="radio" value="INJURY" name="current_problem" id="INJURY">
+                </div>
+                <div class="form-check col-1">
+                    <label class="form-check-label" for="PREGNANCY">
+                        PREGNANCY (LMP)
+                    </label> <br> <br>
+                    <input class="form-check-input" style="margin-left:30px;" type="radio" value="PREGNANCY" name="current_problem" id="PREGNANCY">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">If patient has had same or similar illness. Give First Date</label>
+                    <input type="date" class="form-control" name="similar_first_date" id="similar_first_date" required>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Dates Patient Unable to work in occupation</label>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label">From</label>
+                            <input type="date" class="form-control" name="from_no_work_date" id="from_no_work_date" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">TO</label>
+                            <input type="date" class="form-control" name="to_no_work_date" id="to_no_work_date" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-1" style="background-color:#DDF4E7;">
+            <div class="row g-3 p-1">
+                <div class="col-md-6">
+                    <label class="form-label">Reserved for local use</label>
+                    <textarea class="form-control" name="local_use_2" id="local_use_2" required></textarea>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Outside Lab? </label> <br>
+                    <div class="row">
+                        <div class="form-check col-6">
+                            <label class="form-check-label" for="yes">
+                                Yes
+                            </label> <br>
+                            <input class="form-check-input" style="margin-left:10px;" value="yes" type="radio" name="outside_lab" id="yes">
+                        </div>
+                        <div class="form-check col-6">
+                            <label class="form-check-label" for="No">
+                                No
+                            </label> <br>
+                            <input class="form-check-input" style="margin-left:10px;" value="No" type="radio" name="outside_lab" id="No">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">charges</label>
+                    <input type="text" class="form-control" id="outside_lab_charges" name="outside_lab_charges">
+                </div>
+            </div>
+        </div>
+
+
+</div>
+
+<div class="col mt-1 text-center">
+    <button type="submit" class="btn  text-white" style="background-color:#00A6D9;">Submit</button>
+</div>
+</form>
 </div>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>

@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\AddressController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
@@ -50,10 +51,11 @@ Route::middleware(['auth'])->group(function () {
             ? redirect()->route('admin.dashboard')
             : redirect()->route('user.dashboard');
     })->name('dashboard');
-
+    Route::post('/address-autocomplete', [AddressController::class, 'autocomplete'])->name('address.autocomplete');
     // Admin routes
     Route::get('/admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/test-url', [AdminDashboardController::class, 'test'])->name('test');
+    Route::get('/test-url2', [AdminDashboardController::class, 'test2'])->name('test2');
     Route::get('/admin-user-management', [UserController::class, 'userManagement'])->name('admin.user-management');
     Route::post('/update-user', [UserController::class, 'updateUser'])->name('update.user');
     Route::post('/create-user', [UserController::class, 'createUser'])->name('create-user');
@@ -64,6 +66,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/patients', [PatientController::class, 'index'])->name('patients.list');
     Route::get('/create-patient', [PatientController::class, 'createPatient'])->name('patients.create');
+    Route::get('/old-create-patient', [PatientController::class, 'oldCreatePatient'])->name('patients.old-create');
     Route::post('/store-patients', [PatientController::class, 'storePatients'])->name('patients.store');
     Route::get('/view-patient/{id}', [PatientController::class, 'viewPatient'])->name('patients.view');
     Route::post('/update-personal-info', [PatientController::class, 'updatePersonalInfo'])->name('patients.update-personal-info');

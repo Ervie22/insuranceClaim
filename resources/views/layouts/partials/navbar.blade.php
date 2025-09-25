@@ -1,6 +1,6 @@
 <style>
   .navbar {
-    font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
+    /* font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif; */
     font-weight: 700;
     /* bold */
     font-size: 16px;
@@ -48,7 +48,7 @@
 
   .navbar-scroll .nav-link,
   .navbar-scroll .fa-bars {
-    color: #00A6D9;
+    color: #eee;
   }
 
   .navbar-scrolled .nav-link,
@@ -94,19 +94,19 @@ $userName = $fname . ' ' . $lname;
 
         <!-- Shop Online -->
         <li class="nav-item dropdown">
-          <a class="nav-link  px-3" href="/admin-dashboard">Dashboard</a>
+          <a class="nav-link  px-3" href="/admin-dashboard"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link  px-3" href="/patients">Patients</a>
+          <a class="nav-link  px-3" href="/patients"><i class="fas fa-user-injured"></i> Patients</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link  px-3" href="/claims">Claims</a>
+          <a class="nav-link  px-3" href="/claims"><i class="fas fa-file-medical"></i> Claims</a>
         </li>
 
         <!-- New Collection -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle px-3" href="#" id="newDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Payments</a>
+            aria-expanded="false"><i class="fas fa-money-check-alt"></i> Payments</a>
           <ul class="dropdown-menu" aria-labelledby="newDropdown">
             <li><a class="dropdown-item" href="/insurance-payouts">Insurance Payouts</a></li>
             <li><a class="dropdown-item" href="/patient-payments">Patient Payments</a></li>
@@ -118,7 +118,7 @@ $userName = $fname . ' ' . $lname;
         <!-- About Us -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle px-3" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Reports</a>
+            aria-expanded="false"><i class="fas fa-chart-bar"></i> Reports</a>
           <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
             <li><a class="dropdown-item" href="/inventory-reports">Inventory Reports</a></li>
             <li><a class="dropdown-item" href="/claim-reports">Claims Reports</a></li>
@@ -136,7 +136,7 @@ $userName = $fname . ' ' . $lname;
         <!-- Collaboration -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle px-3" href="#" id="collabDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Settings</a>
+            aria-expanded="false"><i class="fas fa-cog"></i> Settings</a>
           <ul class="dropdown-menu" aria-labelledby="collabDropdown">
             <li><a class="dropdown-item" href="/practice-setup">Practice Setup</a></li>
             <li><a class="dropdown-item" href="/provider-setup">Provider Setup</a></li>
@@ -159,12 +159,12 @@ $userName = $fname . ' ' . $lname;
         cursor: pointer;">
         <form class="d-flex input-group w-auto">
           <input type="search" class="form-control" placeholder="Find patient, claim, or" aria-label="Search" />
-          <button class="btn btn-sm" type="button" data-mdb-ripple-init data-mdb-ripple-color="dark">
+          <button class="btn btn-sm text-white" type="button" data-mdb-ripple-init data-mdb-ripple-color="dark">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
         <li class="nav-item">
-          <a class="btn btn-sm  me-2" style="color:#00A6D9;" href="#profile">{{$userName}}</a>
+          <a class="btn btn-sm text-white text-bold  me-2" href="#profile">{{$userName}}</a>
         </li>
         <li class="nav-item">
           <form method="POST" action="/logout">

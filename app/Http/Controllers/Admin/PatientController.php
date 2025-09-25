@@ -134,7 +134,13 @@ class PatientController extends Controller
     }
     public function createPatient(Request $request)
     {
+        // return view('admin.patients.create-patient');
+        return view('admin.patients.new-form-patient');
+    }
+    public function oldCreatePatient(Request $request)
+    {
         return view('admin.patients.create-patient');
+        // return view('admin.patients.new-form-patient');
     }
     function getClientIps(\Illuminate\Http\Request $request): array
     {

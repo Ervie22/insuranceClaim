@@ -44,7 +44,7 @@
         <div class="modal-content">
             <form action="{{ route('patients.upload_image') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="modal-header " style="background-color:#59AC77;">
+                <div class="modal-header " style="background-color: var(--primary);;">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Patient Image</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn " style="background-color:#59AC77;">Save</button>
+                    <button type="submit" class="btn " style="background-color: var(--primary);;">Save</button>
                 </div>
             </form>
         </div>
@@ -69,7 +69,7 @@
 <div class="modal fade" id="update_personal_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#59AC77;">
+            <div class="modal-header " style="background-color: var(--primary);;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Personal Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -146,7 +146,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
+                    <button type="submit " class="btn " style="background-color: var(--primary);;">Save</button>
                 </div>
             </form>
         </div>
@@ -157,7 +157,7 @@
 <div class="modal fade" id="update_guarantor_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#59AC77;">
+            <div class="modal-header " style="background-color: var(--primary);;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Guarantor Image</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -234,7 +234,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
+                    <button type="submit " class="btn " style="background-color: var(--primary);;">Save</button>
                 </div>
             </form>
         </div>
@@ -245,7 +245,7 @@
 <div class="modal fade" id="update_employer_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#59AC77;">
+            <div class="modal-header " style="background-color: var(--primary);;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Employer Image</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -299,7 +299,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
+                    <button type="submit " class="btn " style="background-color: var(--primary);;">Save</button>
                 </div>
             </form>
         </div>
@@ -310,7 +310,7 @@
 <div class="modal fade" id="update_emergency_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#59AC77;">
+            <div class="modal-header " style="background-color: var(--primary);;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Emergency Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -343,7 +343,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
+                    <button type="submit " class="btn " style="background-color: var(--primary);;">Save</button>
                 </div>
             </form>
         </div>
@@ -354,7 +354,7 @@
 <div class="modal fade" id="update_file_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#59AC77;">
+            <div class="modal-header " style="background-color: var(--primary);;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update File Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -482,7 +482,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
+                    <button type="submit " class="btn " style="background-color: var(--primary);;">Save</button>
                 </div>
             </form>
         </div>
@@ -493,7 +493,7 @@
 <div class="modal fade" id="update_present_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#59AC77;">
+            <div class="modal-header " style="background-color: var(--primary);;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Present Insurance Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -544,7 +544,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
+                    <button type="submit " class="btn " style="background-color: var(--primary);;">Save</button>
                 </div>
             </form>
         </div>
@@ -555,7 +555,7 @@
 <div class="modal fade" id="update_secondary_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#59AC77;">
+            <div class="modal-header " style="background-color: var(--primary);;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Secondary Insurance Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -606,7 +606,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
+                    <button type="submit " class="btn " style="background-color: var(--primary);;">Save</button>
                 </div>
             </form>
         </div>
@@ -617,7 +617,7 @@
 <div class="modal fade" id="update_tritary_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#59AC77;">
+            <div class="modal-header " style="background-color: var(--primary);;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Tritary Insurance Info</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -668,7 +668,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
+                    <button type="submit " class="btn " style="background-color: var(--primary);;">Save</button>
                 </div>
             </form>
         </div>
@@ -679,7 +679,7 @@
 <div class="modal fade" id="update_note_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header " style="background-color:#59AC77;">
+            <div class="modal-header " style="background-color: var(--primary);;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Notes</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -702,7 +702,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit " class="btn " style="background-color:#59AC77;">Save</button>
+                    <button type="submit " class="btn " style="background-color: var(--primary);;">Save</button>
                 </div>
             </form>
         </div>
@@ -717,20 +717,7 @@
     @endif
 
     <div class="card profile-card">
-        <!-- Header Background -->
-        <!-- <div class="profile-header">
 
-
-            <div class="row" style=" margin-left:120px;" style="width:100%;">
-
-
-            </div>
-        </div> -->
-
-        <!-- Profile Image -->
-        <!-- <img src="https://via.placeholder.com/120" alt="Profile" class="profile-pic"> -->
-
-        <!-- Profile Details -->
         <div class="card-body">
             <div class="row">
                 <div class="col-1">
@@ -753,7 +740,7 @@
 
                 </div>
                 <div class="col-4">
-                    <h5 class="card-title mb-0" style="color:#59AC77;">
+                    <h5 class="card-title mb-0" style="color: var(--primary);;">
                         {{$patientDetails['first_name'] ? $patientDetails['first_name']:''}}
                         {{$patientDetails['last_name'] ? $patientDetails['last_name']:''}}
                         {{$patientDetails['mi'] ? $patientDetails['mi']:''}}
@@ -782,7 +769,7 @@
                     </p>
                 </div>
                 <div class="col-4">
-                    <h5 class="card-title mb-0" style="color:#59AC77;">
+                    <h5 class="card-title mb-0" style="color: var(--primary);;">
                         Emergency Info
                         <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_emergency_modal" title="Update Emergency Insurance Info">
                             <i class="fa fa-edit"></i>
@@ -820,7 +807,7 @@
                     </p>
                 </div>
                 <div class="col-3">
-                    <h5 class="card-title mb-0" style="color:#59AC77;">
+                    <h5 class="card-title mb-0" style="color: var(--primary);;">
                         Employer Info
                         <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_employer_modal" title="Update Employer Info">
                             <i class="fa fa-edit"></i>
@@ -845,7 +832,7 @@
             <div class="row">
 
                 <div class="col-3">
-                    <h5 class="card-title mb-0" style="color:#59AC77;">
+                    <h5 class="card-title mb-0" style="color: var(--primary);;">
                         Primary Insurance Info
                         <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_present_modal" title="Update Primary Insurance Info">
                             <i class="fa fa-edit"></i>
@@ -894,7 +881,7 @@
 
                 </div>
                 <div class="col-3">
-                    <h5 class="card-title mb-0" style="color:#59AC77;">
+                    <h5 class="card-title mb-0" style="color: var(--primary);;">
                         Secondary Insurance Info
                         <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_secondary_modal" title="Update Secondary Insurance Info">
                             <i class="fa fa-edit"></i>
@@ -943,7 +930,7 @@
 
                 </div>
                 <div class="col-3">
-                    <h5 class="card-title mb-0" style="color:#59AC77;">
+                    <h5 class="card-title mb-0" style="color: var(--primary);;">
                         Tritary Insurance Info
                         <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_tritary_modal" title="Update Tritary Insurance Info">
                             <i class="fa fa-edit"></i>
@@ -993,7 +980,7 @@
                 </div>
                 <div class="col-3">
 
-                    <h5 class="card-title mb-0" style="color:#59AC77;">
+                    <h5 class="card-title mb-0" style="color: var(--primary);;">
                         Guarantors Info
                         <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_guarantor_modal" title="Update Guarantors  Info">
                             <i class="fa fa-edit"></i>
@@ -1028,7 +1015,7 @@
                 <div class="col-6">
                     <div class="row">
                         <div class="col-6">
-                            <h5 class="card-title mb-0" style="color:#59AC77;">
+                            <h5 class="card-title mb-0" style="color: var(--primary);;">
                                 Consent File Info
                                 <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_file_modal" title="Update File  Info">
                                     <i class="fa fa-edit"></i>
@@ -1100,7 +1087,7 @@
                 </div>
                 <div class="col-6">
                     <div class="card p-1" style="width:100%;">
-                        <div class="card-haeder text-white" style="background-color:#59AC77; width:100%;">
+                        <div class="card-haeder text-white" style="background-color: var(--primary);; width:100%;">
                             <h6>Notes <span type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#update_note_modal" title="Update Notes">
                                     <i class="fa fa-edit"></i>
                                 </span></h6>
@@ -1135,7 +1122,7 @@
             </div>
             <div class="row" style="width:100%;">
                 <div class="card p-1" style="width:100%;">
-                    <div class="card-haeder text-white" style="background-color:#59AC77; width:100%;">
+                    <div class="card-haeder text-white" style="background-color: var(--primary);; width:100%;">
                         <h6>Patient History</h6>
                     </div>
                     <div class="card-body" style="height:300px; overflow-y:auto;">

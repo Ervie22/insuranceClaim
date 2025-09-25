@@ -4,581 +4,731 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ asset('assets/auth/logo2.jpg') }}" rel="icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Log in to Med * A-EYE</title>
-
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ asset('/css/home/allStyle.css') }}" />
-    <link href="{{ asset('/css/static/footer.css') }}" rel="stylesheet" />
-
-
-
-    <link href="{{ asset('/css/third-party/fontawesome/css/all.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('/css/third-party/fontawesome/css/fontawesome.css') }}" rel="stylesheet" />
-    <script src="{{ asset('/js/thirdparty/fontawesome/all.min.js') }}"></script>
-
-    <!-- jquery -->
-    <script src="{{ asset('/js/thirdparty/jquery/jquery3.7.1.min.js') }}"></script>
-
-    <!-- bootstrap -->
-    <link href="{{ asset('/css/third-party/boostrap5.2.3/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <script src="{{ asset('/js/thirdparty/bootstrap-5.2.3/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('/js/thirdparty/bootstrap-5.2.3/js/bootstrap.min.js') }}"></script>
-
-    <!-- Notiflix -->
-    <link href="{{ asset('/css/third-party/notiflix.css') }}" rel="stylesheet" />
-    <script src="{{ asset('/js/thirdparty/notiflix/notiflix.js') }}"></script>
-
-    <!-- Recaptcha -->
-    <!-- <script src="https://www.google.com/recaptcha/api.js?render=6LcFhcYpAAAAAEemPgNIC2i9j85yrBj2BiUxyYme"></script> -->
-
+    <title>Patient Registration - Insurance Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @font-face {
-            font-family: 'League Spartan';
-            src: url('/public/fonts/LeagueSpartan-Regular.woff2') format('woff2'),
-                url('/public/fonts/LeagueSpartan-Light.woff') format('woff');
-            font-style: normal;
+        :root {
+            --primary: #2c7fb8;
+            --primary-dark: #1d5a8a;
+            --secondary: #7fcdbb;
+            --light: #f5f9fc;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --error: #e74c3c;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
         }
 
         * {
-            font-family: 'League Spartan', sans-serif !important;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: linear-gradient(270deg, rgba(51, 148, 189, 0.13) -6.11%, rgba(255, 255, 255, 0.34) 35.2%, rgba(247, 149, 27, 0.13) 102.53%);
-            overflow-x: hidden;
-            font-family: 'League Spartan', sans-serif;
+            background-color: #f0f5fa;
+            color: var(--dark);
+            line-height: 1.6;
         }
 
-        .float-up {
-            top: -20px;
-            transition: all 0.2s ease-in 0s;
-            left: 4%;
-            position: absolute;
-            font-size: 15px;
-            color: #f16521;
-            background-color: #ffffff;
-            font-family: 'League Spartan', sans-serif !important;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        .floating-label {
-            position: absolute;
-            font-size: 17px;
-            top: 6px;
-            left: 10%;
-            background-color: none;
-            font-family: 'League Spartan', sans-serif !important;
-        }
-
-        .floating-input {
-            border-radius: 2px !important;
-            border: 1px solid !important;
-            width: 500px;
-            padding-left: 50px;
-            height: 55px;
-            font-size: 19px !important;
-            font-family: 'League Spartan', sans-serif !important;
-        }
-
-
-        input:focus {
-            border: 1px solid rgb(241, 101, 33) !important;
-        }
-
-
-        .icon {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            opacity: .7;
-            margin-left: 24px;
-            margin-top: -3px;
-        }
-
-
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-
-        input:focus~label,
-        input:valid~label {
-            top: -12px;
-            font-size: 12px;
-
-        }
-
-        input {
-            font-family: 'Inter', sans-serif !important;
-        }
-
-        #login-go {
-            width: 500px !important;
-            height: 55px !important;
-            flex-shrink: 0;
-            border-radius: 12px !important;
-            border: 1.216px solid #2FB2F4;
-            background-color: #2FB2F4;
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            font-size: 21px !important;
-            font-family: 'League Spartan', sans-serif !important;
+            padding: 20px 0;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
         }
 
-        #login-go:hover {
-            background-color: transparent !important;
-            border-color: #2FB2F4 !important;
-            color: #2FB2F4 !important;
-            font-family: 'League Spartan', sans-serif !important;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
         }
 
-        .icon_hidden {
-            display: none;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .icon_display {
+        .logo i {
+            font-size: 2.5rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .progress-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #e0e0e0;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            height: 4px;
+            background-color: var(--primary);
+            z-index: 2;
+            transition: var(--transition);
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .step-circle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-weight: bold;
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+
+        .step.active .step-circle {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .step.completed .step-circle {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .step.active .step-label {
+            color: var(--primary);
+        }
+
+        .form-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .form-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .form-section.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .section-header i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .section-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .form-group.full-width {
+            flex: 1 0 100%;
+        }
+
+        label {
             display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
         }
 
-        #signup_link {
-            font-size: 15px;
+        .required::after {
+            content: ' *';
+            color: var(--error);
         }
 
-        #form_container {
-            padding: 10px;
+        .input-with-icon {
+            position: relative;
         }
 
-
-
-        @media only screen and (max-width: 980px) {
-
-            #logo {
-                width: 300px;
-                height: auto;
-            }
-
-            #col_2 {
-                width: 100% !important;
-            }
-
-            body {
-                overflow-y: scroll;
-            }
-
-            #register_btn {
-                display: flex;
-                justify-content: center;
-                margin-bottom: 10px;
-            }
-
-            #image_container {
-                position: absolute;
-                object-fit: contain;
-                top: 20%;
-            }
-
-            #image_container img {
-                opacity: .3;
-                width: 100%;
-                object-fit: cover;
-                height: 600px;
-            }
-
-            #form_container {
-                position: relative;
-
-            }
-
-            .text-black {
-                font-size: 26px;
-                margin-top: 10px !important;
-            }
-
-            .icon {
-                position: absolute;
-                margin: 17px;
-                width: fit-content;
-                opacity: .7;
-            }
-
-            #login-go {
-                height: 50px;
-                width: 100% !important;
-                flex-shrink: 0;
-                border-radius: 12.156px;
-                border: 1.216px solid #2FB2F4;
-                background-color: #2FB2F4;
-                color: white;
-                font-family: 'League Spartan', sans-serif !important;
-                font-size: 21px;
-            }
-
-            .help_text {
-                font-size: 15px !important;
-            }
-
-            .floating-label {
-                left: 6%;
-            }
-
-
+        .input-with-icon i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
         }
 
-        @media (max-width:580px) {
-            .floating-label {
-                left: 12%;
-            }
-
-            #logo {
-                width: 200px !important;
-                height: 80px !important;
-                margin-top: 2px !important;
-            }
-
+        input,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
         }
 
-        @media (max-width:430px) {
-            .text-black {
-                font-size: 32px !important;
-                margin-top: 25px !important;
-                margin-bottom: 10px !important;
-            }
-
-            #form_container img {
-                width: 50px;
-                height: 50px;
-            }
+        .input-with-icon input {
+            padding-left: 40px;
         }
 
-        @media (max-width:360px) {
-            .floating-label {
-                position: absolute;
-                font-size: 17px;
-                top: 4px;
-                left: 18%;
-                background-color: none;
-            }
-
-            #logo {
-                width: 240px !important;
-                height: 80px !important;
-            }
-
-        }
-    </style>
-
-    <style>
-        .footer-bottom-sec .social-icon-colm ul li a {
-            color: #ffffff !important;
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 127, 184, 0.2);
         }
 
-        .social-icon-colm ul li a:hover {
-            color: #f16521 !important;
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
         }
 
-        @media(max-width:580px) {
-            .footer-bottom-sec .copyright-colm p {
-                font-size: 12px !important;
-            }
-
-            .footer-bottom-sec .social-icon-colm ul li a {
-                font-size: 22px !important;
-            }
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
         }
 
-        @media (max-width:360px) {
-            .social-icon-colm i {
-                width: 20px !important;
-                height: 20px !important;
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #d0d0d0;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(44, 127, 184, 0.1);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            background-color: var(--success);
+            color: white;
+            box-shadow: var(--box-shadow);
+            transform: translateX(150%);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                grid-template-columns: 1fr;
             }
 
-            .icons {
-                height: 20px !important;
-                width: 20px !important;
+            .form-section.full-width {
+                grid-column: 1;
             }
 
-            .copyright-colm p {
-                font-size: 8px !important;
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .progress-steps {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .progress-steps::before {
+                display: none;
+            }
+
+            .progress-bar {
+                display: none;
             }
         }
     </style>
-
-    <script>
-        $(document).ready(function() {
-            const passwordInput = $('#password');
-            const showPasswordCheck = $('#showPasswordIcon');
-
-            showPasswordCheck.on('click', function() {
-                const isChecked = passwordInput.attr('type') === 'password';
-                passwordInput.attr('type', isChecked ? 'text' : 'password');
-
-                showPasswordCheck.toggleClass('blue-icon', isChecked);
-            });
-
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('.floating-input').each(function() {
-                const input = $(this);
-                const label = $('#' + input.attr('id') + '-label');
-
-                input.css('border-color', '#f16521');
-
-                input.focus(function() {
-                    label.removeClass('floating-label');
-                    label.addClass('float-up');
-                });
-
-                input.blur(function() {
-                    if (input.val() === '') {
-                        label.addClass('floating-label');
-                        label.removeClass('float-up');
-                    }
-                });
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            const passwordInput = $('#password');
-            const showPasswordCheckbox = $('#showPasswordCheckbox');
-
-            showPasswordCheckbox.change(function() {
-                const isChecked = showPasswordCheckbox.prop('checked');
-                passwordInput.attr('type', isChecked ? 'text' : 'password');
-            });
-        });
-    </script>
-
-    <script>
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     const loginButton = document.getElementById('login-go');
-        //     const loadingSpinner = document.getElementById('loading-spinner');
-        //     const errorParent = document.querySelector('.error-parent');
-        //     const errorElement = document.getElementById('error');
-        //     const rememberCheckbox = document.querySelector('#remember');
-
-        //     loginButton.addEventListener('click', function() {
-        //         errorElement.innerText = '';
-
-        //         const email = document.querySelector('#email').value;
-        //         const password = document.querySelector('#password').value;
-        //         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        //         if (!email || !password) {
-        //             showError('Please Enter Email and Password.');
-        //             return;
-        //         }
-
-        //         let remember_me = false;
-
-        //         const formData = new FormData();
-
-        //         formData.append('email', email);
-        //         formData.append('password', password);
-        //         formData.append('remember', false);
-
-        //         disableInputs();
-
-        //         grecaptcha.ready(function() {
-        //             grecaptcha.execute('6LcFhcYpAAAAAEemPgNIC2i9j85yrBj2BiUxyYme', {
-        //                 action: 'submit'
-        //             }).then(function(token) {
-        //                 formData.append('gResponse', token);
-        //                 try {
-        //                     if (token) {
-        //                         $.ajax({
-        //                             type: 'POST',
-        //                             url: '/login/user',
-        //                             data: formData,
-        //                             contentType: false,
-        //                             processData: false,
-        //                             headers: {
-        //                                 'X-CSRF-TOKEN': csrfToken
-        //                             },
-        //                             success: function(data) {
-        //                                 enableInputs();
-        //                                 loginButton.disabled = false;
-        //                                 loadingSpinner.classList.add('d-none');
-        //                                 if (data.status === 200) {
-        //                                     Notiflix.Notify.success(data.message, {
-        //                                         timeout: 8500,
-        //                                         position: 'right-bottom',
-        //                                     });
-
-        //                                     const urlParams = new URLSearchParams(window.location.search);
-        //                                     const redirectURI = urlParams.get('Redirect-Uri');
-
-        //                                     if (redirectURI) {
-        //                                         window.location.href = redirectURI;
-        //                                     } else {
-        //                                         window.location.href = '/';
-        //                                     }
-        //                                 } else if (data.error) {
-        //                                     showError(data.error);
-        //                                 }
-        //                             },
-        //                             error: function(xhr) {
-        //                                 enableInputs();
-        //                                 loginButton.disabled = false;
-        //                                 loadingSpinner.classList.add('d-none');
-
-        //                                 if (xhr.responseJSON && xhr.responseJSON.error) {
-        //                                     console.log('error');
-        //                                 } else {
-        //                                     showError('An error occurred.');
-        //                                 }
-        //                             }
-        //                         });
-        //                     } else {
-        //                         showError('Captcha verification failed!');
-        //                     }
-        //                 } catch (error) {
-        //                     console.error('Error:', error.message);
-        //                 }
-        //             });
-        //         });
-        //     });
-
-
-        //     function showError(message) {
-        //         window.scroll(0, 0);
-        //         errorParent.classList.add('d-flex');
-        //         let display_error = errorElement.textContent = message;
-
-        //         console.log(display_error)
-        //     }
-
-        //     function disableInputs() {
-        //         const inputs = document.querySelectorAll('input');
-        //         for (const input of inputs) {
-        //             input.disabled = true;
-        //         }
-        //         loadingSpinner.classList.remove('d-none');
-        //     }
-
-        //     function enableInputs() {
-        //         const inputs = document.querySelectorAll('input');
-        //         for (const input of inputs) {
-        //             input.disabled = false;
-        //         }
-        //     }
-        // });
-    </script>
-
 </head>
 
 <body>
-    <section id="login" style="height: 100vh;">
-        <div class="d-flex" style="width: 100%;">
-            <div class="col-lg-7  col-md-12 col-12 d-flex justify-content-center" id="image_container">
-                <img src="{{asset('/assets/auth/banner5.jpg')}}" alt="pic" id="image" class="img-fluid" style="max-width:100%;height:100%;" />
-            </div>
-
-            <div class="col-lg-4 col-md-12 col-12 d-flex justify-content-center" id="form_container">
-                <div style="padding:20px" class="justify-content-center" id="col_2">
-                    <div class="d-flex justify-content-center">
-                        <a href="/">
-                            <img src="{{ asset('/assets/auth/med-logo.png') }}" style="height: 300px; width: 300px;   " id="logo" />
-                        </a>
-                    </div>
-
-                    <h3 class="text-black " style=" color: #000; font-family: Inter;font-size: 40.809px; font-style: normal; font-weight: 400;
-            line-height: normal;  text-align: center; margin-top: 75px; margin-bottom :60px;">Login</h3>
-
-                    <form id="login-form" class="justify-content-center" style="justify-content: center; padding: 5px;">
-
-                        <div class="justify-content-center error-parent" style="display: none;">
-                            <div class="alert alert-danger" id="error" style="font-size: 13px;background-color:transparent;border: none;display:none;color: red;display: flex;justify-content: center;"></div>
-                        </div>
-
-                        <div class="form-outline mb-3 mt-4" style="position: relative;">
-                            <div class=" d-flex " style="align-items: center;">
-                                <i class="fa fa-envelope icon" id="email-icon"></i>
-                                <input required type="email" id="email" name="email" class="floating-input" style="border: 1px solid #000; font-size: 19px; font-family: Inter;" autocomplete="off" />
-                            </div>
-                            <label class="form-label floating-label mt-2" id="email-label" for="email">Email address..</label>
-                        </div>
-
-                        <div class="form-outline mb-3 mt-4" style="position: relative;">
-                            <div class="d-flex">
-                                <i class="fa fa-lock icon" id="password-icon" style="margin-top: 14px;"></i>
-                                <input required type="password" id="password" name="password" class="floating-input" style="border: 1px solid #000" autocomplete="off" />
-                            </div>
-                            <label class="form-label floating-label mt-2" id="password-label" for="password">Password..</label>
-                        </div>
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="form-check mb-" style="display:flex;width:fit-content">
-                                <input autocomplete="off" class="form-check-input" type="checkbox" id="showPasswordCheckbox">
-                                <label class="form-check-label" for="showPasswordCheckbox" style="margin-left:8px;display:flex;align-items:center;font-size:15px;">
-                                    Show Password
-                                </label>
-                            </div>
-                            <!-- <a href="/forget-password" class="text-body" style="text-decoration: none;">Forgot password?</a> -->
-                        </div>
-
-
-
-                        <div class="text-center text-lg-start mt-4 pt-2">
-                            <button type="submit" class="btn btn-lg m-auto floating-input" style="width:160px; padding-left: 2rem; padding-right: 2rem;background-color:#31AEF0;color:#ffffff; "> <span id="loading-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" style="margin-right: 10px;"></span>Login</button>
-                            <!-- <p class="small fw-bold mt-3 pt-1 mb-0 text-center" id="signup_link">Don't have an account? <a href="/register" id="signup-link" class="link-danger">Create  Account with us!</a></p> -->
-                        </div>
-                    </form>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <h1>HealthSure Insurance</h1>
+                </div>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i> Welcome, Agent
                 </div>
             </div>
         </div>
+    </header>
 
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-bar" style="width: 25%;"></div>
+                <div class="step completed">
+                    <div class="step-circle"><i class="fas fa-check"></i></div>
+                    <div class="step-label">Patient Info</div>
+                </div>
+                <div class="step active">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Guarantor Info</div>
+                </div>
+                <div class="step">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Employment</div>
+                </div>
+                <div class="step">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Review</div>
+                </div>
+            </div>
+            <p>Complete the form to register a new patient. Fields marked with <span class="required"></span> are required.</p>
+        </div>
 
+        <form id="patientForm">
+            <div class="form-container">
+                <!-- Patient Information Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <i class="fas fa-user"></i>
+                        <h2>Patient Information</h2>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName" class="required">First Name</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="required">Last Name</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="middleInitial">Middle Initial</label>
+                            <input type="text" id="middleInitial" name="middleInitial" maxlength="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="dob" class="required">Date of Birth</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-calendar"></i>
+                                <input type="date" id="dob" name="dob" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sex" class="required">Sex at Birth</label>
+                            <select id="sex" name="sex" required>
+                                <option value="">Select Sex</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ssn" class="required">SSN</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-id-card"></i>
+                                <input type="text" id="ssn" name="ssn" placeholder="XXX-XX-XXXX" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    </section>
+                <!-- Contact Information Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <i class="fas fa-address-book"></i>
+                        <h2>Contact Information</h2>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="homePhone">Home Phone</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-phone"></i>
+                                <input type="tel" id="homePhone" name="homePhone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobilePhone" class="required">Mobile Phone</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                                <input type="tel" id="mobilePhone" name="mobilePhone" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="email">Email</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="address1" class="required">Address 1</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-home"></i>
+                                <input type="text" id="address1" name="address1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="address2">Address 2</label>
+                            <input type="text" id="address2" name="address2">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city" class="required">City</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="state" class="required">State</label>
+                            <select id="state" name="state" required>
+                                <option value="">Select State</option>
+                                <!-- States would be populated here -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="postCode" class="required">Post Code</label>
+                            <input type="text" id="postCode" name="postCode" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guarantor Information Section -->
+                <div class="form-section full-width">
+                    <div class="section-header">
+                        <i class="fas fa-user-shield"></i>
+                        <h2>Guarantor Information</h2>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="sameAsPatient">
+                        <label for="sameAsPatient">Same as patient information</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="guarantorFirstName" class="required">First Name</label>
+                            <input type="text" id="guarantorFirstName" name="guarantorFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="guarantorLastName" class="required">Last Name</label>
+                            <input type="text" id="guarantorLastName" name="guarantorLastName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="guarantorMiddleInitial">Middle Initial</label>
+                            <input type="text" id="guarantorMiddleInitial" name="guarantorMiddleInitial" maxlength="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="guarantorDob" class="required">Date of Birth</label>
+                            <input type="date" id="guarantorDob" name="guarantorDob" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="relationship" class="required">Relationship With Patient</label>
+                            <select id="relationship" name="relationship" required>
+                                <option value="">Select Relationship</option>
+                                <option value="self">Self</option>
+                                <option value="spouse">Spouse</option>
+                                <option value="parent">Parent</option>
+                                <option value="child">Child</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="guarantorStatus" class="required">Status</label>
+                            <select id="guarantorStatus" name="guarantorStatus" required>
+                                <option value="">Select Status</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Employer & Emergency Contacts Section -->
+                <div class="form-section full-width">
+                    <div class="section-header">
+                        <i class="fas fa-briefcase"></i>
+                        <h2>Employer & Emergency Contacts</h2>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="employerName">Employer Name</label>
+                            <input type="text" id="employerName" name="employerName">
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Department</label>
+                            <input type="text" id="department" name="department">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="workPhone">Work Phone</label>
+                            <input type="tel" id="workPhone" name="workPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="workEmail">Work Email</label>
+                            <input type="email" id="workEmail" name="workEmail">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="employerAddress1">Employer Address 1</label>
+                            <input type="text" id="employerAddress1" name="employerAddress1">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="employerAddress2">Employer Address 2</label>
+                            <input type="text" id="employerAddress2" name="employerAddress2">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="employerCity">City</label>
+                            <input type="text" id="employerCity" name="employerCity">
+                        </div>
+                        <div class="form-group">
+                            <label for="employerState">State</label>
+                            <select id="employerState" name="employerState">
+                                <option value="">Select State</option>
+                                <!-- States would be populated here -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="employerPostCode">Post Code</label>
+                            <input type="text" id="employerPostCode" name="employerPostCode">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="emergencyContact" class="required">Emergency Contact</label>
+                            <input type="text" id="emergencyContact" name="emergencyContact" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyRelationship" class="required">Relationship</label>
+                            <select id="emergencyRelationship" name="emergencyRelationship" required>
+                                <option value="">Select Relationship</option>
+                                <option value="spouse">Spouse</option>
+                                <option value="parent">Parent</option>
+                                <option value="child">Child</option>
+                                <option value="friend">Friend</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyPhone" class="required">Emergency Phone</label>
+                            <input type="tel" id="emergencyPhone" name="emergencyPhone" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div>
+                    <button type="button" class="btn btn-outline">
+                        Save as Draft
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Continue <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> Form submitted successfully!
+    </div>
+
+    <script>
+        // Form submission handler
+        document.getElementById('patientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Show success notification
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+
+            // In a real application, you would submit the form data here
+            console.log('Form submitted successfully');
+        });
+
+        // "Same as patient" checkbox functionality
+        document.getElementById('sameAsPatient').addEventListener('change', function() {
+            const isChecked = this.checked;
+            const patientFields = ['firstName', 'lastName', 'middleInitial', 'dob', 'homePhone',
+                'mobilePhone', 'email', 'address1', 'address2', 'city', 'state', 'postCode'
+            ];
+
+            if (isChecked) {
+                patientFields.forEach(field => {
+                    const patientValue = document.getElementById(field).value;
+                    const guarantorField = 'guarantor' + field.charAt(0).toUpperCase() + field.slice(1);
+                    const guarantorElement = document.getElementById(guarantorField);
+
+                    if (guarantorElement) {
+                        guarantorElement.value = patientValue;
+                    }
+                });
+
+                // Set relationship to "Self"
+                document.getElementById('relationship').value = 'self';
+            }
+        });
+
+        // Populate state dropdowns (simplified example)
+        const states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado',
+            'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho',
+            'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+            'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+            'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada',
+            'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
+            'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon',
+            'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota',
+            'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington',
+            'West Virginia', 'Wisconsin', 'Wyoming'
+        ];
+
+        const stateSelects = document.querySelectorAll('select[id$="state"]');
+        stateSelects.forEach(select => {
+            states.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state.toLowerCase().replace(' ', '_');
+                option.textContent = state;
+                select.appendChild(option);
+            });
+        });
+    </script>
 </body>
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    // $('#login-form').submit(function(e) {
-    //     e.preventDefault();
-    //     alert('hi');
-    //     let formData = new FormData(this);
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '{{route("user-login")}}',
-    //         data: formData,
-    //         contentType: false,
-    //         processData: false,
-    //         dataType: 'json',
-    //         success: function(data) {
-    //             if(data == 1){
-    //                 window.location.href = "/admin-dashboard";
-    //             }
-    //             if(data == 2){
-    //                 window.location.href = "/consumer-dashboard";
-    //             }
-    //             if(data == 3){
-
-    //             }
-    //             if(data == 4){
-
-    //             }
-    //         },
-    //         error: function(data) {
-    //             console.log(data);
-    //         }
-    //     });
-    // });
-</script>
 
 </html>
