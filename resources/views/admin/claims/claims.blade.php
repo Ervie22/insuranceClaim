@@ -66,6 +66,58 @@
     }
 </style>
 
+<style>
+    /* Table borders */
+    table.dataTable {
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    /* Header styling */
+    table.dataTable thead th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 12px;
+    }
+
+    /* Row hover */
+    table.dataTable tbody tr:hover {
+        background-color: #f1f3f5;
+    }
+
+    /* Pagination */
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.3rem 0.75rem;
+        margin: 0 2px;
+        border-radius: 0.375rem;
+        border: 1px solid #dee2e6;
+        background: #fff;
+        color: #0d6efd !important;
+        cursor: pointer;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: #0d6efd;
+        color: #fff !important;
+    }
+
+    /* Length dropdown */
+    .dataTables_wrapper .dataTables_length select {
+        border-radius: 0.375rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    /* Search box */
+    .dataTables_wrapper .dataTables_filter input {
+        border-radius: 0.375rem;
+        border: 1px solid #ced4da;
+        padding: 0.3rem 0.75rem;
+        margin-left: 0.5rem;
+    }
+</style>
 
 <div class="container-fluid">
 
