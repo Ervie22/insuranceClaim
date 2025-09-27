@@ -38,12 +38,22 @@ class ProcessInprogressJobs extends Command
             return;
         }
 
+        if ($pendingJobs->first() && $pendingJobs->first()->already_registered == 1) {
+            $job = $pendingJobs->first();
+            $this->info('Pending job is already registered as completed. Skipping tiling process.');
+            $job->status = '5';
+            $job->updated_at = Carbon::now();
+            $job->save();
+            return;
+        }
+
         $job = $pendingJobs->first();
         $job->status = '4';
         $job->updated_at = Carbon::now();
         $job->save();
 
         $payload = [
+            'job_id'          => $job->id,
             'study_name'          => $job->study_name,
             'folder_name'         => $job->folder_name,
             'study_id'            => $job->study_id,
@@ -58,6 +68,7 @@ class ProcessInprogressJobs extends Command
             if ($response->successful()) {
                 Log::info('Running filejobs:tiling at ' . now());
                 $job->status = '5'; // Completed
+                $job->already_registered = 1;  // -- Only set this when tiling is done
                 $job->end_time = date('Y-m-d H:i:s');
                 $job->updated_at = Carbon::now();
                 $job->save();
@@ -74,12 +85,12 @@ class ProcessInprogressJobs extends Command
                     $updateFile->result_url = $str;
                     $updateFile->save();
                 }
-                //$getUser = FileJob::find($userId);
-                //$toEmail = $getUser['email']; // replace with dynamic email
-                //$firstName = $getUser['first_name']; // replace with actual user name
-                //$studyName = $job['study_name']; // replace with actual study name
+                $getUser = User::find($userId);
+                $toEmail = $getUser['email']; // replace with dynamic email
+                $firstName = $getUser['first_name']; // replace with actual user name
+                $studyName = $job['study_name']; // replace with actual study name
 
-                //Mail::to($toEmail)->send(new StudyProcessedMail($firstName, $studyName));
+                Mail::to($toEmail)->send(new StudyProcessedMail($firstName, $studyName));
             } else {
                 Log::error('Exception occurred while processing tiling job', [
                     'job_id' => $job->id ?? null,

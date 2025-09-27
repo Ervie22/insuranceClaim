@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- Bootstrap 5 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- Include Bootstrap & DataTables CSS -->
+
+<!-- DataTables Bootstrap 5 -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+
 <style>
     .page-header {
         display: flex;
@@ -71,14 +75,14 @@
 
     <div class="page-header">
         <h1 class="page-title">
-            <!-- <i class="fas fa-file-medical"></i> -->
+            <i class="fas fa-user-gear"></i>
             Provider Setup
         </h1>
         <div class="page-actions">
             <!-- <a class="btn btn-primary" href="/create-hcfa-claim">
                 <i class="fas fa-plus"></i> Create HCFA1500 Claim
             </a> -->
-            <a class="btn btn-primary" href="/create-ub92-claim">
+            <a class="btn btn-primary" href="/create-provider">
                 <i class="fas fa-plus"></i> Create Provider
             </a>
         </div>
@@ -86,60 +90,60 @@
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">Provider Records</h2>
-            <div class="card-tools">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search patients...">
-                </div>
-                <div class="entries-select">
-                    <span>Show</span>
-                    <select>
-                        <option>10</option>
-                        <option>25</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select>
-                    <span>entries</span>
-                </div>
-            </div>
+
         </div>
 
         <div class="table-container">
-            <table class="data-table">
+            <table class="data-table" id="providersTable">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>DOB</th>
+                        <th>Role</th>
+                        <th>Speciality</th>
+                        <th>CAQH ID</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($providers as $val)
+                    <tr>
+                        <td>{{ $val['provider_first_name'] ?? '' }} {{ $val['provider_last_name'] ?? '' }}</td>
+                        <td>{{ $val['role'] ?? '' }}</td>
+                        <td>{{ $val['speciality'] ?? '' }}</td>
+                        <td>{{ $val['caqh_id'] ?? '' }}</td>
+                        <td>
+                            <span class="badge {{ $val['active'] == 1 ? 'bg-success' : 'bg-danger' }}">
+                                {{ $val['status'] == 1 ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="#" class="text-success me-2"><i class="fa fa-pen"></i></a>
+                            <a href="#" class="text-danger"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="text-center">No patients found</td>
+                    </tr>
+                    @endforelse
+                </tbody>
 
             </table>
         </div>
 
-        <div class="table-footer">
-            <div>Showing 1 to 3 of 3 entries</div>
-            <div class="pagination">
-                <button class="pagination-btn" disabled>Previous</button>
-                <button class="pagination-btn active">1</button>
-                <button class="pagination-btn" disabled>Next</button>
-            </div>
-        </div>
+
     </div>
 
 </div>
 <!-- Include jQuery & DataTables JS -->
-<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
     $(function() {
-        $('#patientsTable').DataTable({
+        $('#providersTable').DataTable({
             pageLength: 10,
             lengthMenu: [5, 10, 25, 50],
             ordering: true,
@@ -192,14 +196,10 @@
         });
     });
 
-    // Add New Patient button
-    document.querySelector('.btn-primary').addEventListener('click', function() {
-        alert('Opening new patient form...');
-    });
 
     // Export button
-    document.querySelector('.btn-outline').addEventListener('click', function() {
-        alert('Exporting patient data...');
-    });
+    // document.querySelector('.btn-outline').addEventListener('click', function() {
+    //     alert('Exporting patient data...');
+    // });
 </script>
 @endsection

@@ -107,8 +107,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/interface-setup', [SettingsController::class, 'interfaceSetup'])->name('settings.interface-setup');
     Route::get('/payer-setup', [SettingsController::class, 'payerSetup'])->name('settings.payer-setup');
     Route::get('/practice-setup', [SettingsController::class, 'practiceSetup'])->name('settings.practice-setup');
+    Route::get('/create-practice-setup', [SettingsController::class, 'createPracticeSetup'])->name('create-practice-setup');
+    Route::post('/practice-store', [SettingsController::class, 'practiceStore'])->name('practice.store');
     Route::get('/print-setup', [SettingsController::class, 'printSetup'])->name('settings.print-setup');
     Route::get('/provider-setup', [SettingsController::class, 'providerSetup'])->name('settings.provider-setup');
+    Route::get('/create-provider', [SettingsController::class, 'createProvider'])->name('create-provider');
+    Route::post('/provider-store', [SettingsController::class, 'providerStore'])->name('provider.store');
     Route::get('/statement-setup', [SettingsController::class, 'statementSetup'])->name('settings.statement-setup');
     Route::get('/user-setup', [SettingsController::class, 'userSetup'])->name('settings.user-setup');
     Route::get('/administration', [SettingsController::class, 'administration'])->name('settings.administration');

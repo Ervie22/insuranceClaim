@@ -71,75 +71,72 @@
 
     <div class="page-header">
         <h1 class="page-title">
-            <!-- <i class="fas fa-file-medical"></i> -->
+            <i class="fas fa-users-gear"></i>
             Practice Setup
         </h1>
         <div class="page-actions">
             <!-- <a class="btn btn-primary" href="/create-hcfa-claim">
                 <i class="fas fa-plus"></i> Create HCFA1500 Claim
             </a> -->
-            <a class="btn btn-primary" href="/create-ub92-claim">
+            <a class="btn btn-primary" href="/create-practice-setup">
                 <i class="fas fa-plus"></i> Create Facility
             </a>
         </div>
     </div>
     <div class="card">
         <div class="card-header">
-            <h2 class="card-title">Practice Records</h2>
-            <div class="card-tools">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search patients...">
-                </div>
-                <div class="entries-select">
-                    <span>Show</span>
-                    <select>
-                        <option>10</option>
-                        <option>25</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select>
-                    <span>entries</span>
-                </div>
-            </div>
+            <h2 class="card-title">Facility Records</h2>
+
         </div>
 
         <div class="table-container">
-            <table class="data-table">
+            <table class="data-table" id="practiceTable">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Email</th>
                         <th>Phone</th>
-                        <th>DOB</th>
+                        <th>Address</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-
+                    @forelse($facilities as $val)
+                    <tr>
+                        <td>{{ $val['group_name'] ?? '' }}</td>
+                        <td>{{ $val['group_phone'] ?? '' }}</td>
+                        <td>{{ $val['address1'] ?? '' }} {{ $val['address2'] ?? '' }} {{ $val['city'] ?? '' }} {{ $val['state'] ?? '' }} {{ $val['postcode'] ?? '' }}</td>
+                        <td>
+                            <span class="badge {{ $val['active'] == 1 ? 'bg-success' : 'bg-danger' }}">
+                                {{ $val['active'] == 1 ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="#" class="text-success me-2"><i class="fa fa-pen"></i></a>
+                            <a href="#" class="text-danger"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="text-center">No patients found</td>
+                    </tr>
+                    @endforelse
+                </tbody>
             </table>
         </div>
 
-        <div class="table-footer">
-            <div>Showing 1 to 3 of 3 entries</div>
-            <div class="pagination">
-                <button class="pagination-btn" disabled>Previous</button>
-                <button class="pagination-btn active">1</button>
-                <button class="pagination-btn" disabled>Next</button>
-            </div>
-        </div>
+
     </div>
 
 </div>
 <!-- Include jQuery & DataTables JS -->
-<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
     $(function() {
-        $('#patientsTable').DataTable({
+        $('#practiceTable').DataTable({
             pageLength: 10,
             lengthMenu: [5, 10, 25, 50],
             ordering: true,
@@ -193,13 +190,11 @@
     });
 
     // Add New Patient button
-    document.querySelector('.btn-primary').addEventListener('click', function() {
-        alert('Opening new patient form...');
-    });
+
 
     // Export button
-    document.querySelector('.btn-outline').addEventListener('click', function() {
-        alert('Exporting patient data...');
-    });
+    // document.querySelector('.btn-outline').addEventListener('click', function() {
+    //     alert('Exporting patient data...');
+    // });
 </script>
 @endsection

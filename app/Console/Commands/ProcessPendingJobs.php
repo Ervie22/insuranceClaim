@@ -32,12 +32,12 @@ class ProcessPendingJobs extends Command
             $job = $pendingJobs->first();
 
             $m_region = 'None';
-            $fileJobRegion = \App\Models\FileJobRegion::where('file_jobs_id', $job->id)->first();
+            // $fileJobRegion = \App\Models\FileJobRegion::where('file_jobs_id', $job->id)->first();
 
-            //-- get the region value if exists
-            if ($fileJobRegion && !empty($fileJobRegion->region)) {
-                $m_region = $fileJobRegion->region;
-            }
+            // //-- get the region value if exists
+            // if ($fileJobRegion && !empty($fileJobRegion->region)) {
+            //     $m_region = $fileJobRegion->region;
+            // }
 
             //-- Check if the job is already registered
             $m_job_registered = 'False';
@@ -50,6 +50,7 @@ class ProcessPendingJobs extends Command
             $job->updated_at = Carbon::now();
             $job->save();
             $payload = [
+                'job_id'          => $job->id,
                 'study_name'          => $job->folder_name,
                 'folder_name'         => $job->study_name,
                 'study_id'            => $job->study_id,
@@ -75,7 +76,7 @@ class ProcessPendingJobs extends Command
                 if ($response->successful()) {
                     Log::info('Running filejobs:process at ' . now());
                     $job->status = '3';
-                    $job->already_registered = 1;
+                    //$job->already_registered = 1;
                     $job->updated_at = Carbon::now();
                     $job->save();
                 } else {

@@ -86,60 +86,61 @@
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">Payer Records</h2>
-            <div class="card-tools">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search patients...">
-                </div>
-                <div class="entries-select">
-                    <span>Show</span>
-                    <select>
-                        <option>10</option>
-                        <option>25</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select>
-                    <span>entries</span>
-                </div>
-            </div>
+
         </div>
 
         <div class="table-container">
-            <table class="data-table">
+            <table class="data-table" id="payerTable">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Email</th>
+                        <th>Type</th>
+                        <th>Plan</th>
+                        <th>Address</th>
                         <th>Phone</th>
-                        <th>DOB</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-
+                    @forelse($payers as $val)
+                    <tr>
+                        <td>{{ $val['payer_name'] ?? '' }}</td>
+                        <td>{{ $val['plan_type'] ?? '' }}</td>
+                        <td>{{ $val['plan_name'] ?? '' }}</td>
+                        <td>{{ $val['address'] ?? '' }}</td>
+                        <td>{{ $val['phone'] ?? '' }}</td>
+                        <td>
+                            <span class="badge {{ $val['status'] == 1 ? 'bg-success' : 'bg-danger' }}">
+                                {{ $val['status'] == 1 ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="#" class="text-success me-2"><i class="fa fa-pen"></i></a>
+                            <a href="#" class="text-danger"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="text-center">No patients found</td>
+                    </tr>
+                    @endforelse
+                </tbody>
             </table>
         </div>
 
-        <div class="table-footer">
-            <div>Showing 1 to 3 of 3 entries</div>
-            <div class="pagination">
-                <button class="pagination-btn" disabled>Previous</button>
-                <button class="pagination-btn active">1</button>
-                <button class="pagination-btn" disabled>Next</button>
-            </div>
-        </div>
+
     </div>
 
 </div>
 <!-- Include jQuery & DataTables JS -->
-<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
     $(function() {
-        $('#patientsTable').DataTable({
+        $('#payerTable').DataTable({
             pageLength: 10,
             lengthMenu: [5, 10, 25, 50],
             ordering: true,

@@ -86,26 +86,11 @@
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">Patient Records</h2>
-            <div class="card-tools">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search patients...">
-                </div>
-                <div class="entries-select">
-                    <span>Show</span>
-                    <select>
-                        <option>10</option>
-                        <option>25</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select>
-                    <span>entries</span>
-                </div>
-            </div>
+
         </div>
 
         <div class="table-container">
-            <table class="data-table">
+            <table class="data-table" id="patientsTable">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -142,14 +127,6 @@
             </table>
         </div>
 
-        <div class="table-footer">
-            <div>Showing 1 to 3 of 3 entries</div>
-            <div class="pagination">
-                <button class="pagination-btn" disabled>Previous</button>
-                <button class="pagination-btn active">1</button>
-                <button class="pagination-btn" disabled>Next</button>
-            </div>
-        </div>
     </div>
 
 

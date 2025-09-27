@@ -394,30 +394,9 @@
 
 
 <div class="container-fluid">
-    <!-- <div class="progress-container">
-        <div class="progress-steps">
-            <div class="progress-bar" style="width: 25%;"></div>
-            <div class="step completed">
-                <div class="step-circle"><i class="fas fa-check"></i></div>
-                <div class="step-label">Patient Info</div>
-            </div>
-            <div class="step active">
-                <div class="step-circle">2</div>
-                <div class="step-label">Guarantor Info</div>
-            </div>
-            <div class="step">
-                <div class="step-circle">3</div>
-                <div class="step-label">Employment</div>
-            </div>
-            <div class="step">
-                <div class="step-circle">4</div>
-                <div class="step-label">Review</div>
-            </div>
-        </div>
-        <p>Complete the form to register a new patient. Fields marked with <span class="required"></span> are required.</p>
-    </div> -->
 
-    <form id="patientForm" method="POST" action="{{ route('patients.store') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('patients.store') }}" enctype="multipart/form-data">
+        @csrf
         <div class="form-container">
             <!-- Patient Information Section -->
             <div class="form-section">
@@ -445,7 +424,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="mi">Middle Initial</label>
-                        <input type="text" id="mi" name="mi" maxlength="1">
+                        <input type="text" id="mi" name="mi" maxlength="1" required>
                     </div>
                     <div class="form-group">
                         <label for="dob" class="required">Date of Birth</label>
@@ -479,7 +458,7 @@
                         <label for="homephone">Home Phone</label>
                         <div class="input-with-icon">
                             <i class="fas fa-phone"></i>
-                            <input type="tel" id="homephone" name="homephone" placeholder="(123) 456-7890">
+                            <input type="tel" id="homephone" name="homephone" placeholder="(123) 456-7890" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -495,7 +474,7 @@
                         <label for="email">Email</label>
                         <div class="input-with-icon">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" id="email" name="email">
+                            <input type="email" id="email" name="email" required>
                         </div>
                     </div>
                     <div class="form-group full-width">
@@ -509,7 +488,7 @@
                 <div class="form-row">
                     <div class="form-group full-width">
                         <label for="address2">Address 2</label>
-                        <input type="text" id="address2" name="address2">
+                        <input type="text" id="address2" name="address2" required>
                     </div>
                     <div class="form-group">
                         <label for="city" class="required">City</label>
@@ -577,8 +556,8 @@
                         <label for="guarantors_status" class="required">Status</label>
                         <select id="guarantors_status" name="guarantors_status" required>
                             <option value="">Select Status</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
                         </select>
                     </div>
                 </div>
@@ -587,7 +566,7 @@
                         <label for="guarantors_homephone">Home Phone</label>
                         <div class="input-with-icon">
                             <i class="fas fa-phone"></i>
-                            <input type="tel" id="guarantors_homephone" name="guarantors_homephone" placeholder="(123) 456-7890">
+                            <input type="tel" id="guarantors_homephone" name="guarantors_homephone" placeholder="(123) 456-7890" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -603,7 +582,7 @@
                         <label for="guarantors_email">Email</label>
                         <div class="input-with-icon">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" id="guarantors_email" name="guarantors_email">
+                            <input type="email" id="guarantors_email" name="guarantors_email" required>
                         </div>
                     </div>
                     <div class="form-group full-width">
@@ -617,7 +596,7 @@
                 <div class="form-row">
                     <div class="form-group full-width">
                         <label for="guarantors_address2">Address 2</label>
-                        <input type="text" id="guarantors_address2" name="guarantors_address2">
+                        <input type="text" id="guarantors_address2" name="guarantors_address2" required>
                     </div>
                     <div class="form-group">
                         <label for="guarantors_city" class="required">City</label>
@@ -647,49 +626,49 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="employer_name">Employer Name</label>
-                        <input type="text" id="employer_name" name="employer_name">
+                        <input type="text" id="employer_name" name="employer_name" required>
                     </div>
                     <div class="form-group">
                         <label for="department">Department</label>
-                        <input type="text" id="department" name="department">
+                        <input type="text" id="department" name="department" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="employer_phone">Work Phone</label>
-                        <input type="tel" id="employer_phone" name="employer_phone">
+                        <input type="tel" id="employer_phone" name="employer_phone" required>
                     </div>
                     <div class="form-group">
                         <label for="employer_email">Work Email</label>
-                        <input type="email" id="employer_email" name="employer_email">
+                        <input type="email" id="employer_email" name="employer_email" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group full-width">
                         <label for="employer_address1">Employer Address 1</label>
-                        <input type="text" id="employer_address1" name="employer_address1">
+                        <input type="text" id="employer_address1" name="employer_address1" required>
                     </div>
                     <div class="form-group full-width">
                         <label for="employer_address2">Employer Address 2</label>
-                        <input type="text" id="employer_address2" name="employer_address2">
+                        <input type="text" id="employer_address2" name="employer_address2" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="employer_city">City</label>
-                        <input type="text" id="employer_city" name="employer_city">
+                        <input type="text" id="employer_city" name="employer_city" required>
                     </div>
                     <div class="form-group">
                         <label for="employer_state">State</label>
-                        <select id="employer_state" name="employer_state">
+                        <select id="employer_state" name="employer_state" required>
                             <option value="">Select State</option>
                             <!-- States would be populated here -->
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="employer_postcode">Post Code</label>
-                        <input type="text" id="employer_postcode" name="employer_postcode">
+                        <input type="text" id="employer_postcode" name="employer_postcode" required>
                     </div>
                 </div>
                 <div class="form-row">
@@ -733,17 +712,17 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="pcp_name">PCP Name</label>
-                        <input type="text" id="pcp_name" name="pcp_name">
+                        <input type="text" id="pcp_name" name="pcp_name" required>
                     </div>
                     <div class="form-group">
                         <label for="pcp_phone">PCP Phone</label>
-                        <input type="text" id="pcp_phone" name="pcp_phone">
+                        <input type="text" id="pcp_phone" name="pcp_phone" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="npi">NPI</label>
-                        <input type="tel" id="npi" name="npi">
+                        <input type="tel" id="npi" name="npi" required>
                     </div>
                     <div class="form-group">
                         <label for="abn">ABN Signature on file</label>
@@ -793,19 +772,19 @@
                         <label for="language" class="required">Language</label>
                         <select id="language" name="language" required>
                             <option value="">-- Select Language --</option>
-                            <option>Prefer not to say</option>
-                            <option>English</option>
-                            <option>Spanish</option>
-                            <option>Chinese (Mandarin, Cantonese)</option>
-                            <option>Tagalog</option>
-                            <option>Vietnamese</option>
-                            <option>Arabic</option>
-                            <option>French</option>
-                            <option>Korean</option>
-                            <option>Russian</option>
-                            <option>Portuguese</option>
-                            <option>Haitian Creole</option>
-                            <option>Other (specify)</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                            <option value="English">English</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="Chinese (Mandarin, Cantonese)">Chinese (Mandarin, Cantonese)</option>
+                            <option value="Tagalog">Tagalog</option>
+                            <option value="Vietnamese">Vietnamese</option>
+                            <option value="Arabic">Arabic</option>
+                            <option value="French">French</option>
+                            <option value="Korean">Korean</option>
+                            <option value="Russian">Russian</option>
+                            <option value="Portuguese">Portuguese</option>
+                            <option value="Haitian Creole">Haitian Creole</option>
+                            <option value="Other (specify)">Other (specify)</option>
                         </select>
                     </div>
 
@@ -814,82 +793,70 @@
                         <label for="race" class="required">race</label>
                         <select id="race" name="race" required>
                             <option value="">Select Race</option>
-                            <option>Prefer not to say</option>
-                            <option>White</option>
-                            <option>Black or African American</option>
-                            <option>American Indian or Alaska Native</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                            <option value="White">White</option>
+                            <option value="Black or African American">Black or African American</option>
+                            <option value="American Indian or Alaska Native">American Indian or Alaska Native</option>
                             <optgroup label="Asian">
-                                <option>Asian Indian</option>
-                                <option>Chinese</option>
-                                <option>Filipino</option>
-                                <option>Japanese</option>
-                                <option>Korean</option>
-                                <option>Vietnamese</option>
-                                <option>Other Asian</option>
+                                <option value="Asian Indian">Asian Indian</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Filipino">Filipino</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Korean">Korean</option>
+                                <option value="Vietnamese">Vietnamese</option>
+                                <option value="Other Asian">Other Asian</option>
                             </optgroup>
                             <optgroup label="Native Hawaiian or Other Pacific Islander">
-                                <option>Native Hawaiian</option>
-                                <option>Guamanian or Chamorro</option>
-                                <option>Samoan</option>
-                                <option>Other Pacific Islander</option>
+                                <option value="Native Hawaiian">Native Hawaiian</option>
+                                <option value="Guamanian or Chamorro">Guamanian or Chamorro</option>
+                                <option value="Samoan">Samoan</option>
+                                <option value="Other Pacific Islander">Other Pacific Islander</option>
                             </optgroup>
-                            <option>Some other race</option>
-                            <option>Two or more races</option>
+                            <option value="Some other race">Some other race</option>
+                            <option value="Two or more races">Two or more races</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="ethnicity" class="required">Ethnicity</label>
                         <select id="ethnicity" name="ethnicity" required>
                             <option value="">-- Select Ethnicity --</option>
-                            <option>Prefer not to say</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
                             <optgroup label="White">
-                                <option>English / Welsh / Scottish / Northern Irish / British</option>
-                                <option>Irish</option>
-                                <option>Gypsy or Irish Traveller</option>
-                                <option>Any other White background</option>
+                                <option value="English / Welsh / Scottish / Northern Irish / British">English / Welsh / Scottish / Northern Irish / British</option>
+                                <option value="Irish">Irish</option>
+                                <option value="Gypsy or Irish Traveller">Gypsy or Irish Traveller</option>
+                                <option value="Any other White background">Any other White background</option>
                             </optgroup>
                             <optgroup label="Mixed / Multiple ethnic groups">
-                                <option>White and Black Caribbean</option>
-                                <option>White and Black African</option>
-                                <option>White and Asian</option>
-                                <option>Any other Mixed / Multiple ethnic background</option>
+                                <option value="White and Black Caribbean">White and Black Caribbean</option>
+                                <option value="White and Black African">White and Black African</option>
+                                <option value="White and Asian">White and Asian</option>
+                                <option value="Any other Mixed / Multiple ethnic background">Any other Mixed / Multiple ethnic background</option>
                             </optgroup>
                             <optgroup label="Asian / Asian British">
-                                <option>Indian</option>
-                                <option>Pakistani</option>
-                                <option>Bangladeshi</option>
-                                <option>Chinese</option>
-                                <option>Any other Asian background</option>
+                                <option value="Indian">Indian</option>
+                                <option value="Pakistani">Pakistani</option>
+                                <option value="Bangladeshi">Bangladeshi</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Any other Asian background">Any other Asian background</option>
                             </optgroup>
                             <optgroup label="Black / African / Caribbean / Black British">
-                                <option>African</option>
-                                <option>Caribbean</option>
-                                <option>Any other Black / African / Caribbean background</option>
+                                <option value="African">African</option>
+                                <option value="Caribbean">Caribbean</option>
+                                <option value="Any other Black / African / Caribbean background">Any other Black / African / Caribbean background</option>
                             </optgroup>
                             <optgroup label="Other ethnic group">
-                                <option>Arab</option>
-                                <option>Any other ethnic group</option>
+                                <option value="Arab">Arab</option>
+                                <option value="Any other ethnic group">Any other ethnic group</option>
                             </optgroup>
 
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="Marital_status" class="required">Marital Status</label>
-                        <select id="Marital_status" name="Marital_status" required>
-                            <option value="">-- Select Marital Status --</option>
-                            <option>Prefer not to say</option>
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
-                            <option value="Widowed">Widowed</option>
-                            <option value="Divorced">Divorced</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="marital_status" class="required">Marital Status</label>
                         <select id="marital_status" name="marital_status" required>
                             <option value="">-- Select Marital Status --</option>
-                            <option>Prefer not to say</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
                             <option value="Single">Single</option>
                             <option value="Married">Married</option>
                             <option value="Widowed">Widowed</option>
@@ -897,12 +864,12 @@
                             <option value="Other">Other</option>
                         </select>
                     </div>
+
                     <div class="form-group">
                         <label for="gender" class="required">Gender Identity & Pronouns</label>
                         <select id="gender" name="gender" required>
                             <option value="">-- Select Gender Identity & Pronouns --</option>
-                            <option>Prefer not to say</option>
-                            <option value="">-- Select Gender / Identity / Pronouns --</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
                             <!-- Binary -->
                             <option value="male_he_him">Male (He/Him)</option>
                             <option value="female_she_her">Female (She/Her)</option>
@@ -998,51 +965,51 @@
                             <h2>Secondary Insurance</h2>
                         </div>
                         <div class="form-group">
-                            <label for="secondary_subscriber_id" class="required">Subscriber_id</label>
+                            <label for="secondary_subscriber_id">Subscriber_id</label>
                             <div class="input-with-icon">
-                                <input type="text" id="secondary_subscriber_id" name="secondary_subscriber_id" required>
+                                <input type="text" id="secondary_subscriber_id" name="secondary_subscriber_id">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="secondary_group" class="required">Group</label>
+                            <label for="secondary_group">Group</label>
                             <div class="input-with-icon">
-                                <input type="text" id="secondary_group" name="secondary_group" required>
+                                <input type="text" id="secondary_group" name="secondary_group">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="secondary_payer_id" class="required">Payer ID</label>
+                            <label for="secondary_payer_id">Payer ID</label>
                             <div class="input-with-icon">
-                                <input type="text" id="secondary_payer_id" name="secondary_payer_id" required>
+                                <input type="text" id="secondary_payer_id" name="secondary_payer_id">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="secondary_address" class="required">Address</label>
+                            <label for="secondary_address">Address</label>
                             <div class="input-with-icon">
-                                <input type="text" id="secondary_address" name="secondary_address" required>
+                                <input type="text" id="secondary_address" name="secondary_address">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="secondary_phone" class="required">Phone</label>
+                            <label for="secondary_phone">Phone</label>
                             <div class="input-with-icon">
-                                <input type="text" id="secondary_phone" name="secondary_phone" required>
+                                <input type="text" id="secondary_phone" name="secondary_phone">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="secondary_fax" class="required">Fax</label>
+                            <label for="secondary_fax">Fax</label>
                             <div class="input-with-icon">
-                                <input type="text" id="secondary_fax" name="secondary_fax" required>
+                                <input type="text" id="secondary_fax" name="secondary_fax">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="secondary_effective_date" class="required">Effective Date</label>
+                            <label for="secondary_effective_date">Effective Date</label>
                             <div class="input-with-icon">
-                                <input type="date" id="secondary_effective_date" name="secondary_effective_date" required>
+                                <input type="date" id="secondary_effective_date" name="secondary_effective_date">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="secondary_termination_date" class="required">Termination Date</label>
+                            <label for="secondary_termination_date">Termination Date</label>
                             <div class="input-with-icon">
-                                <input type="date" id="secondary_termination_date" name="secondary_termination_date" required>
+                                <input type="date" id="secondary_termination_date" name="secondary_termination_date">
                             </div>
                         </div>
                     </div>
@@ -1052,51 +1019,51 @@
                             <h2>Tritary Insurance</h2>
                         </div>
                         <div class="form-group">
-                            <label for="tritary_subscriber_id" class="required">Subscriber_id</label>
+                            <label for="tritary_subscriber_id">Subscriber_id</label>
                             <div class="input-with-icon">
-                                <input type="text" id="tritary_subscriber_id" name="tritary_subscriber_id" required>
+                                <input type="text" id="tritary_subscriber_id" name="tritary_subscriber_id">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tritary_group" class="required">Group</label>
+                            <label for="tritary_group">Group</label>
                             <div class="input-with-icon">
-                                <input type="text" id="tritary_group" name="tritary_group" required>
+                                <input type="text" id="tritary_group" name="tritary_group">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tritary_payer_id" class="required">Payer ID</label>
+                            <label for="tritary_payer_id">Payer ID</label>
                             <div class="input-with-icon">
-                                <input type="text" id="tritary_payer_id" name="tritary_payer_id" required>
+                                <input type="text" id="tritary_payer_id" name="tritary_payer_id">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tritary_address" class="required">Address</label>
+                            <label for="tritary_address">Address</label>
                             <div class="input-with-icon">
-                                <input type="text" id="tritary_address" name="tritary_address" required>
+                                <input type="text" id="tritary_address" name="tritary_address">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tritary_phone" class="required">Phone</label>
+                            <label for="tritary_phone">Phone</label>
                             <div class="input-with-icon">
-                                <input type="text" id="tritary_phone" name="tritary_phone" required>
+                                <input type="text" id="tritary_phone" name="tritary_phone">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tritary_fax" class="required">Fax</label>
+                            <label for="tritary_fax">Fax</label>
                             <div class="input-with-icon">
-                                <input type="text" id="tritary_fax" name="tritary_fax" required>
+                                <input type="text" id="tritary_fax" name="tritary_fax">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tritary_effective_date" class="required">Effective Date</label>
+                            <label for="tritary_effective_date">Effective Date</label>
                             <div class="input-with-icon">
-                                <input type="date" id="tritary_effective_date" name="tritary_effective_date" required>
+                                <input type="date" id="tritary_effective_date" name="tritary_effective_date">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tritary_termination_date" class="required">Termination Date</label>
+                            <label for="tritary_termination_date">Termination Date</label>
                             <div class="input-with-icon">
-                                <input type="date" id="tritary_termination_date" name="tritary_termination_date" required>
+                                <input type="date" id="tritary_termination_date" name="tritary_termination_date">
                             </div>
                         </div>
                     </div>
@@ -1123,10 +1090,6 @@
     </form>
 </div>
 
-
-<div class="notification" id="notification">
-    <i class="fas fa-check-circle"></i> Form submitted successfully!
-</div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- npi validation -->
 <script>
@@ -1188,6 +1151,32 @@
     });
 </script>
 <!-- home phone validation ends -->
+<!-- guarantorshome phone validation starts -->
+<script>
+    $(document).ready(function() {
+        $("#guarantors_homephone").on("keyup", function() {
+            let raw = $(this).val().replace(/\D/g, ""); // get digits only
+
+            // Limit to 10 digits
+            if (raw.length > 10) {
+                raw = raw.substring(0, 10);
+            }
+
+            // Auto-format as (123) 456-7890
+            let formatted = raw;
+            if (raw.length > 6) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3, 6) + "-" + raw.substring(6);
+            } else if (raw.length > 3) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3);
+            }
+
+            $(this).val(formatted);
+        });
+
+
+    });
+</script>
+<!-- guarantors home phone validation ends -->
 <!-- mobile phone validation starts -->
 <script>
     $(document).ready(function() {
@@ -1214,6 +1203,188 @@
     });
 </script>
 <!-- mobile phone validation ends -->
+<!-- guarantors mobile phone validation starts -->
+<script>
+    $(document).ready(function() {
+        $("#guarantors_mobilephone").on("keyup", function() {
+            let raw = $(this).val().replace(/\D/g, ""); // get digits only
+
+            // Limit to 10 digits
+            if (raw.length > 10) {
+                raw = raw.substring(0, 10);
+            }
+
+            // Auto-format as (123) 456-7890
+            let formatted = raw;
+            if (raw.length > 6) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3, 6) + "-" + raw.substring(6);
+            } else if (raw.length > 3) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3);
+            }
+
+            $(this).val(formatted);
+        });
+
+
+    });
+</script>
+<!-- guarantors mobile phone validation ends -->
+<!-- employer mobile phone validation starts -->
+<script>
+    $(document).ready(function() {
+        $("#employer_phone").on("keyup", function() {
+            let raw = $(this).val().replace(/\D/g, ""); // get digits only
+
+            // Limit to 10 digits
+            if (raw.length > 10) {
+                raw = raw.substring(0, 10);
+            }
+
+            // Auto-format as (123) 456-7890
+            let formatted = raw;
+            if (raw.length > 6) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3, 6) + "-" + raw.substring(6);
+            } else if (raw.length > 3) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3);
+            }
+
+            $(this).val(formatted);
+        });
+
+
+    });
+</script>
+<!-- employer mobile phone validation ends -->
+<!-- emergency mobile phone validation starts -->
+<script>
+    $(document).ready(function() {
+        $("#kin_phone").on("keyup", function() {
+            let raw = $(this).val().replace(/\D/g, ""); // get digits only
+
+            // Limit to 10 digits
+            if (raw.length > 10) {
+                raw = raw.substring(0, 10);
+            }
+
+            // Auto-format as (123) 456-7890
+            let formatted = raw;
+            if (raw.length > 6) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3, 6) + "-" + raw.substring(6);
+            } else if (raw.length > 3) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3);
+            }
+
+            $(this).val(formatted);
+        });
+
+
+    });
+</script>
+<!-- emergency mobile phone validation ends -->
+<!-- pcp mobile phone validation starts -->
+<script>
+    $(document).ready(function() {
+        $("#pcp_phone").on("keyup", function() {
+            let raw = $(this).val().replace(/\D/g, ""); // get digits only
+
+            // Limit to 10 digits
+            if (raw.length > 10) {
+                raw = raw.substring(0, 10);
+            }
+
+            // Auto-format as (123) 456-7890
+            let formatted = raw;
+            if (raw.length > 6) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3, 6) + "-" + raw.substring(6);
+            } else if (raw.length > 3) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3);
+            }
+
+            $(this).val(formatted);
+        });
+
+
+    });
+</script>
+<!-- pcp mobile phone validation ends -->
+<!-- present mobile phone validation starts -->
+<script>
+    $(document).ready(function() {
+        $("#present_phone").on("keyup", function() {
+            let raw = $(this).val().replace(/\D/g, ""); // get digits only
+
+            // Limit to 10 digits
+            if (raw.length > 10) {
+                raw = raw.substring(0, 10);
+            }
+
+            // Auto-format as (123) 456-7890
+            let formatted = raw;
+            if (raw.length > 6) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3, 6) + "-" + raw.substring(6);
+            } else if (raw.length > 3) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3);
+            }
+
+            $(this).val(formatted);
+        });
+
+
+    });
+</script>
+<!-- present mobile phone validation ends -->
+<!-- secondary mobile phone validation starts -->
+<script>
+    $(document).ready(function() {
+        $("#secondary_phone").on("keyup", function() {
+            let raw = $(this).val().replace(/\D/g, ""); // get digits only
+
+            // Limit to 10 digits
+            if (raw.length > 10) {
+                raw = raw.substring(0, 10);
+            }
+
+            // Auto-format as (123) 456-7890
+            let formatted = raw;
+            if (raw.length > 6) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3, 6) + "-" + raw.substring(6);
+            } else if (raw.length > 3) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3);
+            }
+
+            $(this).val(formatted);
+        });
+
+
+    });
+</script>
+<!-- secondary mobile phone validation ends -->
+<!-- tritary mobile phone validation starts -->
+<script>
+    $(document).ready(function() {
+        $("#tritary_phone").on("keyup", function() {
+            let raw = $(this).val().replace(/\D/g, ""); // get digits only
+
+            // Limit to 10 digits
+            if (raw.length > 10) {
+                raw = raw.substring(0, 10);
+            }
+
+            // Auto-format as (123) 456-7890
+            let formatted = raw;
+            if (raw.length > 6) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3, 6) + "-" + raw.substring(6);
+            } else if (raw.length > 3) {
+                formatted = "(" + raw.substring(0, 3) + ") " + raw.substring(3);
+            }
+
+            $(this).val(formatted);
+        });
+
+
+    });
+</script>
+<!-- tritary mobile phone validation ends -->
 <!-- address auotcomplete starts -->
 <script>
     function getAddress(value) {
@@ -1263,20 +1434,20 @@
 <!-- ssn validation ends -->
 <script>
     // Form submission handler
-    document.getElementById('patientForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    // document.getElementById('patientForm').addEventListener('submit', function(e) {
+    //     e.preventDefault();
 
-        // Show success notification
-        const notification = document.getElementById('notification');
-        notification.classList.add('show');
+    //     // Show success notification
+    //     const notification = document.getElementById('notification');
+    //     notification.classList.add('show');
 
-        setTimeout(() => {
-            notification.classList.remove('show');
-        }, 3000);
+    //     setTimeout(() => {
+    //         notification.classList.remove('show');
+    //     }, 3000);
 
-        // In a real application, you would submit the form data here
-        console.log('Form submitted successfully');
-    });
+    //     // In a real application, you would submit the form data here
+    //     console.log('Form submitted successfully');
+    // });
 
     // "Same as patient" checkbox functionality
     document.getElementById('sameAsPatient').addEventListener('change', function() {
